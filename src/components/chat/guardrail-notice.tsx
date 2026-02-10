@@ -21,7 +21,7 @@ export function GuardrailNotice({ className }: GuardrailNoticeProps) {
       )}
     >
       <Shield className="h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-400" />
-      <p className="flex-1 text-xs leading-relaxed text-sky-700 dark:text-sky-300">
+      <p className="flex-1 text-xs leading-relaxed text-sky-800 dark:text-sky-300">
         AI responses are for educational purposes only. Not medical advice. Always
         verify with qualified professionals.
       </p>

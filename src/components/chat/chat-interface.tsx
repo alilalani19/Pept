@@ -48,7 +48,7 @@ export function ChatInterface({
   return (
     <div
       className={cn(
-        'flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900',
+        'flex h-full flex-col overflow-hidden rounded-xl border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-900',
         className
       )}
     >
@@ -61,7 +61,7 @@ export function ChatInterface({
 
         {peptideName && messages.length === 0 && (
           <div className="mb-6 text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               Ask questions about{' '}
               <span className="font-medium text-sky-500 dark:text-sky-400">
                 {peptideName}
@@ -73,7 +73,7 @@ export function ChatInterface({
 
         {messages.length === 0 && !peptideName && (
           <div className="mb-6 text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               Start a conversation about peptide research
             </p>
           </div>

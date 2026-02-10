@@ -43,7 +43,7 @@ export function Navbar({ user }: NavbarProps) {
     pathname === href || pathname.startsWith(href + '/')
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-300 bg-white dark:border-slate-800 dark:bg-slate-950">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link
@@ -63,7 +63,7 @@ export function Navbar({ user }: NavbarProps) {
               className={cn(
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 isActive(link.href)
-                  ? 'bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400'
+                  ? 'bg-sky-50 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
               )}
             >
@@ -107,12 +107,12 @@ export function Navbar({ user }: NavbarProps) {
                       className="fixed inset-0 z-40"
                       onClick={() => setUserMenuOpen(false)}
                     />
-                    <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
-                      <div className="border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+                    <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-slate-300 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                      <div className="border-b border-slate-300 px-4 py-3 dark:border-slate-700">
                         <p className="text-sm font-medium text-slate-900 dark:text-white">
                           {user.name || 'User'}
                         </p>
-                        <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                        <p className="truncate text-xs text-slate-600 dark:text-slate-400">
                           {user.email}
                         </p>
                       </div>
@@ -142,7 +142,7 @@ export function Navbar({ user }: NavbarProps) {
                           Admin
                         </Link>
                       )}
-                      <div className="border-t border-slate-200 dark:border-slate-700">
+                      <div className="border-t border-slate-300 dark:border-slate-700">
                         <Link
                           href="/api/auth/signout"
                           onClick={() => setUserMenuOpen(false)}
@@ -183,7 +183,7 @@ export function Navbar({ user }: NavbarProps) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 md:hidden">
+        <div className="border-t border-slate-300 bg-white dark:border-slate-800 dark:bg-slate-950 md:hidden">
           <div className="space-y-1 px-4 py-3">
             {navLinks.map((link) => (
               <Link
@@ -193,7 +193,7 @@ export function Navbar({ user }: NavbarProps) {
                 className={cn(
                   'block rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   isActive(link.href)
-                    ? 'bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400'
+                    ? 'bg-sky-50 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400'
                     : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
                 )}
               >
@@ -201,14 +201,14 @@ export function Navbar({ user }: NavbarProps) {
               </Link>
             ))}
           </div>
-          <div className="border-t border-slate-200 px-4 py-3 dark:border-slate-800">
+          <div className="border-t border-slate-300 px-4 py-3 dark:border-slate-800">
             {user ? (
               <div className="space-y-1">
                 <div className="mb-2 px-3">
                   <p className="text-sm font-medium text-slate-900 dark:text-white">
                     {user.name || 'User'}
                   </p>
-                  <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                  <p className="truncate text-xs text-slate-600 dark:text-slate-400">
                     {user.email}
                   </p>
                 </div>

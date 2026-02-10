@@ -27,7 +27,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
+    <footer className="border-t border-slate-300 bg-white dark:border-slate-800 dark:bg-slate-950">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           {/* Brand Column */}
@@ -39,7 +39,7 @@ export function Footer() {
               <FlaskConical className="h-5 w-5 text-sky-500" />
               {SITE_NAME}
             </Link>
-            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
               Your trusted educational resource for peptide research and
               information.
             </p>
@@ -55,7 +55,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
+                    className="text-sm text-slate-600 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
                   >
                     {link.label}
                   </Link>
@@ -74,7 +74,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
+                    className="text-sm text-slate-600 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
                   >
                     {link.label}
                   </Link>
@@ -93,7 +93,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-slate-500 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
+                    className="text-sm text-slate-600 transition-colors hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
                   >
                     {link.label}
                   </Link>
@@ -105,14 +105,14 @@ export function Footer() {
 
         {/* Disclaimer */}
         <div className="mt-10 rounded-lg border border-sky-200 bg-sky-50/50 p-4 dark:border-sky-900/50 dark:bg-sky-950/20">
-          <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-            <strong className="text-slate-700 dark:text-slate-300">Disclaimer:</strong> {DISCLAIMER_TEXT}
+          <p className="text-xs leading-relaxed text-slate-700 dark:text-slate-400">
+            <strong className="text-slate-800 dark:text-slate-300">Disclaimer:</strong> {DISCLAIMER_TEXT}
           </p>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
-          <p className="text-center text-xs text-slate-400 dark:text-slate-500">
+        <div className="mt-8 border-t border-slate-300 pt-6 dark:border-slate-800">
+          <p className="text-center text-xs text-slate-500 dark:text-slate-500">
             &copy; {currentYear} {SITE_NAME}. All rights reserved.
           </p>
         </div>

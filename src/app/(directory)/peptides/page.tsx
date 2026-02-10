@@ -80,7 +80,7 @@ export default async function PeptidesPage({
       <PeptideSearch categories={categories} />
 
       <div className="mt-8">
-        <p className="mb-4 text-sm text-slate-500">
+        <p className="mb-4 text-sm text-slate-600">
           Showing {peptides.length} of {total} peptides
         </p>
         <PeptideGrid peptides={peptides} />

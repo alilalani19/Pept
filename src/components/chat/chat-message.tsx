@@ -66,7 +66,7 @@ export function ChatMessage({ message, timestamp, className }: ChatMessageProps)
               'mt-1 text-[10px]',
               isUser
                 ? 'text-sky-100'
-                : 'text-slate-400 dark:text-slate-500'
+                : 'text-slate-500 dark:text-slate-500'
             )}
           >
             {timestamp.toLocaleTimeString([], {

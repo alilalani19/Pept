@@ -99,7 +99,7 @@ export default async function PeptideProfilePage({
           </div>
           <h1 className="text-4xl font-bold tracking-tight">{peptide.name}</h1>
           {peptide.aliases.length > 0 && (
-            <p className="mt-2 text-slate-500 dark:text-slate-400">
+            <p className="mt-2 text-slate-600 dark:text-slate-400">
               Also known as: {peptide.aliases.join(', ')}
             </p>
           )}
@@ -118,13 +118,13 @@ export default async function PeptideProfilePage({
             <dl className="grid gap-4 sm:grid-cols-2">
               {peptide.sequence && (
                 <div>
-                  <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Sequence</dt>
+                  <dt className="text-sm font-medium text-slate-600 dark:text-slate-400">Sequence</dt>
                   <dd className="mt-1 font-mono text-sm break-all">{peptide.sequence}</dd>
                 </div>
               )}
               {peptide.molecularWeight && (
                 <div>
-                  <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Molecular Weight</dt>
+                  <dt className="text-sm font-medium text-slate-600 dark:text-slate-400">Molecular Weight</dt>
                   <dd className="mt-1">{peptide.molecularWeight} Da</dd>
                 </div>
               )}
@@ -150,7 +150,7 @@ export default async function PeptideProfilePage({
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{peptide.mechanismOfAction}</p>
           {peptide.biologicalPathways.length > 0 && (
             <div className="mt-4">
-              <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
+              <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
                 Biological Pathways
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -190,14 +190,14 @@ export default async function PeptideProfilePage({
         {peptide.suppliers.length > 0 && (
           <section className="mt-8">
             <h2 className="text-2xl font-semibold mb-4">Research Suppliers</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
               The following suppliers carry this peptide for research purposes. Inclusion does not constitute an endorsement.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {peptide.suppliers.map((ps) => (
                 <div
                   key={ps.supplier.id}
-                  className="rounded-lg border p-4 dark:border-slate-800"
+                  className="rounded-lg border border-slate-300 p-4 dark:border-slate-800"
                 >
                   <Link
                     href={`/suppliers/${ps.supplier.slug}`}
@@ -210,12 +210,12 @@ export default async function PeptideProfilePage({
                       href={ps.supplier.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-1 inline-flex items-center gap-1 text-xs text-slate-500 hover:text-sky-500 transition-colors"
+                      className="mt-1 inline-flex items-center gap-1 text-xs text-slate-600 hover:text-sky-500 transition-colors"
                     >
                       {ps.supplier.website.replace(/^https?:\/\//, '')}
                     </a>
                   )}
-                  <div className="mt-2 flex items-center gap-3 text-sm text-slate-500">
+                  <div className="mt-2 flex items-center gap-3 text-sm text-slate-600">
                     <span>Score: {ps.supplier.transparencyScore}/100</span>
                     {ps.supplier.coaAvailable && <Badge variant="success">COA</Badge>}
                     {ps.supplier.thirdPartyTested && <Badge variant="info">Tested</Badge>}

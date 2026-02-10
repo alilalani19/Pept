@@ -44,7 +44,7 @@ export default async function SuppliersPage() {
       </div>
 
       {suppliers.length === 0 && (
-        <p className="text-center text-slate-500 py-12">
+        <p className="text-center text-slate-600 py-12">
           No suppliers available at this time.
         </p>
       )}

@@ -27,7 +27,7 @@ export default async function AssistantPage({
         initialQuery={params.q}
       />
       {!isAuthenticated && (
-        <p className="mt-2 text-center text-xs text-slate-400 dark:text-slate-500">
+        <p className="mt-2 text-center text-xs text-slate-600 dark:text-slate-500">
           Sign in to save your conversation history.
         </p>
       )}

@@ -61,7 +61,7 @@ export function ChatInput({ onSend, isLoading, onStop, className }: ChatInputPro
   const characterCount = value.length
 
   return (
-    <div className={cn('border-t border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900', className)}>
+    <div className={cn('border-t border-slate-300 bg-white p-4 dark:border-slate-700 dark:bg-slate-900', className)}>
       <div className="flex items-end gap-2">
         <div className="relative flex-1">
           <textarea
@@ -71,7 +71,7 @@ export function ChatInput({ onSend, isLoading, onStop, className }: ChatInputPro
             onKeyDown={handleKeyDown}
             placeholder="Ask about peptide research..."
             rows={1}
-            className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-500 dark:focus:bg-slate-800"
+            className="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12 text-sm text-slate-900 placeholder-slate-500 transition-colors focus:border-sky-400 focus:outline-none focus:ring-1 focus:ring-sky-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-sky-500 dark:focus:bg-slate-800"
             disabled={isLoading}
           />
         </div>
@@ -99,7 +99,7 @@ export function ChatInput({ onSend, isLoading, onStop, className }: ChatInputPro
       </div>
 
       <div className="mt-1.5 flex items-center justify-between px-1">
-        <p className="text-[10px] text-slate-400 dark:text-slate-500">
+        <p className="text-[10px] text-slate-500 dark:text-slate-500">
           Shift+Enter for new line
         </p>
         <p
@@ -107,7 +107,7 @@ export function ChatInput({ onSend, isLoading, onStop, className }: ChatInputPro
             'text-[10px]',
             characterCount > MAX_CHARACTERS * 0.9
               ? 'text-red-500'
-              : 'text-slate-400 dark:text-slate-500'
+              : 'text-slate-500 dark:text-slate-500'
           )}
         >
           {characterCount}/{MAX_CHARACTERS}

@@ -12,7 +12,7 @@ export function PeptideGrid({ peptides }: PeptideGridProps) {
         <p className="text-lg font-medium text-slate-600 dark:text-slate-400">
           No peptides found
         </p>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-500">
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-500">
           Try adjusting your search or filter criteria.
         </p>
       </div>

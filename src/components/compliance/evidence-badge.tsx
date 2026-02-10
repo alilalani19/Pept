@@ -10,7 +10,7 @@ interface EvidenceBadgeProps {
 
 const levelToBadgeClass: Record<EvidenceLevel, string> = {
   IN_VITRO:
-    'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
+    'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
   ANIMAL:
     'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300',
   LIMITED_HUMAN:

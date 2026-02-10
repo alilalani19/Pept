@@ -25,15 +25,15 @@ export default async function AccountSettingsPage() {
         <CardContent>
           <dl className="space-y-4">
             <div>
-              <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Name</dt>
+              <dt className="text-sm font-medium text-slate-600 dark:text-slate-400">Name</dt>
               <dd className="mt-1 text-slate-900 dark:text-white">{session.user.name || 'Not set'}</dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Email</dt>
+              <dt className="text-sm font-medium text-slate-600 dark:text-slate-400">Email</dt>
               <dd className="mt-1 text-slate-900 dark:text-white">{session.user.email}</dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Role</dt>
+              <dt className="text-sm font-medium text-slate-600 dark:text-slate-400">Role</dt>
               <dd className="mt-1 text-slate-900 dark:text-white">{session.user.role}</dd>
             </div>
           </dl>

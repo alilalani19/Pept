@@ -15,7 +15,7 @@ export function PeptideCard({ peptide }: PeptideCardProps) {
   return (
     <Card
       className={cn(
-        'rounded-xl border border-slate-200 bg-white transition-shadow duration-200 hover:shadow-md',
+        'rounded-xl border border-slate-300 bg-white transition-shadow duration-200 hover:shadow-md',
         'dark:border-slate-800 dark:bg-slate-900'
       )}
     >

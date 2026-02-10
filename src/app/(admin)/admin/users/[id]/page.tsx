@@ -47,7 +47,7 @@ export default async function AdminUserDetailPage({
       <div className="mb-8">
         <Link
           href="/admin/users"
-          className="text-sm text-slate-500 hover:text-sky-500 transition-colors"
+          className="text-sm text-slate-600 hover:text-sky-500 transition-colors"
         >
           &larr; Back to Users
         </Link>
@@ -72,7 +72,7 @@ export default async function AdminUserDetailPage({
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
             {user.name || 'No name'}
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">{user.email}</p>
+          <p className="text-slate-600 dark:text-slate-400">{user.email}</p>
           <div className="mt-1 flex items-center gap-2">
             <Badge variant={user.role === 'ADMIN' ? 'default' : 'secondary'}>
               {user.role}
@@ -91,7 +91,7 @@ export default async function AdminUserDetailPage({
         <Card>
           <CardContent className="pt-6">
             <p className="text-2xl font-bold">{user.chatSessions.length}</p>
-            <p className="text-xs text-slate-500">Chat Sessions</p>
+            <p className="text-xs text-slate-600">Chat Sessions</p>
           </CardContent>
         </Card>
         <Card>
@@ -99,19 +99,19 @@ export default async function AdminUserDetailPage({
             <p className="text-2xl font-bold">
               {user.chatSessions.reduce((sum, s) => sum + s._count.messages, 0)}
             </p>
-            <p className="text-xs text-slate-500">Total Messages</p>
+            <p className="text-xs text-slate-600">Total Messages</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
             <p className="text-2xl font-bold">{user.favorites.length}</p>
-            <p className="text-xs text-slate-500">Favorites</p>
+            <p className="text-xs text-slate-600">Favorites</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
             <p className="text-2xl font-bold">{affiliateClicks.length}</p>
-            <p className="text-xs text-slate-500">Affiliate Clicks</p>
+            <p className="text-xs text-slate-600">Affiliate Clicks</p>
           </CardContent>
         </Card>
       </div>
@@ -124,18 +124,18 @@ export default async function AdminUserDetailPage({
           </CardHeader>
           <CardContent>
             {user.chatSessions.length === 0 ? (
-              <p className="text-sm text-slate-500">No chat sessions yet.</p>
+              <p className="text-sm text-slate-600">No chat sessions yet.</p>
             ) : (
               <div className="space-y-3">
                 {user.chatSessions.map((session) => (
                   <div
                     key={session.id}
-                    className="rounded-lg border border-slate-200 p-3 dark:border-slate-800"
+                    className="rounded-lg border border-slate-300 p-3 dark:border-slate-800"
                   >
                     <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
                       {session.title || 'Untitled session'}
                     </p>
-                    <div className="mt-1 flex items-center gap-3 text-xs text-slate-500">
+                    <div className="mt-1 flex items-center gap-3 text-xs text-slate-600">
                       <span>{session._count.messages} messages</span>
                       <span>
                         {new Date(session.updatedAt).toLocaleDateString()}
@@ -155,13 +155,13 @@ export default async function AdminUserDetailPage({
           </CardHeader>
           <CardContent>
             {user.favorites.length === 0 ? (
-              <p className="text-sm text-slate-500">No favorites yet.</p>
+              <p className="text-sm text-slate-600">No favorites yet.</p>
             ) : (
               <div className="space-y-2">
                 {user.favorites.map((fav) => (
                   <div
                     key={fav.id}
-                    className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2 dark:border-slate-800"
+                    className="flex items-center justify-between rounded-lg border border-slate-300 px-3 py-2 dark:border-slate-800"
                   >
                     <Link
                       href={`/peptides/${fav.peptide.slug}`}
@@ -169,7 +169,7 @@ export default async function AdminUserDetailPage({
                     >
                       {fav.peptide.name}
                     </Link>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-slate-600">
                       {new Date(fav.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -186,12 +186,12 @@ export default async function AdminUserDetailPage({
           </CardHeader>
           <CardContent>
             {affiliateClicks.length === 0 ? (
-              <p className="text-sm text-slate-500">No affiliate clicks recorded.</p>
+              <p className="text-sm text-slate-600">No affiliate clicks recorded.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-slate-200 dark:border-slate-800">
+                    <tr className="border-b border-slate-300 dark:border-slate-800">
                       <th className="py-2 text-left font-medium text-slate-700 dark:text-slate-300">Supplier</th>
                       <th className="py-2 text-left font-medium text-slate-700 dark:text-slate-300">Peptide</th>
                       <th className="py-2 text-left font-medium text-slate-700 dark:text-slate-300">Date</th>
@@ -199,7 +199,7 @@ export default async function AdminUserDetailPage({
                   </thead>
                   <tbody>
                     {affiliateClicks.map((click) => (
-                      <tr key={click.id} className="border-b border-slate-200 dark:border-slate-800">
+                      <tr key={click.id} className="border-b border-slate-300 dark:border-slate-800">
                         <td className="py-2">
                           <Link
                             href={`/suppliers/${click.supplier.slug}`}
@@ -211,7 +211,7 @@ export default async function AdminUserDetailPage({
                         <td className="py-2 text-slate-600 dark:text-slate-400">
                           {click.peptideId || '—'}
                         </td>
-                        <td className="py-2 text-slate-500">
+                        <td className="py-2 text-slate-600">
                           {new Date(click.createdAt).toLocaleString()}
                         </td>
                       </tr>
@@ -232,23 +232,23 @@ export default async function AdminUserDetailPage({
         <CardContent>
           <dl className="grid gap-4 sm:grid-cols-2">
             <div>
-              <dt className="text-sm font-medium text-slate-500">User ID</dt>
+              <dt className="text-sm font-medium text-slate-600">User ID</dt>
               <dd className="mt-1 text-xs font-mono text-slate-700 dark:text-slate-300">{user.id}</dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-slate-500">Joined</dt>
+              <dt className="text-sm font-medium text-slate-600">Joined</dt>
               <dd className="mt-1 text-slate-700 dark:text-slate-300">
                 {new Date(user.createdAt).toLocaleString()}
               </dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-slate-500">Last Updated</dt>
+              <dt className="text-sm font-medium text-slate-600">Last Updated</dt>
               <dd className="mt-1 text-slate-700 dark:text-slate-300">
                 {new Date(user.updatedAt).toLocaleString()}
               </dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-slate-500">Auth Providers</dt>
+              <dt className="text-sm font-medium text-slate-600">Auth Providers</dt>
               <dd className="mt-1 text-slate-700 dark:text-slate-300">
                 {user.accounts.length > 0
                   ? user.accounts.map((a) => a.provider).join(', ')

@@ -19,10 +19,10 @@ export default async function AdminUsersPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-        <p className="text-sm text-slate-500">{users.length} total</p>
+        <p className="text-sm text-slate-600">{users.length} total</p>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-800">
+      <div className="overflow-x-auto rounded-lg border border-slate-300 dark:border-slate-800">
         <table className="w-full text-sm">
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
@@ -36,7 +36,7 @@ export default async function AdminUsersPage() {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} className="border-t border-slate-200 dark:border-slate-800">
+              <tr key={user.id} className="border-t border-slate-300 dark:border-slate-800">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     {user.image ? (
@@ -56,7 +56,7 @@ export default async function AdminUsersPage() {
                       <p className="font-medium text-slate-900 dark:text-white">
                         {user.name || 'No name'}
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                      <p className="text-xs text-slate-600 dark:text-slate-400">
                         {user.email}
                       </p>
                     </div>
@@ -73,7 +73,7 @@ export default async function AdminUsersPage() {
                 <td className="px-4 py-3 text-slate-600 dark:text-slate-400">
                   {user._count.favorites}
                 </td>
-                <td className="px-4 py-3 text-slate-500 dark:text-slate-400">
+                <td className="px-4 py-3 text-slate-600 dark:text-slate-400">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-3">

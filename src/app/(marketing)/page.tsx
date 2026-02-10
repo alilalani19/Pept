@@ -42,7 +42,7 @@ export default async function HomePage() {
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white">
               Ask anything about peptides
             </h1>
-            <p className="mx-auto mt-3 max-w-xl text-base text-slate-500 dark:text-slate-400">
+            <p className="mx-auto mt-3 max-w-xl text-base text-slate-600 dark:text-slate-400">
               AI-powered research assistant with evidence-based answers
             </p>
           </div>
@@ -59,7 +59,7 @@ export default async function HomePage() {
                 <FlaskConical className="h-5 w-5 text-sky-500" />
               </div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white">Evidence-Based</h3>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
                 Every profile includes evidence ratings and cited research.
               </p>
             </div>
@@ -68,7 +68,7 @@ export default async function HomePage() {
                 <Shield className="h-5 w-5 text-sky-500" />
               </div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white">Compliance First</h3>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
                 Educational content only. No medical advice.
               </p>
             </div>
@@ -77,7 +77,7 @@ export default async function HomePage() {
                 <Bot className="h-5 w-5 text-sky-500" />
               </div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white">AI Assistant</h3>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
                 Get instant answers about peptide research.
               </p>
             </div>
@@ -86,7 +86,7 @@ export default async function HomePage() {
                 <Search className="h-5 w-5 text-sky-500" />
               </div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white">Vetted Suppliers</h3>
-              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
                 Transparency-scored directory with testing verification.
               </p>
             </div>
@@ -108,10 +108,10 @@ export default async function HomePage() {
               <Link
                 key={category.slug}
                 href={`/categories/${category.slug}`}
-                className="rounded-lg border border-slate-200 bg-white p-4 hover:border-sky-300 hover:shadow-sm transition-all dark:bg-slate-900 dark:border-slate-800 dark:hover:border-sky-700"
+                className="rounded-lg border border-slate-300 bg-white p-4 hover:border-sky-300 hover:shadow-sm transition-all dark:bg-slate-900 dark:border-slate-800 dark:hover:border-sky-700"
               >
                 <h3 className="text-sm font-medium text-slate-900 dark:text-white">{category.name}</h3>
-                <p className="mt-0.5 text-xs text-slate-400">
+                <p className="mt-0.5 text-xs text-slate-600">
                   {category._count.peptides} peptide{category._count.peptides !== 1 ? 's' : ''}
                 </p>
               </Link>
