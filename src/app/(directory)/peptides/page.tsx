@@ -94,7 +94,7 @@ export default async function PeptidesPage({
               href={`/peptides?page=${p}${category ? `&category=${category}` : ''}${evidenceLevel ? `&evidenceLevel=${evidenceLevel}` : ''}${legalStatus ? `&legalStatus=${legalStatus}` : ''}${q ? `&q=${q}` : ''}`}
               className={`rounded-lg px-4 py-2 text-sm ${
                 p === page
-                  ? 'bg-emerald-600 text-white'
+                  ? 'bg-sky-500 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300'
               }`}
             >

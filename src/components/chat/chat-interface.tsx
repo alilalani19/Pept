@@ -14,6 +14,7 @@ interface ChatInterfaceProps {
   sessionId?: string
   peptideSlug?: string
   peptideName?: string
+  initialQuery?: string
   className?: string
 }
 
@@ -21,15 +22,24 @@ export function ChatInterface({
   sessionId,
   peptideSlug,
   peptideName,
+  initialQuery,
   className,
 }: ChatInterfaceProps) {
   const { messages, isLoading, error, sendMessage, stopStreaming } =
     useChat(sessionId)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const initialQuerySent = useRef(false)
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  useEffect(() => {
+    if (initialQuery && !initialQuerySent.current) {
+      initialQuerySent.current = true
+      sendMessage(initialQuery, peptideSlug)
+    }
+  }, [initialQuery, peptideSlug, sendMessage])
 
   const handleSend = (content: string) => {
     sendMessage(content, peptideSlug)
@@ -53,7 +63,7 @@ export function ChatInterface({
           <div className="mb-6 text-center">
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Ask questions about{' '}
-              <span className="font-medium text-emerald-600 dark:text-emerald-400">
+              <span className="font-medium text-sky-500 dark:text-sky-400">
                 {peptideName}
               </span>{' '}
               research

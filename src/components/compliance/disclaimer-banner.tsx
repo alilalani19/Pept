@@ -17,7 +17,7 @@ export function DisclaimerBanner({ className }: { className?: string }) {
         className
       )}
     >
-      <div className="bg-emerald-700/95 dark:bg-yellow-600/95 shadow-lg">
+      <div className="bg-sky-600/95 dark:bg-sky-700/95 shadow-lg">
         <div className="mx-auto flex max-w-7xl items-center gap-x-4 px-4 py-3 sm:px-6 lg:px-8">
           <p className="flex-1 text-sm leading-relaxed text-white">
             {DISCLAIMER_TEXT}

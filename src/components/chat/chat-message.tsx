@@ -29,7 +29,7 @@ export function ChatMessage({ message, timestamp, className }: ChatMessageProps)
         className={cn(
           'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full',
           isUser
-            ? 'bg-emerald-600 text-white'
+            ? 'bg-sky-500 text-white'
             : 'bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
         )}
       >
@@ -44,7 +44,7 @@ export function ChatMessage({ message, timestamp, className }: ChatMessageProps)
         className={cn(
           'max-w-[75%] rounded-2xl px-4 py-2.5',
           isUser
-            ? 'bg-emerald-600 text-white'
+            ? 'bg-sky-500 text-white'
             : 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100'
         )}
       >
@@ -65,7 +65,7 @@ export function ChatMessage({ message, timestamp, className }: ChatMessageProps)
             className={cn(
               'mt-1 text-[10px]',
               isUser
-                ? 'text-emerald-100'
+                ? 'text-sky-100'
                 : 'text-gray-400 dark:text-gray-500'
             )}
           >

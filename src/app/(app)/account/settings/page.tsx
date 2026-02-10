@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { auth, signOut } from '@/lib/auth'
 import { createMetadata } from '@/lib/seo/metadata'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { ThemeToggle } from '@/components/settings/theme-toggle'
 
 export const metadata: Metadata = createMetadata({
   title: 'Account Settings',
@@ -16,7 +17,7 @@ export default async function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">Account Settings</h1>
+      <h1 className="text-2xl font-semibold tracking-tight mb-8 text-slate-900 dark:text-white">Account Settings</h1>
 
       <Card>
         <CardHeader>
@@ -25,18 +26,27 @@ export default async function SettingsPage() {
         <CardContent>
           <dl className="space-y-4">
             <div>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Name</dt>
-              <dd className="mt-1">{session.user.name || 'Not set'}</dd>
+              <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Name</dt>
+              <dd className="mt-1 text-slate-900 dark:text-white">{session.user.name || 'Not set'}</dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</dt>
-              <dd className="mt-1">{session.user.email}</dd>
+              <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Email</dt>
+              <dd className="mt-1 text-slate-900 dark:text-white">{session.user.email}</dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Role</dt>
-              <dd className="mt-1">{session.user.role}</dd>
+              <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Role</dt>
+              <dd className="mt-1 text-slate-900 dark:text-white">{session.user.role}</dd>
             </div>
           </dl>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Theme</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ThemeToggle />
         </CardContent>
       </Card>
 
@@ -53,7 +63,7 @@ export default async function SettingsPage() {
           >
             <button
               type="submit"
-              className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700 transition-colors"
+              className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600 transition-colors"
             >
               Sign Out
             </button>

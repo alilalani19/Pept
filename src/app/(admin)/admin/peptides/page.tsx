@@ -17,7 +17,7 @@ export default async function AdminPeptidesPage() {
         <h1 className="text-3xl font-bold tracking-tight">Manage Peptides</h1>
         <Link
           href="/admin/peptides/new"
-          className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 transition-colors"
+          className="rounded-lg bg-sky-500 px-4 py-2 text-white hover:bg-sky-600 transition-colors"
         >
           Add Peptide
         </Link>
@@ -61,7 +61,7 @@ export default async function AdminPeptidesPage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/peptides/${peptide.id}/edit`}
-                    className="text-emerald-600 hover:text-emerald-700"
+                    className="text-sky-500 hover:text-sky-600"
                   >
                     Edit
                   </Link>

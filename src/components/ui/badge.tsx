@@ -6,7 +6,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantStyles: Record<NonNullable<BadgeProps['variant']>, string> = {
-  default: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
+  default: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300',
   secondary: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
   outline: 'border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-transparent',
   destructive: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',

@@ -22,7 +22,7 @@ export function TransparencyScore({ score, className }: TransparencyScoreProps) 
 
   return (
     <div className={cn('inline-flex items-center gap-2', className)}>
-      <div className="h-2 w-16 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+      <div className="h-2 w-16 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
         <div
           className={cn('h-full rounded-full transition-all', getScoreColor(clampedScore))}
           style={{ width: `${clampedScore}%` }}

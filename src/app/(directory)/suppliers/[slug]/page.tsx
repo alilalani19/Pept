@@ -94,9 +94,9 @@ export default async function SupplierDetailPage({
               <Link
                 key={ps.peptide.id}
                 href={`/peptides/${ps.peptide.slug}`}
-                className="rounded-lg border p-3 hover:border-emerald-300 transition-colors dark:border-gray-800 dark:hover:border-emerald-700"
+                className="rounded-lg border p-3 hover:border-sky-300 transition-colors dark:border-gray-800 dark:hover:border-sky-600"
               >
-                <span className="font-medium text-emerald-600 hover:text-emerald-700">
+                <span className="font-medium text-sky-500 hover:text-sky-600">
                   {ps.peptide.name}
                 </span>
               </Link>

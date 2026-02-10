@@ -2,14 +2,12 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --emerald-50: #ecfdf5;
-  --emerald-100: #d1fae5;
-  --emerald-500: #10b981;
-  --emerald-600: #059669;
-  --emerald-700: #047857;
-  --emerald-800: #065f46;
-  --emerald-900: #064e3b;
+  --foreground: #1e293b;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
 }
 
 @theme inline {
@@ -17,13 +15,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -42,14 +33,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
-@media (prefers-color-scheme: dark) {
-  ::-webkit-scrollbar-thumb {
-    background: #4b5563;
-  }
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
 }
 
 /* Markdown content styling */
@@ -68,14 +57,12 @@ body {
 }
 
 .prose-chat code {
-  background: #f3f4f6;
+  background: #f1f5f9;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.875em;
 }
 
-@media (prefers-color-scheme: dark) {
-  .prose-chat code {
-    background: #374151;
-  }
+.dark .prose-chat code {
+  background: #334155;
 }

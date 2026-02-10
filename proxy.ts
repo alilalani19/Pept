@@ -8,11 +8,8 @@ const { auth } = NextAuth(authConfig)
 export default auth(async function proxy(req: NextRequest & { auth: any }) {
   const { pathname } = req.nextUrl
 
-  // Protect /account and /assistant routes
-  if (
-    (pathname.startsWith('/account') || pathname.startsWith('/assistant')) &&
-    !req.auth
-  ) {
+  // Protect /account routes
+  if (pathname.startsWith('/account') && !req.auth) {
     const signInUrl = new URL('/api/auth/signin', req.url)
     signInUrl.searchParams.set('callbackUrl', pathname)
     return NextResponse.redirect(signInUrl)
@@ -34,5 +31,5 @@ export default auth(async function proxy(req: NextRequest & { auth: any }) {
 })
 
 export const config = {
-  matcher: ['/account/:path*', '/assistant/:path*', '/admin/:path*'],
+  matcher: ['/account/:path*', '/admin/:path*'],
 }

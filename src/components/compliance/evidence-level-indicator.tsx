@@ -41,7 +41,7 @@ export function EvidenceLevelIndicator({
               key={i}
               className={cn(
                 'w-1 rounded-sm transition-colors',
-                i < bars ? color.replace('text-', 'bg-') : 'bg-gray-200 dark:bg-gray-700',
+                i < bars ? color.replace('text-', 'bg-') : 'bg-slate-200 dark:bg-slate-700',
               )}
               style={{ height: `${8 + i * 3}px` }}
             />

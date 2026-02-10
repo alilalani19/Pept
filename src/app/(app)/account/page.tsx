@@ -55,7 +55,7 @@ export default async function AccountPage() {
             {favorites.length === 0 ? (
               <p className="text-gray-500 dark:text-gray-400 text-sm">
                 No saved peptides yet.{' '}
-                <Link href="/peptides" className="text-emerald-600 hover:underline">
+                <Link href="/peptides" className="text-sky-500 hover:underline">
                   Browse the directory
                 </Link>
               </p>
@@ -67,7 +67,7 @@ export default async function AccountPage() {
                       href={`/peptides/${fav.peptide.slug}`}
                       className="flex items-center justify-between rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
                     >
-                      <span className="font-medium text-emerald-600">{fav.peptide.name}</span>
+                      <span className="font-medium text-sky-500">{fav.peptide.name}</span>
                       <Badge variant="secondary">{fav.peptide.evidenceLevel?.replace('_', ' ') || '—'}</Badge>
                     </Link>
                   </li>
@@ -86,7 +86,7 @@ export default async function AccountPage() {
             {chatSessions.length === 0 ? (
               <p className="text-gray-500 dark:text-gray-400 text-sm">
                 No conversations yet.{' '}
-                <Link href="/assistant" className="text-emerald-600 hover:underline">
+                <Link href="/assistant" className="text-sky-500 hover:underline">
                   Start a conversation
                 </Link>
               </p>

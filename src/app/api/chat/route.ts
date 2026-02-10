@@ -10,12 +10,17 @@ import { prisma } from '@/lib/db'
 
 export async function POST(req: NextRequest) {
   try {
+    // Auth is optional — anonymous users can still chat
     const session = await auth()
-    if (!session?.user?.id) {
-      return Response.json({ error: 'Authentication required' }, { status: 401 })
-    }
+    const userId = session?.user?.id
+    const isAuthenticated = !!userId
 
-    const { success } = await checkRateLimit(session.user.id)
+    // Rate limiting: use userId for authenticated users, IP for anonymous
+    const rateLimitKey = isAuthenticated
+      ? userId!
+      : req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous'
+
+    const { success } = await checkRateLimit(rateLimitKey)
     if (!success) {
       return Response.json(
         { error: 'Rate limit exceeded. Please try again later.' },
@@ -42,33 +47,35 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Get or create chat session
-    let chatSession
-    if (sessionId) {
-      chatSession = await prisma.chatSession.findFirst({
-        where: { id: sessionId, userId: session.user.id },
-        include: { messages: { orderBy: { createdAt: 'asc' }, take: 20 } },
-      })
-    }
+    // Get or create chat session (only for authenticated users)
+    let chatSession: any = null
+    if (isAuthenticated) {
+      if (sessionId) {
+        chatSession = await prisma.chatSession.findFirst({
+          where: { id: sessionId, userId: userId },
+          include: { messages: { orderBy: { createdAt: 'asc' }, take: 20 } },
+        })
+      }
 
-    if (!chatSession) {
-      chatSession = await prisma.chatSession.create({
+      if (!chatSession) {
+        chatSession = await prisma.chatSession.create({
+          data: {
+            userId: userId!,
+            title: message.slice(0, 100),
+          },
+          include: { messages: true },
+        })
+      }
+
+      // Save user message
+      await prisma.chatMessage.create({
         data: {
-          userId: session.user.id,
-          title: message.slice(0, 100),
+          sessionId: chatSession.id,
+          role: 'USER',
+          content: message,
         },
-        include: { messages: true },
       })
     }
-
-    // Save user message
-    await prisma.chatMessage.create({
-      data: {
-        sessionId: chatSession.id,
-        role: 'USER',
-        content: message,
-      },
-    })
 
     // Build system prompt with optional peptide context
     let peptideContext: string | null = null
@@ -78,10 +85,12 @@ export async function POST(req: NextRequest) {
     const systemPrompt = getSystemPrompt(peptideContext || undefined)
 
     // Build message history
-    const conversationHistory = chatSession.messages.map((msg) => ({
-      role: msg.role === 'USER' ? 'user' as const : 'assistant' as const,
-      content: msg.content,
-    }))
+    const conversationHistory = chatSession?.messages
+      ? chatSession.messages.map((msg: any) => ({
+          role: msg.role === 'USER' ? ('user' as const) : ('assistant' as const),
+          content: msg.content,
+        }))
+      : []
 
     conversationHistory.push({ role: 'user', content: message })
 
@@ -109,14 +118,16 @@ export async function POST(req: NextRequest) {
             }
           }
 
-          // Save assistant response
-          await prisma.chatMessage.create({
-            data: {
-              sessionId: chatSession.id,
-              role: 'ASSISTANT',
-              content: fullResponse,
-            },
-          })
+          // Save assistant response (only for authenticated users)
+          if (isAuthenticated && chatSession) {
+            await prisma.chatMessage.create({
+              data: {
+                sessionId: chatSession.id,
+                role: 'ASSISTANT',
+                content: fullResponse,
+              },
+            })
+          }
 
           controller.close()
         } catch (error) {
@@ -130,7 +141,7 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'text/plain; charset=utf-8',
         'Transfer-Encoding': 'chunked',
-        'X-Session-Id': chatSession.id,
+        ...(chatSession?.id && { 'X-Session-Id': chatSession.id }),
       },
     })
   } catch (error) {

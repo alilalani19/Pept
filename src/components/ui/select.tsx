@@ -12,7 +12,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         ref={ref}
         className={cn(
           'flex h-10 w-full appearance-none rounded-lg border bg-white px-3 py-2 pr-8 text-sm transition-colors',
-          'focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1',
+          'focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-1',
           'disabled:cursor-not-allowed disabled:opacity-50',
           'dark:bg-gray-900 dark:text-gray-100',
           error

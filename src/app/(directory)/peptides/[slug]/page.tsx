@@ -200,7 +200,7 @@ export default async function PeptideProfilePage({
                 >
                   <Link
                     href={`/suppliers/${ps.supplier.slug}`}
-                    className="font-medium text-emerald-600 hover:text-emerald-700"
+                    className="font-medium text-sky-500 hover:text-sky-600"
                   >
                     {ps.supplier.name}
                   </Link>
@@ -216,14 +216,14 @@ export default async function PeptideProfilePage({
         )}
 
         {/* Ask AI */}
-        <section className="mt-8 rounded-xl border bg-emerald-50 p-6 dark:bg-emerald-900/10 dark:border-emerald-900/30">
+        <section className="mt-8 rounded-xl border bg-sky-50 p-6 dark:bg-sky-900/10 dark:border-sky-900/30">
           <h2 className="text-xl font-semibold mb-2">Have questions about {peptide.name}?</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             Ask our AI research assistant for educational information about this peptide.
           </p>
           <Link
             href={`/assistant?peptide=${peptide.slug}`}
-            className="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 transition-colors"
+            className="inline-flex items-center rounded-lg bg-sky-500 px-4 py-2 text-white hover:bg-sky-600 transition-colors"
           >
             Ask AI Assistant
           </Link>

@@ -50,7 +50,7 @@ export function Navbar({ user }: NavbarProps) {
           href="/"
           className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white"
         >
-          <FlaskConical className="h-6 w-6 text-blue-600" />
+          <FlaskConical className="h-6 w-6 text-sky-500" />
           {SITE_NAME}
         </Link>
 
@@ -159,7 +159,7 @@ export function Navbar({ user }: NavbarProps) {
             ) : (
               <Link
                 href="/api/auth/signin"
-                className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                className="rounded-md bg-sky-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-sky-600"
               >
                 Sign In
               </Link>
@@ -251,7 +251,7 @@ export function Navbar({ user }: NavbarProps) {
               <Link
                 href="/api/auth/signin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-md bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                className="block rounded-md bg-sky-500 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-sky-600"
               >
                 Sign In
               </Link>

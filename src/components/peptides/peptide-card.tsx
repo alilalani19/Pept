@@ -15,15 +15,15 @@ export function PeptideCard({ peptide }: PeptideCardProps) {
   return (
     <Card
       className={cn(
-        'rounded-xl border border-gray-200 bg-white transition-shadow duration-200 hover:shadow-md',
-        'dark:border-gray-800 dark:bg-gray-950'
+        'rounded-xl border border-slate-200 bg-white transition-shadow duration-200 hover:shadow-md',
+        'dark:border-slate-800 dark:bg-slate-900'
       )}
     >
       <CardHeader>
         <CardTitle>
           <Link
             href={`/peptides/${peptide.slug}`}
-            className="text-gray-900 hover:text-emerald-600 transition-colors dark:text-gray-100 dark:hover:text-emerald-400"
+            className="text-slate-900 hover:text-sky-600 transition-colors dark:text-slate-100 dark:hover:text-sky-400"
           >
             {peptide.name}
           </Link>

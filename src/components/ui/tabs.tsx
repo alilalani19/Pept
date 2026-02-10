@@ -70,9 +70,9 @@ export function TabsTrigger({ value, className, children, ...props }: TabsTrigge
       aria-selected={isActive}
       className={cn(
         'relative px-4 py-2 text-sm font-medium transition-colors',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500',
         isActive
-          ? 'text-emerald-600 dark:text-emerald-400'
+          ? 'text-sky-600 dark:text-sky-400'
           : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
         className
       )}
@@ -81,7 +81,7 @@ export function TabsTrigger({ value, className, children, ...props }: TabsTrigge
     >
       {children}
       {isActive && (
-        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600 dark:bg-emerald-400" />
+        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-600 dark:bg-sky-400" />
       )}
     </button>
   )

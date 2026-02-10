@@ -1,73 +1,38 @@
 const BLOCKED_PATTERNS: { pattern: RegExp; reason: string }[] = [
-  // Medical advice patterns
-  {
-    pattern: /\bprescribe\b/i,
-    reason:
-      'I cannot provide prescription advice. Please consult a licensed healthcare professional.',
-  },
-  {
-    pattern: /\bdiagnose\b/i,
-    reason: 'I cannot provide diagnoses. Please consult a licensed healthcare professional.',
-  },
-  {
-    pattern: /\btreat my\b/i,
-    reason:
-      'I cannot recommend treatments for personal conditions. Please consult a licensed healthcare professional.',
-  },
-  {
-    pattern: /\bcure my\b/i,
-    reason:
-      'I cannot recommend cures for personal conditions. Please consult a licensed healthcare professional.',
-  },
-
-  // Dosing patterns
-  {
-    pattern: /\bhow much should I take\b/i,
-    reason:
-      'I cannot recommend personal dosages. Dosing must be determined by a qualified healthcare provider.',
-  },
-  {
-    pattern: /\bdosage for me\b/i,
-    reason:
-      'I cannot recommend personal dosages. Dosing must be determined by a qualified healthcare provider.',
-  },
-  {
-    pattern: /\binject myself\b/i,
-    reason:
-      'I cannot provide self-administration guidance. Please consult a healthcare professional for proper protocols.',
-  },
-
-  // Purchase patterns
-  {
-    pattern: /\bwhere to buy\b/i,
-    reason:
-      'I cannot recommend where to purchase peptides. This falls outside my educational scope.',
-  },
-  {
-    pattern: /\bcheapest\b/i,
-    reason: 'I cannot provide purchasing or pricing advice. This falls outside my educational scope.',
-  },
-  {
-    pattern: /\bdiscount code\b/i,
-    reason:
-      'I cannot provide discount codes or purchasing advice. This falls outside my educational scope.',
-  },
-
-  // Harmful patterns
+  // Synthesis / manufacturing at home
   {
     pattern: /\bsynthesize at home\b/i,
     reason:
       'I cannot provide instructions for home synthesis of peptides. This is potentially dangerous and may be illegal.',
   },
   {
-    pattern: /\bmake my own\b/i,
+    pattern: /\bmake my own\b.*peptide/i,
     reason:
-      'I cannot provide instructions for manufacturing peptides. This is potentially dangerous and may be illegal.',
+      'I cannot provide instructions for manufacturing peptides at home. This is potentially dangerous and may be illegal.',
+  },
+
+  // Self-harm patterns
+  {
+    pattern: /\bharm myself\b/i,
+    reason:
+      'I cannot assist with self-harm. If you are in crisis, please contact the 988 Suicide & Crisis Lifeline by calling or texting 988.',
   },
   {
-    pattern: /\bbypass\b/i,
+    pattern: /\bsuicid/i,
     reason:
-      'I cannot assist with bypassing regulations, safety measures, or restrictions.',
+      'If you or someone you know is in crisis, please contact the 988 Suicide & Crisis Lifeline by calling or texting 988.',
+  },
+
+  // Illegal activity
+  {
+    pattern: /\bbypass\s+(?:fda|regulation|law|customs|import)\b/i,
+    reason:
+      'I cannot assist with bypassing regulations, laws, or import restrictions.',
+  },
+  {
+    pattern: /\bsmuggl/i,
+    reason:
+      'I cannot assist with smuggling or illegal importation of any substances.',
   },
 ]
 
@@ -81,12 +46,9 @@ export function validateInput(message: string): { safe: boolean; reason?: string
   return { safe: true }
 }
 
-const DOSAGE_PATTERN =
-  /\b(?:take|inject|administer|use|dose)\s+\d+\s*(?:mcg|mg|ug|μg|ml|mL|cc|iu|IU|units)\b/gi
-
 export function sanitizeOutput(text: string): string {
-  return text.replace(
-    DOSAGE_PATTERN,
-    '[dosage information removed - consult a healthcare professional]'
-  )
+  // Output sanitization is now minimal — we allow dosage mentions
+  // in research/literature context. The system prompt handles
+  // appropriate framing and disclaimers.
+  return text
 }

@@ -41,7 +41,7 @@ export function useChat(sessionId?: string) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: content,
-            sessionId: currentSessionId,
+            ...(currentSessionId && { sessionId: currentSessionId }),
             peptideSlug,
           }),
           signal: abortControllerRef.current.signal,

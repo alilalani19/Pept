@@ -71,7 +71,7 @@ export function ChatInput({ onSend, isLoading, onStop, className }: ChatInputPro
             onKeyDown={handleKeyDown}
             placeholder="Ask about peptide research..."
             rows={1}
-            className="w-full resize-none rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 pr-12 text-sm text-gray-900 placeholder-gray-400 transition-colors focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:border-emerald-500 dark:focus:bg-gray-800"
+            className="w-full resize-none rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 pr-12 text-sm text-gray-900 placeholder-gray-400 transition-colors focus:border-sky-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-sky-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 dark:focus:border-sky-500 dark:focus:bg-gray-800"
             disabled={isLoading}
           />
         </div>
@@ -90,7 +90,7 @@ export function ChatInput({ onSend, isLoading, onStop, className }: ChatInputPro
             type="button"
             onClick={handleSend}
             disabled={isEmpty}
-            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-sky-500 text-white transition-colors hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Send message"
           >
             <Send className="h-4 w-4" />

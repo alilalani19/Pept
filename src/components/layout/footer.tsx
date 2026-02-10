@@ -36,7 +36,7 @@ export function Footer() {
               href="/"
               className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white"
             >
-              <FlaskConical className="h-5 w-5 text-blue-600" />
+              <FlaskConical className="h-5 w-5 text-sky-500" />
               {SITE_NAME}
             </Link>
             <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
