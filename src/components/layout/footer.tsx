@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { FlaskConical } from 'lucide-react'
 import { SITE_NAME, DISCLAIMER_TEXT } from '@/lib/constants'
+import { NewsletterForm } from './newsletter-form'
 
 const productLinks = [
   { href: '/peptides', label: 'Peptides' },
@@ -43,6 +44,12 @@ export function Footer() {
               Your trusted educational resource for peptide research and
               information.
             </p>
+            <div className="mt-4">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                Stay updated
+              </p>
+              <NewsletterForm />
+            </div>
           </div>
 
           {/* Product Links */}

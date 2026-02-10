@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/db'
+import { sendWelcome } from '@/lib/email/send-notifications'
 
 const signupSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100),
@@ -44,6 +45,9 @@ export async function POST(req: NextRequest) {
         role: 'USER',
       },
     })
+
+    // Fire-and-forget welcome email
+    sendWelcome(name, email).catch(() => {})
 
     return NextResponse.json({ success: true }, { status: 201 })
   } catch {

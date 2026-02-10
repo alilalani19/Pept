@@ -50,10 +50,13 @@ model User {
   role          UserRole      @default(USER)
   accounts      Account[]
   sessions      Session[]
-  favorites     Favorite[]
-  chatSessions  ChatSession[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  favorites        Favorite[]
+  chatSessions     ChatSession[]
+  emailSignInAlert Boolean       @default(true)
+  emailNewPeptide  Boolean       @default(true)
+  emailNewsletter  Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   @@map("users")
 }
@@ -261,4 +264,15 @@ model ChatMessage {
 
   @@index([sessionId])
   @@map("chat_messages")
+}
+
+// --------------- Newsletter ---------------
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("newsletter_subscribers")
 }

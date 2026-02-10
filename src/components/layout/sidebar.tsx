@@ -9,6 +9,7 @@ import {
   Building2,
   Tags,
   Users,
+  Mail,
   Menu,
   X,
 } from 'lucide-react'
@@ -20,6 +21,7 @@ const sidebarLinks = [
   { href: '/admin/suppliers', label: 'Suppliers', icon: Building2 },
   { href: '/admin/categories', label: 'Categories', icon: Tags },
   { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin/newsletter', label: 'Newsletter', icon: Mail },
 ]
 
 export function Sidebar() {

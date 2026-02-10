@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { auth, signOut } from '@/lib/auth'
 import { createMetadata } from '@/lib/seo/metadata'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { NotificationSettings } from './notification-settings'
 
 export const metadata: Metadata = createMetadata({
   title: 'Account Settings',
@@ -39,6 +40,8 @@ export default async function AccountSettingsPage() {
           </dl>
         </CardContent>
       </Card>
+
+      <NotificationSettings />
 
       <Card className="mt-6">
         <CardHeader>

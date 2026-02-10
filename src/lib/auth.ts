@@ -6,11 +6,20 @@ import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { prisma } from './db'
 import { authConfig } from './auth.config'
+import { notifySignIn } from './email/send-notifications'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
   ...authConfig,
+  events: {
+    signIn: async ({ user }) => {
+      if (user?.id) {
+        // Fire-and-forget — don't block auth
+        notifySignIn(user.id, 'Unknown').catch(() => {})
+      }
+    },
+  },
   providers: [
     ...(process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET
       ? [

@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { peptideCreateSchema } from '@/lib/validators/peptide'
+import { notifyNewPeptide } from '@/lib/email/send-notifications'
 
 export async function GET(req: Request) {
   try {
@@ -87,6 +88,11 @@ export async function POST(req: Request) {
         categories: { include: { category: true } },
       },
     })
+
+    // Fire-and-forget notification to subscribed users
+    if (peptide.name && data.slug) {
+      notifyNewPeptide(peptide.name, data.slug).catch(() => {})
+    }
 
     return Response.json(peptide, { status: 201 })
   } catch (error) {
