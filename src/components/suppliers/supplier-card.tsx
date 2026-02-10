@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { truncate } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
@@ -11,6 +12,7 @@ interface Supplier {
   name: string
   slug: string
   description: string | null
+  website: string | null
   transparencyScore: number
   coaAvailable: boolean
   thirdPartyTested: boolean
@@ -52,6 +54,17 @@ export function SupplierCard({ supplier }: SupplierCardProps) {
             <Badge variant="info">Third-Party Tested</Badge>
           )}
         </div>
+        {supplier.website && (
+          <a
+            href={supplier.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-sm text-sky-500 hover:text-sky-600 transition-colors"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            {supplier.website.replace(/^https?:\/\//, '')}
+          </a>
+        )}
       </CardContent>
     </Card>
   )

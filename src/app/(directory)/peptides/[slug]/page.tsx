@@ -61,6 +61,7 @@ export default async function PeptideProfilePage({
               id: true,
               name: true,
               slug: true,
+              website: true,
               transparencyScore: true,
               coaAvailable: true,
               thirdPartyTested: true,
@@ -204,6 +205,16 @@ export default async function PeptideProfilePage({
                   >
                     {ps.supplier.name}
                   </Link>
+                  {ps.supplier.website && (
+                    <a
+                      href={ps.supplier.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex items-center gap-1 text-xs text-slate-500 hover:text-sky-500 transition-colors"
+                    >
+                      {ps.supplier.website.replace(/^https?:\/\//, '')}
+                    </a>
+                  )}
                   <div className="mt-2 flex items-center gap-3 text-sm text-slate-500">
                     <span>Score: {ps.supplier.transparencyScore}/100</span>
                     {ps.supplier.coaAvailable && <Badge variant="success">COA</Badge>}

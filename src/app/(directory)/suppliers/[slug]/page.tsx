@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { InlineDisclaimer } from '@/components/compliance/inline-disclaimer'
 import { DisclaimerBanner } from '@/components/compliance/disclaimer-banner'
 import Link from 'next/link'
+import { ExternalLink } from 'lucide-react'
 
 export async function generateMetadata({
   params,
@@ -60,6 +61,17 @@ export default async function SupplierDetailPage({
         <p className="mt-4 text-lg text-slate-700 dark:text-slate-300">
           {supplier.description}
         </p>
+        {supplier.website && (
+          <a
+            href={supplier.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-sky-500 hover:text-sky-600 transition-colors"
+          >
+            <ExternalLink className="h-4 w-4" />
+            {supplier.website.replace(/^https?:\/\//, '')}
+          </a>
+        )}
       </header>
 
       {/* Transparency Metrics */}

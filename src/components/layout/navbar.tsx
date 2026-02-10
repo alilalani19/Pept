@@ -75,7 +75,7 @@ export function Navbar({ user }: NavbarProps) {
         {/* Right Side */}
         <div className="flex items-center gap-2">
           <Link
-            href="/search"
+            href="/peptides"
             className="rounded-md p-2 text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <Search className="h-5 w-5" />

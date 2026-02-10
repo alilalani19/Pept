@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server'
 import { auth } from '@/lib/auth'
 import anthropic from '@/lib/claude/client'
 import { getSystemPrompt } from '@/lib/claude/system-prompt'
-import { injectPeptideContext } from '@/lib/claude/context-injector'
+import { injectPeptideContext, getSupplierList } from '@/lib/claude/context-injector'
 import { validateInput, sanitizeOutput } from '@/lib/claude/guardrails'
 import { checkRateLimit } from '@/lib/claude/rate-limiter'
 import { chatMessageSchema } from '@/lib/validators/chat'
@@ -77,12 +77,20 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Build system prompt with optional peptide context
+    // Build system prompt with optional peptide context and supplier list
     let peptideContext: string | null = null
     if (peptideSlug) {
       peptideContext = await injectPeptideContext(peptideSlug)
     }
-    const systemPrompt = getSystemPrompt(peptideContext || undefined)
+
+    // Always inject supplier list so AI can reference suppliers with websites
+    const supplierList = await getSupplierList()
+    let fullContext = peptideContext || ''
+    if (supplierList) {
+      fullContext += (fullContext ? '\n\n' : '') + `VETTED SUPPLIERS DIRECTORY:\n${supplierList}`
+    }
+
+    const systemPrompt = getSystemPrompt(fullContext || undefined)
 
     // Build message history
     const conversationHistory = chatSession?.messages
