@@ -1,6 +1,6 @@
 export const SITE_NAME = 'Pept'
 export const SITE_DESCRIPTION = 'Your trusted educational resource for peptide research. Explore evidence-based peptide profiles, vetted suppliers, and AI-powered research assistance.'
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pept.com'
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pept.me'
 
 export const EVIDENCE_LEVELS = {
   IN_VITRO: { label: 'In Vitro', bars: 1, color: 'text-gray-500' },
