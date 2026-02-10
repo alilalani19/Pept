@@ -8,6 +8,7 @@ import {
   FlaskConical,
   Building2,
   Tags,
+  Users,
   Menu,
   X,
 } from 'lucide-react'
@@ -18,6 +19,7 @@ const sidebarLinks = [
   { href: '/admin/peptides', label: 'Peptides', icon: FlaskConical },
   { href: '/admin/suppliers', label: 'Suppliers', icon: Building2 },
   { href: '/admin/categories', label: 'Categories', icon: Tags },
+  { href: '/admin/users', label: 'Users', icon: Users },
 ]
 
 export function Sidebar() {
@@ -55,7 +57,7 @@ export function Sidebar() {
               className={cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                 isActive(link.href)
-                  ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300'
+                  ? 'bg-sky-50 text-sky-600 dark:bg-sky-950/50 dark:text-sky-300'
                   : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
               )}
             >

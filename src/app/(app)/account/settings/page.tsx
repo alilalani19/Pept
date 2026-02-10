@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import { auth, signOut } from '@/lib/auth'
 import { createMetadata } from '@/lib/seo/metadata'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { ThemeToggle } from '@/components/settings/theme-toggle'
 
 export const metadata: Metadata = createMetadata({
   title: 'Account Settings',
@@ -11,7 +10,7 @@ export const metadata: Metadata = createMetadata({
   noIndex: true,
 })
 
-export default async function SettingsPage() {
+export default async function AccountSettingsPage() {
   const session = await auth()
   if (!session?.user) return null
 
@@ -38,15 +37,6 @@ export default async function SettingsPage() {
               <dd className="mt-1 text-slate-900 dark:text-white">{session.user.role}</dd>
             </div>
           </dl>
-        </CardContent>
-      </Card>
-
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Theme</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ThemeToggle />
         </CardContent>
       </Card>
 

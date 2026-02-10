@@ -13,7 +13,7 @@ const ThemeContext = createContext<{
 })
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setTheme] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -21,6 +21,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const stored = localStorage.getItem('pept-theme') as Theme | null
     if (stored) {
       setTheme(stored)
+    } else {
+      document.documentElement.classList.add('dark')
     }
   }, [])
 
