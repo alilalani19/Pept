@@ -98,11 +98,11 @@ export default async function PeptideProfilePage({
           </div>
           <h1 className="text-4xl font-bold tracking-tight">{peptide.name}</h1>
           {peptide.aliases.length > 0 && (
-            <p className="mt-2 text-gray-500 dark:text-gray-400">
+            <p className="mt-2 text-slate-500 dark:text-slate-400">
               Also known as: {peptide.aliases.join(', ')}
             </p>
           )}
-          <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">{peptide.summary}</p>
+          <p className="mt-4 text-lg text-slate-700 dark:text-slate-300">{peptide.summary}</p>
 
           <div className="mt-4 flex flex-wrap items-center gap-4">
             {peptide.evidenceLevel && <EvidenceLevelIndicator level={peptide.evidenceLevel} />}
@@ -112,18 +112,18 @@ export default async function PeptideProfilePage({
 
         {/* Quick Facts */}
         {(peptide.sequence || peptide.molecularWeight) && (
-          <section className="mt-8 rounded-xl border bg-gray-50 p-6 dark:bg-gray-900/50 dark:border-gray-800">
+          <section className="mt-8 rounded-xl border bg-slate-50 p-6 dark:bg-slate-900/50 dark:border-slate-800">
             <h2 className="text-lg font-semibold mb-4">Quick Facts</h2>
             <dl className="grid gap-4 sm:grid-cols-2">
               {peptide.sequence && (
                 <div>
-                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Sequence</dt>
+                  <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Sequence</dt>
                   <dd className="mt-1 font-mono text-sm break-all">{peptide.sequence}</dd>
                 </div>
               )}
               {peptide.molecularWeight && (
                 <div>
-                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Molecular Weight</dt>
+                  <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Molecular Weight</dt>
                   <dd className="mt-1">{peptide.molecularWeight} Da</dd>
                 </div>
               )}
@@ -136,7 +136,7 @@ export default async function PeptideProfilePage({
           <h2 className="text-2xl font-semibold mb-4">Overview</h2>
           <div className="prose dark:prose-invert max-w-none">
             {(peptide.description || '').split('\n\n').map((paragraph, i) => (
-              <p key={i} className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p key={i} className="mb-4 text-slate-700 dark:text-slate-300 leading-relaxed">
                 {paragraph}
               </p>
             ))}
@@ -146,10 +146,10 @@ export default async function PeptideProfilePage({
         {/* Mechanism of Action */}
         <section className="mt-8">
           <h2 className="text-2xl font-semibold mb-4">Mechanism of Action</h2>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{peptide.mechanismOfAction}</p>
+          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{peptide.mechanismOfAction}</p>
           {peptide.biologicalPathways.length > 0 && (
             <div className="mt-4">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+              <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">
                 Biological Pathways
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -167,7 +167,7 @@ export default async function PeptideProfilePage({
           <div className="mb-3">
             {peptide.evidenceLevel && <EvidenceBadge level={peptide.evidenceLevel} />}
           </div>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{peptide.researchFindings}</p>
+          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{peptide.researchFindings}</p>
         </section>
 
         {/* Risks */}
@@ -182,21 +182,21 @@ export default async function PeptideProfilePage({
           <div className="mb-3">
             {peptide.legalStatusBadge && <RegulatoryBadge status={peptide.legalStatusBadge} />}
           </div>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{peptide.legalStatus}</p>
+          <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{peptide.legalStatus}</p>
         </section>
 
         {/* Suppliers */}
         {peptide.suppliers.length > 0 && (
           <section className="mt-8">
             <h2 className="text-2xl font-semibold mb-4">Research Suppliers</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
               The following suppliers carry this peptide for research purposes. Inclusion does not constitute an endorsement.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {peptide.suppliers.map((ps) => (
                 <div
                   key={ps.supplier.id}
-                  className="rounded-lg border p-4 dark:border-gray-800"
+                  className="rounded-lg border p-4 dark:border-slate-800"
                 >
                   <Link
                     href={`/suppliers/${ps.supplier.slug}`}
@@ -204,7 +204,7 @@ export default async function PeptideProfilePage({
                   >
                     {ps.supplier.name}
                   </Link>
-                  <div className="mt-2 flex items-center gap-3 text-sm text-gray-500">
+                  <div className="mt-2 flex items-center gap-3 text-sm text-slate-500">
                     <span>Score: {ps.supplier.transparencyScore}/100</span>
                     {ps.supplier.coaAvailable && <Badge variant="success">COA</Badge>}
                     {ps.supplier.thirdPartyTested && <Badge variant="info">Tested</Badge>}
@@ -218,7 +218,7 @@ export default async function PeptideProfilePage({
         {/* Ask AI */}
         <section className="mt-8 rounded-xl border bg-sky-50 p-6 dark:bg-sky-900/10 dark:border-sky-900/30">
           <h2 className="text-xl font-semibold mb-2">Have questions about {peptide.name}?</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-slate-600 dark:text-slate-400 mb-4">
             Ask our AI research assistant for educational information about this peptide.
           </p>
           <Link

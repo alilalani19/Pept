@@ -26,7 +26,7 @@ export default async function AdminDashboard() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium text-gray-500">Peptides</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-500">Peptides</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">{peptideCount}</p>
@@ -34,7 +34,7 @@ export default async function AdminDashboard() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium text-gray-500">Suppliers</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-500">Suppliers</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">{supplierCount}</p>
@@ -42,7 +42,7 @@ export default async function AdminDashboard() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium text-gray-500">Categories</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-500">Categories</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">{categoryCount}</p>
@@ -50,7 +50,7 @@ export default async function AdminDashboard() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-medium text-gray-500">Users</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-500">Users</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">{userCount}</p>
@@ -64,12 +64,12 @@ export default async function AdminDashboard() {
         </CardHeader>
         <CardContent>
           {recentClicks.length === 0 ? (
-            <p className="text-gray-500 text-sm">No clicks recorded yet.</p>
+            <p className="text-slate-500 text-sm">No clicks recorded yet.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b dark:border-gray-800">
+                  <tr className="border-b dark:border-slate-800">
                     <th className="py-2 text-left font-medium">Supplier</th>
                     <th className="py-2 text-left font-medium">Peptide</th>
                     <th className="py-2 text-left font-medium">Date</th>
@@ -77,10 +77,10 @@ export default async function AdminDashboard() {
                 </thead>
                 <tbody>
                   {recentClicks.map((click) => (
-                    <tr key={click.id} className="border-b dark:border-gray-800">
+                    <tr key={click.id} className="border-b dark:border-slate-800">
                       <td className="py-2">{click.supplier.name}</td>
                       <td className="py-2">{click.peptideId || '—'}</td>
-                      <td className="py-2 text-gray-500">
+                      <td className="py-2 text-slate-500">
                         {new Date(click.createdAt).toLocaleDateString()}
                       </td>
                     </tr>
@@ -92,7 +92,7 @@ export default async function AdminDashboard() {
         </CardContent>
       </Card>
 
-      <div className="mt-4 text-sm text-gray-500">
+      <div className="mt-4 text-sm text-slate-500">
         Total affiliate clicks: {clickCount}
       </div>
     </div>

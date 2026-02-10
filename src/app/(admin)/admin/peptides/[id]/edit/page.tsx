@@ -107,11 +107,11 @@ export default function EditPeptidePage() {
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Summary *</label>
-              <textarea name="summary" required rows={2} defaultValue={peptide.summary} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="summary" required rows={2} defaultValue={peptide.summary} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Description *</label>
-              <textarea name="description" required rows={6} defaultValue={peptide.description} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="description" required rows={6} defaultValue={peptide.description} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
           </CardContent>
         </Card>
@@ -129,11 +129,11 @@ export default function EditPeptidePage() {
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Mechanism of Action *</label>
-              <textarea name="mechanismOfAction" required rows={4} defaultValue={peptide.mechanismOfAction} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="mechanismOfAction" required rows={4} defaultValue={peptide.mechanismOfAction} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Research Findings *</label>
-              <textarea name="researchFindings" required rows={4} defaultValue={peptide.researchFindings} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="researchFindings" required rows={4} defaultValue={peptide.researchFindings} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
           </CardContent>
         </Card>
@@ -163,15 +163,15 @@ export default function EditPeptidePage() {
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Legal Status Description *</label>
-              <textarea name="legalStatus" required rows={3} defaultValue={peptide.legalStatus} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="legalStatus" required rows={3} defaultValue={peptide.legalStatus} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Risks *</label>
-              <textarea name="risks" required rows={3} defaultValue={peptide.risks} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="risks" required rows={3} defaultValue={peptide.risks} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Disclaimer *</label>
-              <textarea name="disclaimer" required rows={2} defaultValue={peptide.disclaimer} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="disclaimer" required rows={2} defaultValue={peptide.disclaimer} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
           </CardContent>
         </Card>
@@ -185,7 +185,7 @@ export default function EditPeptidePage() {
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Meta Description</label>
-              <textarea name="metaDescription" maxLength={160} rows={2} defaultValue={peptide.metaDescription || ''} className="w-full rounded-lg border px-3 py-2 dark:bg-gray-900 dark:border-gray-700" />
+              <textarea name="metaDescription" maxLength={160} rows={2} defaultValue={peptide.metaDescription || ''} className="w-full rounded-lg border px-3 py-2 dark:bg-slate-900 dark:border-slate-700" />
             </div>
             <div className="flex items-center gap-2">
               <input type="checkbox" name="published" id="published" defaultChecked={peptide.published} className="rounded" />

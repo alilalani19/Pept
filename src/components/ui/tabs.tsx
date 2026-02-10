@@ -47,7 +47,7 @@ export function TabsList({ className, ...props }: React.HTMLAttributes<HTMLDivEl
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-1 border-b border-gray-200 dark:border-gray-800',
+        'inline-flex items-center gap-1 border-b border-slate-200 dark:border-slate-800',
         className
       )}
       role="tablist"
@@ -73,7 +73,7 @@ export function TabsTrigger({ value, className, children, ...props }: TabsTrigge
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500',
         isActive
           ? 'text-sky-600 dark:text-sky-400'
-          : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
+          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
         className
       )}
       onClick={() => setActiveTab(value)}

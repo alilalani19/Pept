@@ -21,7 +21,7 @@ export default async function SuppliersPage() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Research Peptide Suppliers</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-slate-600 dark:text-slate-400">
           Vetted suppliers ranked by transparency, testing, and documentation standards.
         </p>
       </div>
@@ -44,7 +44,7 @@ export default async function SuppliersPage() {
       </div>
 
       {suppliers.length === 0 && (
-        <p className="text-center text-gray-500 py-12">
+        <p className="text-center text-slate-500 py-12">
           No suppliers available at this time.
         </p>
       )}

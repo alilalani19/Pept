@@ -23,9 +23,9 @@ export default async function AdminPeptidesPage() {
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border dark:border-gray-800">
+      <div className="overflow-x-auto rounded-lg border dark:border-slate-800">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 dark:bg-gray-900">
+          <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-4 py-3 text-left font-medium">Name</th>
               <th className="px-4 py-3 text-left font-medium">Evidence</th>
@@ -36,11 +36,11 @@ export default async function AdminPeptidesPage() {
           </thead>
           <tbody>
             {peptides.map((peptide) => (
-              <tr key={peptide.id} className="border-t dark:border-gray-800">
+              <tr key={peptide.id} className="border-t dark:border-slate-800">
                 <td className="px-4 py-3">
                   <div>
                     <p className="font-medium">{peptide.name}</p>
-                    <p className="text-xs text-gray-500">/{peptide.slug}</p>
+                    <p className="text-xs text-slate-500">/{peptide.slug}</p>
                   </div>
                 </td>
                 <td className="px-4 py-3">

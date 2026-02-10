@@ -43,12 +43,12 @@ export function Navbar({ user }: NavbarProps) {
     pathname === href || pathname.startsWith(href + '/')
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white"
+          className="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white"
         >
           <FlaskConical className="h-6 w-6 text-sky-500" />
           {SITE_NAME}
@@ -63,8 +63,8 @@ export function Navbar({ user }: NavbarProps) {
               className={cn(
                 'rounded-md px-3 py-2 text-sm font-medium transition-colors',
                 isActive(link.href)
-                  ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-white'
+                  ? 'bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
               )}
             >
               {link.label}
@@ -76,7 +76,7 @@ export function Navbar({ user }: NavbarProps) {
         <div className="flex items-center gap-2">
           <Link
             href="/search"
-            className="rounded-md p-2 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+            className="rounded-md p-2 text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <Search className="h-5 w-5" />
             <span className="sr-only">Search</span>
@@ -88,7 +88,7 @@ export function Navbar({ user }: NavbarProps) {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 rounded-md p-2 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+                  className="flex items-center gap-2 rounded-md p-2 text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                 >
                   {user.image ? (
                     <img
@@ -107,19 +107,19 @@ export function Navbar({ user }: NavbarProps) {
                       className="fixed inset-0 z-40"
                       onClick={() => setUserMenuOpen(false)}
                     />
-                    <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-900">
-                      <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                      <div className="border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">
                           {user.name || 'User'}
                         </p>
-                        <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                        <p className="truncate text-xs text-slate-500 dark:text-slate-400">
                           {user.email}
                         </p>
                       </div>
                       <Link
                         href="/account"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
                       >
                         <User className="h-4 w-4" />
                         Account
@@ -127,7 +127,7 @@ export function Navbar({ user }: NavbarProps) {
                       <Link
                         href="/settings"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
                       >
                         <Settings className="h-4 w-4" />
                         Settings
@@ -136,17 +136,17 @@ export function Navbar({ user }: NavbarProps) {
                         <Link
                           href="/admin"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
                         >
                           <Shield className="h-4 w-4" />
                           Admin
                         </Link>
                       )}
-                      <div className="border-t border-gray-200 dark:border-gray-700">
+                      <div className="border-t border-slate-200 dark:border-slate-700">
                         <Link
                           href="/api/auth/signout"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-800"
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-slate-50 dark:text-red-400 dark:hover:bg-slate-800"
                         >
                           <LogOut className="h-4 w-4" />
                           Sign Out
@@ -169,7 +169,7 @@ export function Navbar({ user }: NavbarProps) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-md p-2 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 md:hidden"
+            className="rounded-md p-2 text-slate-500 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800 md:hidden"
           >
             {mobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -183,7 +183,7 @@ export function Navbar({ user }: NavbarProps) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950 md:hidden">
+        <div className="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 md:hidden">
           <div className="space-y-1 px-4 py-3">
             {navLinks.map((link) => (
               <Link
@@ -193,29 +193,29 @@ export function Navbar({ user }: NavbarProps) {
                 className={cn(
                   'block rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   isActive(link.href)
-                    ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-900 dark:hover:text-white'
+                    ? 'bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
                 )}
               >
                 {link.label}
               </Link>
             ))}
           </div>
-          <div className="border-t border-gray-200 px-4 py-3 dark:border-gray-800">
+          <div className="border-t border-slate-200 px-4 py-3 dark:border-slate-800">
             {user ? (
               <div className="space-y-1">
                 <div className="mb-2 px-3">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                  <p className="text-sm font-medium text-slate-900 dark:text-white">
                     {user.name || 'User'}
                   </p>
-                  <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                  <p className="truncate text-xs text-slate-500 dark:text-slate-400">
                     {user.email}
                   </p>
                 </div>
                 <Link
                   href="/account"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-900"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800"
                 >
                   <User className="h-4 w-4" />
                   Account
@@ -223,7 +223,7 @@ export function Navbar({ user }: NavbarProps) {
                 <Link
                   href="/settings"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-900"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800"
                 >
                   <Settings className="h-4 w-4" />
                   Settings
@@ -232,7 +232,7 @@ export function Navbar({ user }: NavbarProps) {
                   <Link
                     href="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-900"
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800"
                   >
                     <Shield className="h-4 w-4" />
                     Admin
@@ -241,7 +241,7 @@ export function Navbar({ user }: NavbarProps) {
                 <Link
                   href="/api/auth/signout"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-red-600 hover:bg-gray-50 dark:text-red-400 dark:hover:bg-gray-900"
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-red-600 hover:bg-slate-50 dark:text-red-400 dark:hover:bg-slate-800"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign Out

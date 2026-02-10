@@ -57,25 +57,25 @@ export default async function SupplierDetailPage({
 
       <header className="mt-6">
         <h1 className="text-4xl font-bold tracking-tight">{supplier.name}</h1>
-        <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">
+        <p className="mt-4 text-lg text-slate-700 dark:text-slate-300">
           {supplier.description}
         </p>
       </header>
 
       {/* Transparency Metrics */}
-      <section className="mt-8 rounded-xl border p-6 dark:border-gray-800">
+      <section className="mt-8 rounded-xl border p-6 dark:border-slate-800">
         <h2 className="text-xl font-semibold mb-4">Transparency Metrics</h2>
         <div className="grid gap-6 sm:grid-cols-3">
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Transparency Score</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">Transparency Score</p>
             <TransparencyScore score={supplier.transparencyScore} />
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Certificate of Analysis</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">Certificate of Analysis</p>
             <CoaBadge available={supplier.coaAvailable} url={supplier.coaUrl || undefined} />
           </div>
           <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Third-Party Tested</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">Third-Party Tested</p>
             {supplier.thirdPartyTested ? (
               <Badge variant="success">Verified</Badge>
             ) : (
@@ -94,7 +94,7 @@ export default async function SupplierDetailPage({
               <Link
                 key={ps.peptide.id}
                 href={`/peptides/${ps.peptide.slug}`}
-                className="rounded-lg border p-3 hover:border-sky-300 transition-colors dark:border-gray-800 dark:hover:border-sky-600"
+                className="rounded-lg border p-3 hover:border-sky-300 transition-colors dark:border-slate-800 dark:hover:border-sky-600"
               >
                 <span className="font-medium text-sky-500 hover:text-sky-600">
                   {ps.peptide.name}

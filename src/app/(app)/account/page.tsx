@@ -40,7 +40,7 @@ export default async function AccountPage() {
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">My Account</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-slate-600 dark:text-slate-400">
           Welcome back, {session.user.name || session.user.email}
         </p>
       </div>
@@ -53,7 +53,7 @@ export default async function AccountPage() {
           </CardHeader>
           <CardContent>
             {favorites.length === 0 ? (
-              <p className="text-gray-500 dark:text-gray-400 text-sm">
+              <p className="text-slate-500 dark:text-slate-400 text-sm">
                 No saved peptides yet.{' '}
                 <Link href="/peptides" className="text-sky-500 hover:underline">
                   Browse the directory
@@ -65,7 +65,7 @@ export default async function AccountPage() {
                   <li key={fav.id}>
                     <Link
                       href={`/peptides/${fav.peptide.slug}`}
-                      className="flex items-center justify-between rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                      className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-900"
                     >
                       <span className="font-medium text-sky-500">{fav.peptide.name}</span>
                       <Badge variant="secondary">{fav.peptide.evidenceLevel?.replace('_', ' ') || '—'}</Badge>
@@ -84,7 +84,7 @@ export default async function AccountPage() {
           </CardHeader>
           <CardContent>
             {chatSessions.length === 0 ? (
-              <p className="text-gray-500 dark:text-gray-400 text-sm">
+              <p className="text-slate-500 dark:text-slate-400 text-sm">
                 No conversations yet.{' '}
                 <Link href="/assistant" className="text-sky-500 hover:underline">
                   Start a conversation
@@ -96,10 +96,10 @@ export default async function AccountPage() {
                   <li key={cs.id}>
                     <Link
                       href={`/assistant/${cs.id}`}
-                      className="flex items-center justify-between rounded-lg p-2 hover:bg-gray-50 dark:hover:bg-gray-900"
+                      className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-900"
                     >
                       <span className="truncate font-medium">{cs.title}</span>
-                      <span className="text-xs text-gray-500 shrink-0 ml-2">
+                      <span className="text-xs text-slate-500 shrink-0 ml-2">
                         {cs._count.messages} msgs
                       </span>
                     </Link>
@@ -114,7 +114,7 @@ export default async function AccountPage() {
       <div className="mt-6">
         <Link
           href="/account/settings"
-          className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          className="text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
         >
           Account Settings →
         </Link>

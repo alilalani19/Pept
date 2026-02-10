@@ -16,7 +16,7 @@ export default function Error({
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4">
       <h1 className="text-4xl font-bold text-red-600">Something went wrong</h1>
-      <p className="mt-4 text-gray-600 dark:text-gray-400">
+      <p className="mt-4 text-slate-600 dark:text-slate-400">
         An unexpected error occurred. Please try again.
       </p>
       <button

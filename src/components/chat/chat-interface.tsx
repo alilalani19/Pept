@@ -48,7 +48,7 @@ export function ChatInterface({
   return (
     <div
       className={cn(
-        'flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900',
+        'flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900',
         className
       )}
     >
@@ -61,7 +61,7 @@ export function ChatInterface({
 
         {peptideName && messages.length === 0 && (
           <div className="mb-6 text-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               Ask questions about{' '}
               <span className="font-medium text-sky-500 dark:text-sky-400">
                 {peptideName}
@@ -73,7 +73,7 @@ export function ChatInterface({
 
         {messages.length === 0 && !peptideName && (
           <div className="mb-6 text-center">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               Start a conversation about peptide research
             </p>
           </div>
@@ -87,10 +87,10 @@ export function ChatInterface({
             if (isLastAssistant && isLoading) {
               return (
                 <div key={message.id} className="flex gap-3">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
                     <Bot className="h-4 w-4" />
                   </div>
-                  <div className="max-w-[75%] rounded-2xl bg-gray-100 px-4 py-2.5 dark:bg-gray-800">
+                  <div className="max-w-[75%] rounded-2xl bg-slate-100 px-4 py-2.5 text-slate-800 dark:bg-slate-800 dark:text-slate-100">
                     <StreamingMessage
                       content={message.content}
                       isStreaming={true}

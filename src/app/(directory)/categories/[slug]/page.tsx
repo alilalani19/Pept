@@ -76,7 +76,7 @@ export default async function CategoryDetailPage({
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">{category.name}</h1>
         {category.description && (
-          <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-lg text-slate-600 dark:text-slate-400">
             {category.description}
           </p>
         )}

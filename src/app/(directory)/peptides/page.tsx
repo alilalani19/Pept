@@ -72,7 +72,7 @@ export default async function PeptidesPage({
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Peptide Directory</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-slate-600 dark:text-slate-400">
           Explore evidence-based peptide profiles for educational and research purposes.
         </p>
       </div>
@@ -80,7 +80,7 @@ export default async function PeptidesPage({
       <PeptideSearch categories={categories} />
 
       <div className="mt-8">
-        <p className="mb-4 text-sm text-gray-500">
+        <p className="mb-4 text-sm text-slate-500">
           Showing {peptides.length} of {total} peptides
         </p>
         <PeptideGrid peptides={peptides} />
@@ -95,7 +95,7 @@ export default async function PeptidesPage({
               className={`rounded-lg px-4 py-2 text-sm ${
                 p === page
                   ? 'bg-sky-500 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
               }`}
             >
               {p}

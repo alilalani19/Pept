@@ -15,9 +15,9 @@ export default async function AdminCategoriesPage() {
         <h1 className="text-3xl font-bold tracking-tight">Manage Categories</h1>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border dark:border-gray-800">
+      <div className="overflow-x-auto rounded-lg border dark:border-slate-800">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 dark:bg-gray-900">
+          <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-4 py-3 text-left font-medium">Name</th>
               <th className="px-4 py-3 text-left font-medium">Slug</th>
@@ -27,13 +27,13 @@ export default async function AdminCategoriesPage() {
           </thead>
           <tbody>
             {categories.map((category) => (
-              <tr key={category.id} className="border-t dark:border-gray-800">
+              <tr key={category.id} className="border-t dark:border-slate-800">
                 <td className="px-4 py-3 font-medium">{category.name}</td>
-                <td className="px-4 py-3 text-gray-500">/{category.slug}</td>
+                <td className="px-4 py-3 text-slate-500">/{category.slug}</td>
                 <td className="px-4 py-3">
                   <Badge variant="secondary">{category._count.peptides}</Badge>
                 </td>
-                <td className="px-4 py-3 text-gray-500 max-w-xs truncate">
+                <td className="px-4 py-3 text-slate-500 max-w-xs truncate">
                   {category.description}
                 </td>
               </tr>

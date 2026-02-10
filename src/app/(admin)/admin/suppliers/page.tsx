@@ -16,9 +16,9 @@ export default async function AdminSuppliersPage() {
         <h1 className="text-3xl font-bold tracking-tight">Manage Suppliers</h1>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border dark:border-gray-800">
+      <div className="overflow-x-auto rounded-lg border dark:border-slate-800">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 dark:bg-gray-900">
+          <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-4 py-3 text-left font-medium">Name</th>
               <th className="px-4 py-3 text-left font-medium">Score</th>
@@ -30,10 +30,10 @@ export default async function AdminSuppliersPage() {
           </thead>
           <tbody>
             {suppliers.map((supplier) => (
-              <tr key={supplier.id} className="border-t dark:border-gray-800">
+              <tr key={supplier.id} className="border-t dark:border-slate-800">
                 <td className="px-4 py-3">
                   <p className="font-medium">{supplier.name}</p>
-                  <p className="text-xs text-gray-500">/{supplier.slug}</p>
+                  <p className="text-xs text-slate-500">/{supplier.slug}</p>
                 </td>
                 <td className="px-4 py-3">{supplier.transparencyScore}/100</td>
                 <td className="px-4 py-3">
