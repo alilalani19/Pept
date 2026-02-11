@@ -37,8 +37,8 @@ export default async function HomePage() {
 
       {/* Hero with AI Chat */}
       <section className="relative bg-white dark:bg-slate-950">
-        <div className="mx-auto max-w-4xl px-4 pt-16 pb-12 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
+        <div className="mx-auto max-w-4xl px-4 pt-12 pb-10 sm:px-6 lg:px-8">
+          <div className="text-center mb-6">
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white">
               Ask anything about peptides
             </h1>

@@ -27,11 +27,14 @@ export function ChatInterface({
 }: ChatInterfaceProps) {
   const { messages, isLoading, error, sendMessage, stopStreaming } =
     useChat(sessionId)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const initialQuerySent = useRef(false)
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const el = scrollContainerRef.current
+    if (el) {
+      el.scrollTop = el.scrollHeight
+    }
   }, [messages])
 
   useEffect(() => {
@@ -56,7 +59,7 @@ export function ChatInterface({
       <GuardrailNotice className="m-3 mb-0" />
 
       {/* Scrollable message area */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 py-4">
         <InlineDisclaimer className="mb-4" />
 
         {peptideName && messages.length === 0 && (
@@ -120,7 +123,6 @@ export function ChatInterface({
           </div>
         )}
 
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Input area */}

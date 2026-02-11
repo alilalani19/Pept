@@ -41,6 +41,12 @@ body {
   background: #475569;
 }
 
+/* Force prose to use site font (Geist) instead of Tailwind Typography default */
+.prose,
+.prose * {
+  font-family: inherit;
+}
+
 /* Markdown content styling */
 .prose-chat p {
   margin-bottom: 0.5rem;

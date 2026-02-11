@@ -50,31 +50,36 @@ export async function POST(req: NextRequest) {
     // Get or create chat session (only for authenticated users)
     let chatSession: any = null
     if (isAuthenticated) {
-      if (sessionId) {
-        chatSession = await prisma.chatSession.findFirst({
-          where: { id: sessionId, userId: userId },
-          include: { messages: { orderBy: { createdAt: 'asc' }, take: 20 } },
-        })
-      }
+      try {
+        if (sessionId) {
+          chatSession = await prisma.chatSession.findFirst({
+            where: { id: sessionId, userId: userId },
+            include: { messages: { orderBy: { createdAt: 'asc' }, take: 20 } },
+          })
+        }
 
-      if (!chatSession) {
-        chatSession = await prisma.chatSession.create({
+        if (!chatSession) {
+          chatSession = await prisma.chatSession.create({
+            data: {
+              userId: userId!,
+              title: message.slice(0, 100),
+            },
+            include: { messages: true },
+          })
+        }
+
+        // Save user message
+        await prisma.chatMessage.create({
           data: {
-            userId: userId!,
-            title: message.slice(0, 100),
+            sessionId: chatSession.id,
+            role: 'USER',
+            content: message,
           },
-          include: { messages: true },
         })
+      } catch {
+        // If user no longer exists in DB (stale JWT), fall back to anonymous mode
+        chatSession = null
       }
-
-      // Save user message
-      await prisma.chatMessage.create({
-        data: {
-          sessionId: chatSession.id,
-          role: 'USER',
-          content: message,
-        },
-      })
     }
 
     // Build system prompt with optional peptide context and supplier list
