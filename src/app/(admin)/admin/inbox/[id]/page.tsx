@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { Badge } from '@/components/ui/badge'
 
@@ -22,12 +22,28 @@ export default async function AdminEmailDetailPage({
 
   return (
     <div>
-      <Link
-        href="/admin/inbox"
-        className="text-sm text-sky-500 hover:text-sky-600 font-medium"
-      >
-        &larr; Back to Inbox
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          href="/admin/inbox"
+          className="text-sm text-sky-500 hover:text-sky-600 font-medium"
+        >
+          &larr; Back to Inbox
+        </Link>
+        <form
+          action={async () => {
+            'use server'
+            await prisma.inboundEmail.delete({ where: { id } })
+            redirect('/admin/inbox')
+          }}
+        >
+          <button
+            type="submit"
+            className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600 transition-colors"
+          >
+            Delete
+          </button>
+        </form>
+      </div>
 
       <div className="mt-6 rounded-lg border border-slate-300 dark:border-slate-800 overflow-hidden">
         <div className="bg-slate-50 dark:bg-slate-900 px-6 py-4 space-y-2">
