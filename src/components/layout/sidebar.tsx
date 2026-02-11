@@ -9,6 +9,7 @@ import {
   Building2,
   Tags,
   Users,
+  Inbox,
   Mail,
   Menu,
   X,
@@ -21,6 +22,7 @@ const sidebarLinks = [
   { href: '/admin/suppliers', label: 'Suppliers', icon: Building2 },
   { href: '/admin/categories', label: 'Categories', icon: Tags },
   { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin/inbox', label: 'Inbox', icon: Inbox },
   { href: '/admin/newsletter', label: 'Newsletter', icon: Mail },
 ]
 
