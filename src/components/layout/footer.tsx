@@ -22,6 +22,7 @@ const resourceLinks = [
   { href: '/glossary', label: 'Peptide Glossary' },
   { href: '/faq', label: 'FAQ' },
   { href: '/blog', label: 'Blog' },
+  { href: 'mailto:support@pept.me', label: 'Contact Us' },
 ]
 
 export function Footer() {
