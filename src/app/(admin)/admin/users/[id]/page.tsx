@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { prisma } from '@/lib/db'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { AdminChatSessions } from '@/components/admin/admin-chat-sessions'
 
 export default async function AdminUserDetailPage({
   params,
@@ -20,7 +21,10 @@ export default async function AdminUserDetailPage({
       },
       chatSessions: {
         include: {
-          _count: { select: { messages: true } },
+          messages: {
+            select: { id: true, role: true, content: true, createdAt: true },
+            orderBy: { createdAt: 'asc' },
+          },
         },
         orderBy: { updatedAt: 'desc' },
         take: 20,
@@ -97,7 +101,7 @@ export default async function AdminUserDetailPage({
         <Card>
           <CardContent className="pt-6">
             <p className="text-2xl font-bold">
-              {user.chatSessions.reduce((sum, s) => sum + s._count.messages, 0)}
+              {user.chatSessions.reduce((sum, s) => sum + s.messages.length, 0)}
             </p>
             <p className="text-xs text-slate-600">Total Messages</p>
           </CardContent>
@@ -118,35 +122,19 @@ export default async function AdminUserDetailPage({
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Chat History */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Chat Sessions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {user.chatSessions.length === 0 ? (
-              <p className="text-sm text-slate-600">No chat sessions yet.</p>
-            ) : (
-              <div className="space-y-3">
-                {user.chatSessions.map((session) => (
-                  <div
-                    key={session.id}
-                    className="rounded-lg border border-slate-300 p-3 dark:border-slate-800"
-                  >
-                    <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
-                      {session.title || 'Untitled session'}
-                    </p>
-                    <div className="mt-1 flex items-center gap-3 text-xs text-slate-600">
-                      <span>{session._count.messages} messages</span>
-                      <span>
-                        {new Date(session.updatedAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <AdminChatSessions
+          sessions={user.chatSessions.map((s) => ({
+            id: s.id,
+            title: s.title,
+            updatedAt: s.updatedAt.toISOString(),
+            messages: s.messages.map((m) => ({
+              id: m.id,
+              role: m.role as 'user' | 'assistant' | 'system',
+              content: m.content,
+              createdAt: m.createdAt.toISOString(),
+            })),
+          }))}
+        />
 
         {/* Favorites */}
         <Card>
