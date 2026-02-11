@@ -91,6 +91,24 @@ export async function sendNewsletterToAll(subject: string, bodyHtml: string) {
   }
 }
 
+export async function sendNewsletterToEmails(
+  emails: string[],
+  subject: string,
+  bodyHtml: string
+) {
+  try {
+    if (emails.length === 0) return 0
+
+    const html = newsletterEmail(subject, bodyHtml)
+    await sendBatchEmails(emails, subject, html)
+
+    return emails.length
+  } catch (error) {
+    console.error('Newsletter send error:', error)
+    throw error
+  }
+}
+
 export async function sendWelcome(name: string, email: string) {
   try {
     await sendEmail(email, 'Welcome to Pept!', welcomeEmail(name))
