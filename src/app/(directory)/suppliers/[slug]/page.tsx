@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { createMetadata } from '@/lib/seo/metadata'
-import { TransparencyScore } from '@/components/suppliers/transparency-score'
 import { CoaBadge } from '@/components/suppliers/coa-badge'
 import { Badge } from '@/components/ui/badge'
 import { InlineDisclaimer } from '@/components/compliance/inline-disclaimer'
@@ -74,14 +73,10 @@ export default async function SupplierDetailPage({
         )}
       </header>
 
-      {/* Transparency Metrics */}
+      {/* Verification */}
       <section className="mt-8 rounded-xl border border-slate-300 p-6 dark:border-slate-800">
-        <h2 className="text-xl font-semibold mb-4">Transparency Metrics</h2>
-        <div className="grid gap-6 sm:grid-cols-3">
-          <div>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Transparency Score</p>
-            <TransparencyScore score={supplier.transparencyScore} />
-          </div>
+        <h2 className="text-xl font-semibold mb-4">Verification</h2>
+        <div className="grid gap-6 sm:grid-cols-2">
           <div>
             <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Certificate of Analysis</p>
             <CoaBadge available={supplier.coaAvailable} url={supplier.coaUrl || undefined} />
@@ -121,7 +116,7 @@ export default async function SupplierDetailPage({
       <div className="mt-8 rounded-lg border bg-amber-50 p-4 dark:bg-amber-900/10 dark:border-amber-900/30">
         <p className="text-sm text-amber-800 dark:text-amber-200">
           <strong>Affiliate Disclosure:</strong> Links to this supplier may be affiliate links.
-          We may earn a commission at no additional cost to you. Transparency scores are based
+          We may earn a commission at no additional cost to you. Supplier listings are based
           on objective criteria and are not influenced by affiliate relationships.
         </p>
       </div>

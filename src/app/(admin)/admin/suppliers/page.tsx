@@ -21,7 +21,6 @@ export default async function AdminSuppliersPage() {
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-4 py-3 text-left font-medium">Name</th>
-              <th className="px-4 py-3 text-left font-medium">Score</th>
               <th className="px-4 py-3 text-left font-medium">COA</th>
               <th className="px-4 py-3 text-left font-medium">Tested</th>
               <th className="px-4 py-3 text-left font-medium">Clicks</th>
@@ -35,7 +34,6 @@ export default async function AdminSuppliersPage() {
                   <p className="font-medium">{supplier.name}</p>
                   <p className="text-xs text-slate-500">/{supplier.slug}</p>
                 </td>
-                <td className="px-4 py-3">{supplier.transparencyScore}/100</td>
                 <td className="px-4 py-3">
                   <Badge variant={supplier.coaAvailable ? 'success' : 'secondary'}>
                     {supplier.coaAvailable ? 'Yes' : 'No'}

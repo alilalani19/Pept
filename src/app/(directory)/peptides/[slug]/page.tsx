@@ -62,7 +62,6 @@ export default async function PeptideProfilePage({
               name: true,
               slug: true,
               website: true,
-              transparencyScore: true,
               coaAvailable: true,
               thirdPartyTested: true,
             },
@@ -216,7 +215,6 @@ export default async function PeptideProfilePage({
                     </a>
                   )}
                   <div className="mt-2 flex items-center gap-3 text-sm text-slate-600">
-                    <span>Score: {ps.supplier.transparencyScore}/100</span>
                     {ps.supplier.coaAvailable && <Badge variant="success">COA</Badge>}
                     {ps.supplier.thirdPartyTested && <Badge variant="info">Tested</Badge>}
                   </div>

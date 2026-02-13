@@ -12,11 +12,10 @@ export async function GET() {
         slug: true,
         description: true,
         website: true,
-        transparencyScore: true,
         coaAvailable: true,
         thirdPartyTested: true,
       },
-      orderBy: { transparencyScore: 'desc' },
+      orderBy: { name: 'asc' },
     })
 
     return Response.json({ suppliers })

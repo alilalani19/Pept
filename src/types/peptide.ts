@@ -34,7 +34,6 @@ export type PeptideWithRelations = {
       id: string
       name: string
       slug: string
-      transparencyScore: number
       coaAvailable: boolean
       thirdPartyTested: boolean
     }

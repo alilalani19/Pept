@@ -175,7 +175,6 @@ model Supplier {
   coaAvailable      Boolean           @default(false)
   coaUrl            String?
   thirdPartyTested  Boolean           @default(false)
-  transparencyScore Int               @default(0)
   published         Boolean           @default(false)
   peptides          PeptideSupplier[]
   clicks            AffiliateClick[]

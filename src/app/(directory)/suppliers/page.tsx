@@ -7,14 +7,14 @@ import { DisclaimerBanner } from '@/components/compliance/disclaimer-banner'
 
 export const metadata: Metadata = createMetadata({
   title: 'Research Peptide Suppliers — Vetted Directory',
-  description: 'Browse our directory of vetted research peptide suppliers with transparency scores, COA availability, and third-party testing status.',
+  description: 'Browse our directory of vetted research peptide suppliers with COA availability and third-party testing status.',
   path: '/suppliers',
 })
 
 export default async function SuppliersPage() {
   const suppliers = await prisma.supplier.findMany({
     where: { published: true },
-    orderBy: { transparencyScore: 'desc' },
+    orderBy: { name: 'asc' },
   })
 
   return (
@@ -22,7 +22,7 @@ export default async function SuppliersPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Research Peptide Suppliers</h1>
         <p className="mt-2 text-slate-600 dark:text-slate-400">
-          Vetted suppliers ranked by transparency, testing, and documentation standards.
+          Vetted suppliers with testing and documentation standards.
         </p>
       </div>
 
@@ -33,7 +33,7 @@ export default async function SuppliersPage() {
           <strong>Affiliate Disclosure:</strong> Some links on this page are affiliate links.
           We may earn a commission if you make a purchase through these links, at no additional
           cost to you. This helps support the platform. Supplier inclusion and ranking are based
-          on transparency criteria, not affiliate relationships.
+          on objective criteria, not affiliate relationships.
         </p>
       </div>
 

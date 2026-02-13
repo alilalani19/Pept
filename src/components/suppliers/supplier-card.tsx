@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils'
 import { truncate } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TransparencyScore } from '@/components/suppliers/transparency-score'
 import { CoaBadge } from '@/components/suppliers/coa-badge'
 
 interface Supplier {
@@ -13,7 +12,6 @@ interface Supplier {
   slug: string
   description: string | null
   website: string | null
-  transparencyScore: number
   coaAvailable: boolean
   thirdPartyTested: boolean
 }
@@ -40,7 +38,6 @@ export function SupplierCard({ supplier }: SupplierCardProps) {
               {supplier.name}
             </Link>
           </CardTitle>
-          <TransparencyScore score={supplier.transparencyScore} />
         </div>
         <CardDescription>
           {supplier.description ? truncate(supplier.description, 120) : ''}

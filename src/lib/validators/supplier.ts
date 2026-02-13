@@ -10,7 +10,6 @@ export const supplierCreateSchema = z.object({
   coaAvailable: z.boolean().default(false),
   coaUrl: z.string().url().nullable().default(null),
   thirdPartyTested: z.boolean().default(false),
-  transparencyScore: z.number().int().min(0).max(100).default(0),
   published: z.boolean().default(false),
 })
 

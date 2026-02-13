@@ -87,7 +87,7 @@ export default async function HomePage() {
               </div>
               <h3 className="text-sm font-medium text-slate-900 dark:text-white">Vetted Suppliers</h3>
               <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
-                Transparency-scored directory with testing verification.
+                Vetted directory with testing verification.
               </p>
             </div>
           </div>

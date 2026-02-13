@@ -8,7 +8,7 @@ export async function injectPeptideContext(slug: string): Promise<string | null>
       suppliers: {
         include: {
           supplier: {
-            select: { name: true, slug: true, website: true, transparencyScore: true },
+            select: { name: true, slug: true, website: true },
           },
         },
       },
@@ -25,7 +25,7 @@ export async function injectPeptideContext(slug: string): Promise<string | null>
     .map((ps) => {
       const s = ps.supplier
       const website = s.website ? ` | Website: ${s.website}` : ''
-      return `  - ${s.name} (Transparency: ${s.transparencyScore}/100${website}) — View on Pept: /suppliers/${s.slug}`
+      return `  - ${s.name}${website} — View on Pept: /suppliers/${s.slug}`
     })
     .join('\n')
 
@@ -47,8 +47,8 @@ Disclaimer: This information is for educational purposes only. It is not medical
 export async function getSupplierList(): Promise<string> {
   const suppliers = await prisma.supplier.findMany({
     where: { published: true },
-    select: { name: true, slug: true, website: true, transparencyScore: true },
-    orderBy: { transparencyScore: 'desc' },
+    select: { name: true, slug: true, website: true },
+    orderBy: { name: 'asc' },
   })
 
   if (suppliers.length === 0) return ''
@@ -56,7 +56,7 @@ export async function getSupplierList(): Promise<string> {
   return suppliers
     .map((s) => {
       const website = s.website ? ` | Website: ${s.website}` : ''
-      return `- ${s.name} (Transparency: ${s.transparencyScore}/100${website}) — View on Pept: /suppliers/${s.slug}`
+      return `- ${s.name}${website} — View on Pept: /suppliers/${s.slug}`
     })
     .join('\n')
 }

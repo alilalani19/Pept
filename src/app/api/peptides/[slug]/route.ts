@@ -22,7 +22,6 @@ export async function GET(
                 id: true,
                 name: true,
                 slug: true,
-                transparencyScore: true,
                 coaAvailable: true,
                 thirdPartyTested: true,
               },

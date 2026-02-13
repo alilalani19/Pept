@@ -9,7 +9,6 @@ export type SupplierWithRelations = {
   coaAvailable: boolean
   coaUrl: string | null
   thirdPartyTested: boolean
-  transparencyScore: number
   published: boolean
   createdAt: Date
   updatedAt: Date
@@ -29,7 +28,6 @@ export type SupplierCard = {
   name: string
   slug: string
   description: string
-  transparencyScore: number
   coaAvailable: boolean
   thirdPartyTested: boolean
 }
