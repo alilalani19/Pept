@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -246,6 +246,47 @@ export default async function AdminUserDetailPage({
               </dd>
             </div>
           </dl>
+        </CardContent>
+      </Card>
+
+      {/* Delete Account */}
+      <Card className="mt-6 border-red-200 dark:border-red-900/50">
+        <CardHeader>
+          <CardTitle className="text-red-600 dark:text-red-400">Danger Zone</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+            Permanently delete this account and all associated data (sessions, favorites, chat history).
+            This also removes them from all email lists. This action cannot be undone.
+          </p>
+          <form
+            action={async () => {
+              'use server'
+              const target = await prisma.user.findUnique({
+                where: { id },
+                select: { email: true },
+              })
+
+              // Remove from newsletter subscribers
+              if (target?.email) {
+                await prisma.newsletterSubscriber.deleteMany({
+                  where: { email: target.email },
+                })
+              }
+
+              // Delete user (cascades accounts, sessions, favorites, chat sessions/messages)
+              await prisma.user.delete({ where: { id } })
+
+              redirect('/admin/users')
+            }}
+          >
+            <button
+              type="submit"
+              className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600 transition-colors"
+            >
+              Delete Account
+            </button>
+          </form>
         </CardContent>
       </Card>
     </div>
