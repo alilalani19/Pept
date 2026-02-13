@@ -68,7 +68,7 @@ export default async function SupplierDetailPage({
             className="mt-3 inline-flex items-center gap-1.5 text-sky-500 hover:text-sky-600 transition-colors"
           >
             <ExternalLink className="h-4 w-4" />
-            {supplier.website.replace(/^https?:\/\//, '')}
+            {new URL(supplier.website).hostname}
           </a>
         )}
       </header>

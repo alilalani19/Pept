@@ -211,7 +211,7 @@ export default async function PeptideProfilePage({
                       rel="noopener noreferrer"
                       className="mt-1 inline-flex items-center gap-1 text-xs text-slate-600 hover:text-sky-500 transition-colors"
                     >
-                      {ps.supplier.website.replace(/^https?:\/\//, '')}
+                      {new URL(ps.supplier.website).hostname}
                     </a>
                   )}
                   <div className="mt-2 flex items-center gap-3 text-sm text-slate-600">

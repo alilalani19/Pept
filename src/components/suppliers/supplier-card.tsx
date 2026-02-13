@@ -59,7 +59,7 @@ export function SupplierCard({ supplier }: SupplierCardProps) {
             className="mt-3 inline-flex items-center gap-1.5 text-sm text-sky-500 hover:text-sky-600 transition-colors"
           >
             <ExternalLink className="h-3.5 w-3.5" />
-            {supplier.website.replace(/^https?:\/\//, '')}
+            {new URL(supplier.website).hostname}
           </a>
         )}
       </CardContent>
