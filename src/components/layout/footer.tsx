@@ -18,10 +18,7 @@ const legalLinks = [
 ]
 
 const resourceLinks = [
-  { href: '/guides', label: 'Research Guides' },
-  { href: '/glossary', label: 'Peptide Glossary' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/assistant', label: 'AI Assistant' },
   { href: 'mailto:support@pept.me', label: 'Contact Us' },
 ]
 

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { prisma } from '@/lib/db'
 import { Badge } from '@/components/ui/badge'
+import { ConfirmDeleteButton } from '@/components/admin/confirm-delete-button'
 
 export default async function AdminEmailDetailPage({
   params,
@@ -29,20 +30,14 @@ export default async function AdminEmailDetailPage({
         >
           &larr; Back to Inbox
         </Link>
-        <form
+        <ConfirmDeleteButton
+          message="Delete this email? This cannot be undone."
           action={async () => {
             'use server'
             await prisma.inboundEmail.delete({ where: { id } })
             redirect('/admin/inbox')
           }}
-        >
-          <button
-            type="submit"
-            className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600 transition-colors"
-          >
-            Delete
-          </button>
-        </form>
+        />
       </div>
 
       <div className="mt-6 rounded-lg border border-slate-300 dark:border-slate-800 overflow-hidden">

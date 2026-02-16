@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { AdminChatSessions } from '@/components/admin/admin-chat-sessions'
+import { ConfirmDeleteButton } from '@/components/admin/confirm-delete-button'
 
 export default async function AdminUserDetailPage({
   params,
@@ -259,7 +260,9 @@ export default async function AdminUserDetailPage({
             Permanently delete this account and all associated data (sessions, favorites, chat history).
             This also removes them from all email lists. This action cannot be undone.
           </p>
-          <form
+          <ConfirmDeleteButton
+            label="Delete Account"
+            message="Permanently delete this account and all their data? This cannot be undone."
             action={async () => {
               'use server'
               const target = await prisma.user.findUnique({
@@ -267,26 +270,16 @@ export default async function AdminUserDetailPage({
                 select: { email: true },
               })
 
-              // Remove from newsletter subscribers
               if (target?.email) {
                 await prisma.newsletterSubscriber.deleteMany({
                   where: { email: target.email },
                 })
               }
 
-              // Delete user (cascades accounts, sessions, favorites, chat sessions/messages)
               await prisma.user.delete({ where: { id } })
-
               redirect('/admin/users')
             }}
-          >
-            <button
-              type="submit"
-              className="rounded-lg bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600 transition-colors"
-            >
-              Delete Account
-            </button>
-          </form>
+          />
         </CardContent>
       </Card>
     </div>

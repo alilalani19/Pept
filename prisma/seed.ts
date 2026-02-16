@@ -1,409 +1,560 @@
+import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL || 'postgresql://alilalani@localhost:5432/pept?schema=public' })
+const adapter = new PrismaPg({
+  connectionString:
+    process.env.DATABASE_URL ||
+    'postgresql://alilalani@localhost:5432/pept?schema=public',
+})
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
-  // Create categories
-  const categories = await Promise.all([
-    prisma.category.upsert({
-      where: { slug: 'growth-factors' },
-      update: {},
-      create: {
-        name: 'Growth Factors',
-        slug: 'growth-factors',
-        description: 'Peptides involved in growth factor signaling and tissue development.',
-        image: null,
-      },
-    }),
-    prisma.category.upsert({
-      where: { slug: 'neuropeptides' },
-      update: {},
-      create: {
-        name: 'Neuropeptides',
-        slug: 'neuropeptides',
-        description: 'Peptides that act as neurotransmitters or neuromodulators in the nervous system.',
-        image: null,
-      },
-    }),
-    prisma.category.upsert({
-      where: { slug: 'antimicrobial' },
-      update: {},
-      create: {
-        name: 'Antimicrobial Peptides',
-        slug: 'antimicrobial',
-        description: 'Peptides with antimicrobial properties studied for potential therapeutic applications.',
-        image: null,
-      },
-    }),
-    prisma.category.upsert({
-      where: { slug: 'metabolic' },
-      update: {},
-      create: {
-        name: 'Metabolic Peptides',
-        slug: 'metabolic',
-        description: 'Peptides involved in metabolic regulation and energy homeostasis.',
-        image: null,
-      },
-    }),
-    prisma.category.upsert({
-      where: { slug: 'tissue-repair' },
-      update: {},
-      create: {
-        name: 'Tissue Repair',
-        slug: 'tissue-repair',
-        description: 'Peptides studied for their roles in wound healing and tissue regeneration.',
-        image: null,
-      },
-    }),
-    prisma.category.upsert({
-      where: { slug: 'immune-modulation' },
-      update: {},
-      create: {
-        name: 'Immune Modulation',
-        slug: 'immune-modulation',
-        description: 'Peptides that modulate immune system function and inflammatory responses.',
-        image: null,
-      },
-    }),
-  ])
+  console.log('Seeding database...')
 
-  const [growthFactors, neuropeptides, antimicrobial, metabolic, tissueRepair, immuneModulation] = categories
+  // Create categories
+  const categoryData = [
+    {
+      name: 'Tissue Repair',
+      slug: 'tissue-repair',
+      description:
+        'Peptides studied for their roles in wound healing and tissue regeneration.',
+    },
+    {
+      name: 'Antimicrobial Peptides',
+      slug: 'antimicrobial',
+      description:
+        'Peptides with antimicrobial properties studied for potential therapeutic applications.',
+    },
+    {
+      name: 'Growth Factors',
+      slug: 'growth-factors',
+      description:
+        'Peptides involved in growth factor signaling and tissue development.',
+    },
+    {
+      name: 'Neuropeptides',
+      slug: 'neuropeptides',
+      description:
+        'Peptides that act as neurotransmitters or neuromodulators in the nervous system.',
+    },
+    {
+      name: 'Immune Modulation',
+      slug: 'immune-modulation',
+      description:
+        'Peptides that modulate immune system function and inflammatory responses.',
+    },
+    {
+      name: 'Metabolic Peptides',
+      slug: 'metabolic',
+      description:
+        'Peptides involved in metabolic regulation and energy homeostasis.',
+    },
+  ]
+
+  const categoryMap = new Map<string, string>()
+  for (const cat of categoryData) {
+    const result = await prisma.category.upsert({
+      where: { slug: cat.slug },
+      update: { name: cat.name, description: cat.description },
+      create: cat,
+    })
+    categoryMap.set(cat.slug, result.id)
+  }
+  console.log(`Seeded ${categoryData.length} categories`)
+
+  // Create supplier
+  const sup = await prisma.supplier.upsert({
+    where: { slug: 'ascension-peptides' },
+    update: {
+      name: 'Ascension Peptides',
+      description:
+        'Premium research peptides with rigorous quality testing and verification.',
+      website: 'https://ascensionpeptides.com/ref/Pept/?campaign=Pept1',
+      affiliateBaseUrl:
+        'https://ascensionpeptides.com/ref/Pept/?campaign=Pept1',
+      coaAvailable: true,
+      thirdPartyTested: true,
+      published: true,
+    },
+    create: {
+      name: 'Ascension Peptides',
+      slug: 'ascension-peptides',
+      description:
+        'Premium research peptides with rigorous quality testing and verification.',
+      website: 'https://ascensionpeptides.com/ref/Pept/?campaign=Pept1',
+      affiliateBaseUrl:
+        'https://ascensionpeptides.com/ref/Pept/?campaign=Pept1',
+      coaAvailable: true,
+      thirdPartyTested: true,
+      published: true,
+    },
+  })
+  console.log(`Seeded supplier: ${sup.name}`)
 
   // Create peptides
-  const peptides = [
+  const peptides: {
+    categories: string[]
+    name: string
+    slug: string
+    aliases: string[]
+    summary: string
+    description: string
+    sequence: string | null
+    molecularWeight: number | null
+    mechanismOfAction: string
+    biologicalPathways: string[]
+    researchFindings: string
+    evidenceLevel: string
+    risks: string
+    legalStatus: string
+    legalStatusBadge: string
+    disclaimer: string
+    published: boolean
+    metaTitle: string | null
+    metaDescription: string
+  }[] = [
     {
       name: 'BPC-157',
       slug: 'bpc-157',
       aliases: ['Body Protection Compound-157', 'Bepecin'],
-      summary: 'A pentadecapeptide derived from human gastric juice, studied for its potential role in tissue repair and gastrointestinal protection.',
-      description: 'BPC-157 (Body Protection Compound-157) is a synthetic pentadecapeptide consisting of 15 amino acids. It is derived from a protein found in human gastric juice. Research has primarily focused on its effects in animal models, examining its potential roles in wound healing, gastrointestinal tract protection, and tissue repair mechanisms.\n\nThe peptide has been the subject of numerous preclinical studies investigating its interaction with various biological pathways including the nitric oxide system, growth factor expression, and angiogenesis. While animal study results have shown promise in several areas, human clinical data remains extremely limited.',
-      sequence: 'Gly-Glu-Pro-Pro-Pro-Gly-Lys-Pro-Ala-Asp-Asp-Ala-Gly-Leu-Val',
+      summary:
+        'A pentadecapeptide derived from human gastric juice, studied for its potential role in tissue repair and gastrointestinal protection.',
+      description:
+        'BPC-157 (Body Protection Compound-157) is a synthetic pentadecapeptide consisting of 15 amino acids. It is derived from a protein found in human gastric juice. Research has primarily focused on its effects in animal models, examining its potential roles in wound healing, gastrointestinal tract protection, and tissue repair mechanisms.\n\nThe peptide has been the subject of numerous preclinical studies investigating its interaction with various biological pathways including the nitric oxide system, growth factor expression, and angiogenesis. While animal study results have shown promise in several areas, human clinical data remains extremely limited.',
+      sequence:
+        'Gly-Glu-Pro-Pro-Pro-Gly-Lys-Pro-Ala-Asp-Asp-Ala-Gly-Leu-Val',
       molecularWeight: 1419.53,
-      mechanismOfAction: 'BPC-157 is hypothesized to interact with the nitric oxide (NO) system and may influence several growth factor pathways. In vitro and animal studies suggest it may promote angiogenesis (formation of new blood vessels) and upregulate growth hormone receptor expression. It appears to interact with the dopamine system, GABAergic system, and opioid systems in animal models. The exact molecular mechanisms remain under active investigation.',
-      biologicalPathways: ['Nitric Oxide System', 'Growth Factor Signaling', 'Angiogenesis', 'Dopaminergic System'],
-      researchFindings: 'Animal studies have reported effects including acceleration of wound healing in various tissue types (tendon, muscle, bone, skin), gastroprotective effects against various ulcer models, potential neuroprotective properties, and interactions with the cardiovascular system. A limited number of small-scale human studies have examined its use in inflammatory bowel disease. No large-scale randomized controlled trials have been completed to date.',
+      mechanismOfAction:
+        'BPC-157 is hypothesized to interact with the nitric oxide (NO) system and may influence several growth factor pathways. In vitro and animal studies suggest it may promote angiogenesis (formation of new blood vessels) and upregulate growth hormone receptor expression. It appears to interact with the dopamine system, GABAergic system, and opioid systems in animal models. The exact molecular mechanisms remain under active investigation.',
+      biologicalPathways: [
+        'Nitric Oxide System',
+        'Growth Factor Signaling',
+        'Angiogenesis',
+        'Dopaminergic System',
+      ],
+      researchFindings:
+        'Animal studies have reported effects including acceleration of wound healing in various tissue types (tendon, muscle, bone, skin), gastroprotective effects against various ulcer models, potential neuroprotective properties, and interactions with the cardiovascular system. A limited number of small-scale human studies have examined its use in inflammatory bowel disease. No large-scale randomized controlled trials have been completed to date.',
       evidenceLevel: 'ANIMAL',
       risks: 'As a research peptide without full clinical trials, the long-term safety profile in humans is not established. Potential risks include unknown drug interactions, effects on tumor growth pathways (due to angiogenic properties), and lack of standardized dosing data. Quality control of research-grade peptides varies significantly between sources.',
-      legalStatus: 'BPC-157 is not approved by the FDA for any medical use. It is available as a research chemical in many jurisdictions. It is not scheduled as a controlled substance in most countries. WADA has included it on its prohibited list for athletes.',
+      legalStatus:
+        'BPC-157 is not approved by the FDA for any medical use. It is available as a research chemical in many jurisdictions. It is not scheduled as a controlled substance in most countries. WADA has included it on its prohibited list for athletes.',
       legalStatusBadge: 'RESEARCH_ONLY',
-      disclaimer: 'BPC-157 is an investigational peptide that has not been approved for human use by any regulatory agency. The information presented here is derived from preclinical research and does not constitute medical advice.',
+      disclaimer:
+        'BPC-157 is an investigational peptide that has not been approved for human use by any regulatory agency. The information presented here is derived from preclinical research and does not constitute medical advice.',
       published: true,
       metaTitle: 'BPC-157: Research Overview, Evidence & Safety Profile',
-      metaDescription: 'Comprehensive educational overview of BPC-157 peptide research, including mechanism of action, evidence level, safety considerations, and regulatory status.',
-      categoryIds: [tissueRepair.id, growthFactors.id],
+      metaDescription:
+        'Comprehensive educational overview of BPC-157 peptide research, including mechanism of action, evidence level, safety considerations, and regulatory status.',
+      categories: ['tissue-repair', 'growth-factors'],
     },
     {
       name: 'TB-500',
       slug: 'tb-500',
-      aliases: ['Thymosin Beta-4', 'Tβ4'],
-      summary: 'A synthetic version of thymosin beta-4, a naturally occurring peptide involved in cell migration, tissue repair, and inflammation regulation.',
-      description: 'TB-500 is a synthetic peptide based on the active region of thymosin beta-4 (Tβ4), a 43-amino acid protein naturally produced by the thymus gland. Thymosin beta-4 is one of the most abundant intracellular proteins and plays a critical role in actin sequestration, cell motility, and wound healing processes.\n\nResearch has explored its potential in tissue repair, cardiovascular protection, and anti-inflammatory applications, primarily in animal models and cell culture studies.',
+      aliases: ['Thymosin Beta-4', 'T\u03b24'],
+      summary:
+        'A synthetic version of thymosin beta-4, a naturally occurring peptide involved in cell migration, tissue repair, and inflammation regulation.',
+      description:
+        'TB-500 is a synthetic peptide based on the active region of thymosin beta-4 (T\u03b24), a 43-amino acid protein naturally produced by the thymus gland. Thymosin beta-4 is one of the most abundant intracellular proteins and plays a critical role in actin sequestration, cell motility, and wound healing processes.\n\nResearch has explored its potential in tissue repair, cardiovascular protection, and anti-inflammatory applications, primarily in animal models and cell culture studies.',
       sequence: 'LKKTETQ (active fragment)',
-      molecularWeight: 4963.0,
-      mechanismOfAction: 'TB-500 acts primarily through its interaction with actin, a key cytoskeletal protein. By sequestering G-actin monomers, it promotes cell migration and proliferation. It also upregulates expression of actin in cells, facilitating wound healing processes. Research suggests it may reduce inflammation through downregulation of inflammatory cytokines and promote angiogenesis.',
-      biologicalPathways: ['Actin Cytoskeleton', 'Cell Migration', 'Angiogenesis', 'Inflammatory Response'],
-      researchFindings: 'Animal studies have demonstrated potential benefits in cardiac repair after myocardial infarction, corneal wound healing, dermal wound repair, and reduction of inflammatory markers. Equine studies have shown some promise in tendon and ligament repair. Human clinical data is very limited, with a few early-phase trials in cardiac patients.',
+      molecularWeight: 4963,
+      mechanismOfAction:
+        'TB-500 acts primarily through its interaction with actin, a key cytoskeletal protein. By sequestering G-actin monomers, it promotes cell migration and proliferation. It also upregulates expression of actin in cells, facilitating wound healing processes. Research suggests it may reduce inflammation through downregulation of inflammatory cytokines and promote angiogenesis.',
+      biologicalPathways: [
+        'Actin Cytoskeleton',
+        'Cell Migration',
+        'Angiogenesis',
+        'Inflammatory Response',
+      ],
+      researchFindings:
+        'Animal studies have demonstrated potential benefits in cardiac repair after myocardial infarction, corneal wound healing, dermal wound repair, and reduction of inflammatory markers. Equine studies have shown some promise in tendon and ligament repair. Human clinical data is very limited, with a few early-phase trials in cardiac patients.',
       evidenceLevel: 'ANIMAL',
       risks: 'Limited human safety data. Potential concerns include effects on tumor growth due to pro-angiogenic and cell-proliferative properties. Quality and purity of research-grade products varies. Not recommended for individuals with active cancers or those at high risk.',
-      legalStatus: 'TB-500 is not approved for human use by the FDA. It is available as a research peptide. Thymosin beta-4 has been studied in some clinical trials. Listed on WADA prohibited list.',
+      legalStatus:
+        'TB-500 is not approved for human use by the FDA. It is available as a research peptide. Thymosin beta-4 has been studied in some clinical trials. Listed on WADA prohibited list.',
       legalStatusBadge: 'RESEARCH_ONLY',
-      disclaimer: 'TB-500 is a research peptide not approved for human therapeutic use. All information is for educational purposes only.',
+      disclaimer:
+        'TB-500 is a research peptide not approved for human therapeutic use. All information is for educational purposes only.',
       published: true,
       metaTitle: 'TB-500 (Thymosin Beta-4): Research, Evidence & Safety',
-      metaDescription: 'Educational overview of TB-500 peptide research, its relationship to thymosin beta-4, mechanism of action, and current evidence base.',
-      categoryIds: [tissueRepair.id, immuneModulation.id],
+      metaDescription:
+        'Educational overview of TB-500 peptide research, its relationship to thymosin beta-4, mechanism of action, and current evidence base.',
+      categories: ['tissue-repair', 'immune-modulation'],
     },
     {
       name: 'GHK-Cu',
       slug: 'ghk-cu',
-      aliases: ['Copper Peptide GHK', 'Glycyl-L-histidyl-L-lysine:copper(II)'],
-      summary: 'A naturally occurring copper-binding tripeptide studied for skin remodeling, wound healing, and anti-inflammatory properties.',
-      description: 'GHK-Cu is a naturally occurring tripeptide (glycyl-L-histidyl-L-lysine) with a high affinity for copper(II) ions. First identified in human plasma, its concentration decreases significantly with age. It has been extensively studied for its roles in skin biology, wound healing, and tissue remodeling.\n\nUnlike many research peptides, GHK-Cu has a more established history of use in cosmetic and dermatological products, giving it a somewhat broader data base of human exposure data, though primarily in topical applications.',
+      aliases: [
+        'Copper Peptide GHK',
+        'Glycyl-L-histidyl-L-lysine:copper(II)',
+      ],
+      summary:
+        'A naturally occurring copper-binding tripeptide studied for skin remodeling, wound healing, and anti-inflammatory properties.',
+      description:
+        'GHK-Cu is a naturally occurring tripeptide (glycyl-L-histidyl-L-lysine) with a high affinity for copper(II) ions. First identified in human plasma, its concentration decreases significantly with age. It has been extensively studied for its roles in skin biology, wound healing, and tissue remodeling.\n\nUnlike many research peptides, GHK-Cu has a more established history of use in cosmetic and dermatological products, giving it a somewhat broader data base of human exposure data, though primarily in topical applications.',
       sequence: 'Gly-His-Lys',
       molecularWeight: 403.88,
-      mechanismOfAction: 'GHK-Cu acts through multiple mechanisms. It stimulates collagen and glycosaminoglycan synthesis in skin fibroblasts. The copper ion facilitates various enzymatic processes. It modulates gene expression, affecting hundreds of genes related to tissue repair, anti-inflammation, and antioxidant defense. It also promotes angiogenesis and nerve outgrowth in preclinical models.',
-      biologicalPathways: ['Collagen Synthesis', 'Copper Transport', 'Gene Expression Modulation', 'Antioxidant Defense'],
-      researchFindings: 'Topical GHK-Cu has been studied in several small human trials for skin rejuvenation and wound healing, showing improvements in skin elasticity, thickness, and wound closure rates. In vitro studies show stimulation of collagen production. Animal studies suggest anti-inflammatory and antioxidant properties. Gene expression studies show broad modulatory effects on tissue repair pathways.',
+      mechanismOfAction:
+        'GHK-Cu acts through multiple mechanisms. It stimulates collagen and glycosaminoglycan synthesis in skin fibroblasts. The copper ion facilitates various enzymatic processes. It modulates gene expression, affecting hundreds of genes related to tissue repair, anti-inflammation, and antioxidant defense. It also promotes angiogenesis and nerve outgrowth in preclinical models.',
+      biologicalPathways: [
+        'Collagen Synthesis',
+        'Copper Transport',
+        'Gene Expression Modulation',
+        'Antioxidant Defense',
+      ],
+      researchFindings:
+        'Topical GHK-Cu has been studied in several small human trials for skin rejuvenation and wound healing, showing improvements in skin elasticity, thickness, and wound closure rates. In vitro studies show stimulation of collagen production. Animal studies suggest anti-inflammatory and antioxidant properties. Gene expression studies show broad modulatory effects on tissue repair pathways.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'Generally considered safe in topical formulations. Systemic administration has much less safety data. Potential concerns include copper toxicity at high doses, interactions with copper metabolism disorders (Wilson disease). Topical side effects may include skin irritation in sensitive individuals.',
-      legalStatus: 'GHK-Cu is available in cosmetic products and as a research peptide. It is not classified as a drug by most regulatory agencies when used in cosmetics. Not specifically regulated as a controlled substance.',
+      legalStatus:
+        'GHK-Cu is available in cosmetic products and as a research peptide. It is not classified as a drug by most regulatory agencies when used in cosmetics. Not specifically regulated as a controlled substance.',
       legalStatusBadge: 'UNREGULATED',
-      disclaimer: 'While GHK-Cu has cosmetic applications, systemic use is investigational. This information is educational and does not constitute medical advice.',
+      disclaimer:
+        'While GHK-Cu has cosmetic applications, systemic use is investigational. This information is educational and does not constitute medical advice.',
       published: true,
-      metaTitle: 'GHK-Cu (Copper Peptide): Research, Skin Benefits & Safety',
-      metaDescription: 'Learn about GHK-Cu copper peptide research, including its role in skin health, wound healing, evidence base, and safety profile.',
-      categoryIds: [tissueRepair.id, growthFactors.id],
+      metaTitle:
+        'GHK-Cu (Copper Peptide): Research, Skin Benefits & Safety',
+      metaDescription:
+        'Learn about GHK-Cu copper peptide research, including its role in skin health, wound healing, evidence base, and safety profile.',
+      categories: ['tissue-repair', 'growth-factors'],
     },
     {
       name: 'Semaglutide',
       slug: 'semaglutide',
       aliases: ['Ozempic', 'Wegovy', 'Rybelsus'],
-      summary: 'A GLP-1 receptor agonist peptide approved for type 2 diabetes and chronic weight management, representing one of the most extensively studied peptide therapeutics.',
-      description: 'Semaglutide is a glucagon-like peptide-1 (GLP-1) receptor agonist that mimics the effects of the natural incretin hormone GLP-1. It was developed by Novo Nordisk and has received regulatory approval in multiple countries for the treatment of type 2 diabetes mellitus and chronic weight management.\n\nAs an FDA-approved pharmaceutical, semaglutide has undergone extensive clinical testing through multiple large-scale randomized controlled trials, giving it one of the strongest evidence bases of any peptide therapeutic.',
+      summary:
+        'A GLP-1 receptor agonist peptide approved for type 2 diabetes and chronic weight management, representing one of the most extensively studied peptide therapeutics.',
+      description:
+        'Semaglutide is a glucagon-like peptide-1 (GLP-1) receptor agonist that mimics the effects of the natural incretin hormone GLP-1. It was developed by Novo Nordisk and has received regulatory approval in multiple countries for the treatment of type 2 diabetes mellitus and chronic weight management.\n\nAs an FDA-approved pharmaceutical, semaglutide has undergone extensive clinical testing through multiple large-scale randomized controlled trials, giving it one of the strongest evidence bases of any peptide therapeutic.',
       sequence: null,
       molecularWeight: 4113.58,
-      mechanismOfAction: 'Semaglutide binds to and activates the GLP-1 receptor, enhancing glucose-dependent insulin secretion, suppressing glucagon secretion, slowing gastric emptying, and reducing appetite through central nervous system mechanisms. It has 94% structural similarity to native GLP-1 but includes modifications for extended half-life.',
-      biologicalPathways: ['GLP-1 Receptor Signaling', 'Insulin Secretion', 'Appetite Regulation', 'Gastric Motility'],
-      researchFindings: 'Multiple large-scale RCTs (SUSTAIN, PIONEER, STEP programs) have demonstrated significant reductions in HbA1c in type 2 diabetes and substantial weight loss in obesity. The SELECT trial showed cardiovascular benefit in overweight/obese adults with cardiovascular disease. Ongoing research explores applications in NASH, Alzheimer disease, and addiction.',
+      mechanismOfAction:
+        'Semaglutide binds to and activates the GLP-1 receptor, enhancing glucose-dependent insulin secretion, suppressing glucagon secretion, slowing gastric emptying, and reducing appetite through central nervous system mechanisms. It has 94% structural similarity to native GLP-1 but includes modifications for extended half-life.',
+      biologicalPathways: [
+        'GLP-1 Receptor Signaling',
+        'Insulin Secretion',
+        'Appetite Regulation',
+        'Gastric Motility',
+      ],
+      researchFindings:
+        'Multiple large-scale RCTs (SUSTAIN, PIONEER, STEP programs) have demonstrated significant reductions in HbA1c in type 2 diabetes and substantial weight loss in obesity. The SELECT trial showed cardiovascular benefit in overweight/obese adults with cardiovascular disease. Ongoing research explores applications in NASH, Alzheimer disease, and addiction.',
       evidenceLevel: 'CLINICAL',
       risks: 'Common side effects include nausea, vomiting, diarrhea, and constipation. Serious risks include pancreatitis, gallbladder disease, thyroid C-cell tumors (observed in rodents), and hypoglycemia when combined with other diabetes medications. Contraindicated in patients with personal/family history of medullary thyroid carcinoma or MEN2.',
-      legalStatus: 'Semaglutide is an FDA-approved prescription medication. It is available only by prescription under brand names Ozempic (diabetes), Wegovy (obesity), and Rybelsus (oral, diabetes). It is a regulated pharmaceutical product.',
+      legalStatus:
+        'Semaglutide is an FDA-approved prescription medication. It is available only by prescription under brand names Ozempic (diabetes), Wegovy (obesity), and Rybelsus (oral, diabetes). It is a regulated pharmaceutical product.',
       legalStatusBadge: 'PRESCRIPTION',
-      disclaimer: 'Semaglutide is a prescription medication. This information is educational only. Do not use without proper medical supervision and prescription.',
+      disclaimer:
+        'Semaglutide is a prescription medication. This information is educational only. Do not use without proper medical supervision and prescription.',
       published: true,
-      metaTitle: 'Semaglutide: Clinical Evidence, Mechanism & Safety Profile',
-      metaDescription: 'Educational overview of semaglutide, the GLP-1 receptor agonist peptide approved for diabetes and obesity, including clinical trial evidence and safety data.',
-      categoryIds: [metabolic.id],
+      metaTitle:
+        'Semaglutide: Clinical Evidence, Mechanism & Safety Profile',
+      metaDescription:
+        'Educational overview of semaglutide, the GLP-1 receptor agonist peptide approved for diabetes and obesity, including clinical trial evidence and safety data.',
+      categories: ['metabolic'],
     },
     {
       name: 'LL-37',
       slug: 'll-37',
       aliases: ['Cathelicidin', 'hCAP-18'],
-      summary: 'A human antimicrobial peptide of the cathelicidin family, studied for its broad-spectrum antimicrobial and immunomodulatory properties.',
-      description: 'LL-37 is the only cathelicidin-derived antimicrobial peptide found in humans. It is a 37-amino acid peptide cleaved from the C-terminus of the human cathelicidin antimicrobial protein hCAP-18. It is expressed by various cell types including neutrophils, epithelial cells, and macrophages.\n\nResearch interest in LL-37 spans antimicrobial applications, wound healing, immune modulation, and potential anti-cancer properties.',
+      summary:
+        'A human antimicrobial peptide of the cathelicidin family, studied for its broad-spectrum antimicrobial and immunomodulatory properties.',
+      description:
+        'LL-37 is the only cathelicidin-derived antimicrobial peptide found in humans. It is a 37-amino acid peptide cleaved from the C-terminus of the human cathelicidin antimicrobial protein hCAP-18. It is expressed by various cell types including neutrophils, epithelial cells, and macrophages.\n\nResearch interest in LL-37 spans antimicrobial applications, wound healing, immune modulation, and potential anti-cancer properties.',
       sequence: 'LLGDFFRKSKEKIGKEFKRIVQRIKDFLRNLVPRTES',
       molecularWeight: 4493.37,
-      mechanismOfAction: 'LL-37 disrupts microbial membranes through electrostatic interactions with negatively charged phospholipids. Beyond direct antimicrobial action, it acts as an immune modulator by binding to formyl peptide receptor-like 1 (FPRL1), promoting angiogenesis, and modulating inflammatory cytokine production. It also has chemotactic properties for various immune cells.',
-      biologicalPathways: ['Innate Immunity', 'Membrane Disruption', 'Chemotaxis', 'Angiogenesis'],
-      researchFindings: 'In vitro studies demonstrate broad-spectrum activity against bacteria, fungi, and enveloped viruses. Animal models show efficacy in wound healing and infection control. Early-phase human trials have explored topical applications for chronic wounds and venous leg ulcers. Some studies suggest anti-biofilm properties. Cancer research shows both pro- and anti-tumor effects depending on context.',
+      mechanismOfAction:
+        'LL-37 disrupts microbial membranes through electrostatic interactions with negatively charged phospholipids. Beyond direct antimicrobial action, it acts as an immune modulator by binding to formyl peptide receptor-like 1 (FPRL1), promoting angiogenesis, and modulating inflammatory cytokine production. It also has chemotactic properties for various immune cells.',
+      biologicalPathways: [
+        'Innate Immunity',
+        'Membrane Disruption',
+        'Chemotaxis',
+        'Angiogenesis',
+      ],
+      researchFindings:
+        'In vitro studies demonstrate broad-spectrum activity against bacteria, fungi, and enveloped viruses. Animal models show efficacy in wound healing and infection control. Early-phase human trials have explored topical applications for chronic wounds and venous leg ulcers. Some studies suggest anti-biofilm properties. Cancer research shows both pro- and anti-tumor effects depending on context.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'At high concentrations, LL-37 can be cytotoxic to host cells. Potential for pro-inflammatory effects in certain contexts. May promote tumor growth in some cancer types. Systemic administration carries risk of hemolysis and toxicity. Stability and delivery remain challenges for therapeutic development.',
-      legalStatus: 'LL-37 is available as a research peptide. It is not approved as a therapeutic by the FDA. Several clinical trials are ongoing or completed for specific applications.',
+      legalStatus:
+        'LL-37 is available as a research peptide. It is not approved as a therapeutic by the FDA. Several clinical trials are ongoing or completed for specific applications.',
       legalStatusBadge: 'RESEARCH_ONLY',
-      disclaimer: 'LL-37 is an investigational peptide. Clinical applications are not yet established. Information is for educational purposes only.',
+      disclaimer:
+        'LL-37 is an investigational peptide. Clinical applications are not yet established. Information is for educational purposes only.',
       published: true,
-      metaTitle: 'LL-37 (Cathelicidin): Antimicrobial Peptide Research & Evidence',
-      metaDescription: 'Learn about LL-37, the human cathelicidin antimicrobial peptide, its mechanism of action, research evidence, and potential therapeutic applications.',
-      categoryIds: [antimicrobial.id, immuneModulation.id],
+      metaTitle:
+        'LL-37 (Cathelicidin): Antimicrobial Peptide Research & Evidence',
+      metaDescription:
+        'Learn about LL-37, the human cathelicidin antimicrobial peptide, its mechanism of action, research evidence, and potential therapeutic applications.',
+      categories: ['antimicrobial', 'immune-modulation'],
     },
     {
       name: 'Selank',
       slug: 'selank',
       aliases: ['TP-7'],
-      summary: 'A synthetic analogue of tuftsin, studied for anxiolytic and nootropic properties, approved in Russia for anxiety and neurasthenia.',
-      description: 'Selank is a synthetic peptide analogue of the naturally occurring immunomodulatory peptide tuftsin (threonyl-lysyl-prolyl-arginine), with an additional Pro-Gly-Pro sequence. Developed at the Institute of Molecular Genetics of the Russian Academy of Sciences, it has been approved in Russia as a treatment for generalized anxiety disorder.\n\nResearch has investigated its anxiolytic, nootropic, and immunomodulatory properties.',
+      summary:
+        'A synthetic analogue of tuftsin, studied for anxiolytic and nootropic properties, approved in Russia for anxiety and neurasthenia.',
+      description:
+        'Selank is a synthetic peptide analogue of the naturally occurring immunomodulatory peptide tuftsin (threonyl-lysyl-prolyl-arginine), with an additional Pro-Gly-Pro sequence. Developed at the Institute of Molecular Genetics of the Russian Academy of Sciences, it has been approved in Russia as a treatment for generalized anxiety disorder.\n\nResearch has investigated its anxiolytic, nootropic, and immunomodulatory properties.',
       sequence: 'Thr-Lys-Pro-Arg-Pro-Gly-Pro',
       molecularWeight: 751.9,
-      mechanismOfAction: 'Selank is believed to influence the expression of brain-derived neurotrophic factor (BDNF) and modulate the balance of monoamine neurotransmitters including serotonin, dopamine, and norepinephrine. It may also affect the enkephalin system and GABA receptor function. Its immunomodulatory effects are thought to relate to its tuftsin-derived structure.',
-      biologicalPathways: ['BDNF Signaling', 'Monoamine Neurotransmission', 'Enkephalin System', 'Immune Modulation'],
-      researchFindings: 'Russian clinical studies have reported anxiolytic effects comparable to benzodiazepines without sedation or dependence. Animal studies suggest cognitive enhancement and neuroprotective properties. Some studies report immunomodulatory effects including modulation of cytokine expression. Western peer-reviewed literature is more limited, and large-scale international RCTs are lacking.',
+      mechanismOfAction:
+        'Selank is believed to influence the expression of brain-derived neurotrophic factor (BDNF) and modulate the balance of monoamine neurotransmitters including serotonin, dopamine, and norepinephrine. It may also affect the enkephalin system and GABA receptor function. Its immunomodulatory effects are thought to relate to its tuftsin-derived structure.',
+      biologicalPathways: [
+        'BDNF Signaling',
+        'Monoamine Neurotransmission',
+        'Enkephalin System',
+        'Immune Modulation',
+      ],
+      researchFindings:
+        'Russian clinical studies have reported anxiolytic effects comparable to benzodiazepines without sedation or dependence. Animal studies suggest cognitive enhancement and neuroprotective properties. Some studies report immunomodulatory effects including modulation of cytokine expression. Western peer-reviewed literature is more limited, and large-scale international RCTs are lacking.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'Generally reported as well-tolerated in Russian clinical literature. However, independent large-scale safety data is limited. Potential risks include unknown long-term effects, interactions with psychoactive medications, and variable quality of non-pharmaceutical-grade products.',
-      legalStatus: 'Approved in Russia for anxiety treatment. Not approved by FDA or EMA. Available as a research peptide in many other jurisdictions. Not specifically scheduled in most Western countries.',
+      legalStatus:
+        'Approved in Russia for anxiety treatment. Not approved by FDA or EMA. Available as a research peptide in many other jurisdictions. Not specifically scheduled in most Western countries.',
       legalStatusBadge: 'REGULATED',
-      disclaimer: 'Selank is approved only in Russia. It is not approved for medical use in the US, EU, or most other jurisdictions. This information is educational only.',
+      disclaimer:
+        'Selank is approved only in Russia. It is not approved for medical use in the US, EU, or most other jurisdictions. This information is educational only.',
       published: true,
-      metaTitle: 'Selank: Anxiolytic Peptide Research, Evidence & Regulatory Status',
-      metaDescription: 'Educational overview of Selank peptide, its anxiolytic and nootropic research, evidence base, and international regulatory status.',
-      categoryIds: [neuropeptides.id, immuneModulation.id],
+      metaTitle:
+        'Selank: Anxiolytic Peptide Research, Evidence & Regulatory Status',
+      metaDescription:
+        'Educational overview of Selank peptide, its anxiolytic and nootropic research, evidence base, and international regulatory status.',
+      categories: ['neuropeptides', 'immune-modulation'],
     },
     {
       name: 'Semax',
       slug: 'semax',
       aliases: ['ACTH(4-7)-PGP'],
-      summary: 'A synthetic peptide derived from ACTH, studied for nootropic and neuroprotective properties, approved in Russia for cognitive disorders.',
-      description: 'Semax is a synthetic peptide analogue of the adrenocorticotropic hormone (ACTH) fragment 4-7, with an added Pro-Gly-Pro C-terminal tripeptide for stability. Like Selank, it was developed in Russia and has been approved there for clinical use.\n\nIt is classified as a nootropic and neuroprotective agent, with research exploring its effects on cognitive function, stroke recovery, and optic nerve disease.',
+      summary:
+        'A synthetic peptide derived from ACTH, studied for nootropic and neuroprotective properties, approved in Russia for cognitive disorders.',
+      description:
+        'Semax is a synthetic peptide analogue of the adrenocorticotropic hormone (ACTH) fragment 4-7, with an added Pro-Gly-Pro C-terminal tripeptide for stability. Like Selank, it was developed in Russia and has been approved there for clinical use.\n\nIt is classified as a nootropic and neuroprotective agent, with research exploring its effects on cognitive function, stroke recovery, and optic nerve disease.',
       sequence: 'Met-Glu-His-Phe-Pro-Gly-Pro',
       molecularWeight: 813.93,
-      mechanismOfAction: 'Semax modulates BDNF and NGF expression, promotes neuronal survival, and affects monoamine neurotransmitter systems. It does not possess the corticotropic effects of full ACTH. It may influence gene expression related to neuroprotection and neuroplasticity. Research suggests effects on the dopaminergic and serotoninergic systems.',
-      biologicalPathways: ['BDNF/NGF Expression', 'Neuroplasticity', 'Monoamine Systems', 'Neuroprotection'],
-      researchFindings: 'Russian clinical studies report benefits in cognitive disorders, stroke recovery, and optic nerve disease. Animal studies demonstrate neuroprotective effects and cognitive enhancement. Some Western studies have confirmed BDNF modulation. However, large-scale international RCTs meeting Western regulatory standards are lacking.',
+      mechanismOfAction:
+        'Semax modulates BDNF and NGF expression, promotes neuronal survival, and affects monoamine neurotransmitter systems. It does not possess the corticotropic effects of full ACTH. It may influence gene expression related to neuroprotection and neuroplasticity. Research suggests effects on the dopaminergic and serotoninergic systems.',
+      biologicalPathways: [
+        'BDNF/NGF Expression',
+        'Neuroplasticity',
+        'Monoamine Systems',
+        'Neuroprotection',
+      ],
+      researchFindings:
+        'Russian clinical studies report benefits in cognitive disorders, stroke recovery, and optic nerve disease. Animal studies demonstrate neuroprotective effects and cognitive enhancement. Some Western studies have confirmed BDNF modulation. However, large-scale international RCTs meeting Western regulatory standards are lacking.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'Reported as generally well-tolerated in Russian literature. Potential risks include headache and irritability at higher doses. Long-term safety data from international studies is limited. May interact with other neuroactive substances.',
-      legalStatus: 'Approved in Russia for several neurological conditions. Not approved by FDA or EMA. Available as a research peptide in many jurisdictions.',
+      legalStatus:
+        'Approved in Russia for several neurological conditions. Not approved by FDA or EMA. Available as a research peptide in many jurisdictions.',
       legalStatusBadge: 'REGULATED',
-      disclaimer: 'Semax is approved only in Russia. It is an investigational compound in most other countries. This information is for educational purposes only.',
+      disclaimer:
+        'Semax is approved only in Russia. It is an investigational compound in most other countries. This information is for educational purposes only.',
       published: true,
       metaTitle: 'Semax: Nootropic Peptide Research, Evidence & Safety',
-      metaDescription: 'Learn about Semax, the ACTH-derived nootropic peptide, its mechanism of action, clinical evidence, and regulatory status worldwide.',
-      categoryIds: [neuropeptides.id],
+      metaDescription:
+        'Learn about Semax, the ACTH-derived nootropic peptide, its mechanism of action, clinical evidence, and regulatory status worldwide.',
+      categories: ['neuropeptides'],
     },
     {
       name: 'Melanotan II',
       slug: 'melanotan-ii',
       aliases: ['MT-2', 'MT-II'],
-      summary: 'A synthetic analogue of alpha-melanocyte-stimulating hormone studied for skin pigmentation, but associated with significant safety concerns.',
-      description: 'Melanotan II is a synthetic cyclic peptide analogue of alpha-melanocyte-stimulating hormone (α-MSH). Originally developed at the University of Arizona, it acts as a non-selective agonist at melanocortin receptors. While initial research focused on tanning and sexual dysfunction, it has not received regulatory approval and is associated with notable safety concerns.\n\nIt remains one of the most commonly encountered research peptides, making accurate safety information particularly important.',
+      summary:
+        'A synthetic analogue of alpha-melanocyte-stimulating hormone studied for skin pigmentation, but associated with significant safety concerns.',
+      description:
+        'Melanotan II is a synthetic cyclic peptide analogue of alpha-melanocyte-stimulating hormone (\u03b1-MSH). Originally developed at the University of Arizona, it acts as a non-selective agonist at melanocortin receptors. While initial research focused on tanning and sexual dysfunction, it has not received regulatory approval and is associated with notable safety concerns.\n\nIt remains one of the most commonly encountered research peptides, making accurate safety information particularly important.',
       sequence: 'Ac-Nle-Asp-His-D-Phe-Arg-Trp-Lys-NH2',
       molecularWeight: 1024.18,
-      mechanismOfAction: 'Melanotan II binds to melanocortin receptors (MC1R through MC5R) with varying affinity. MC1R activation stimulates melanogenesis (skin pigmentation). MC3R and MC4R activation affects appetite and sexual function. Its non-selective receptor binding is responsible for both its varied effects and its side effect profile.',
-      biologicalPathways: ['Melanocortin Receptor Signaling', 'Melanogenesis', 'Appetite Regulation', 'Sexual Function'],
-      researchFindings: 'Clinical studies demonstrated increased skin pigmentation and pro-erectile effects. However, the non-selective receptor binding leads to unpredictable effects. Case reports document nevi changes, potential melanoma concerns, and cardiovascular effects. Several countries have issued specific warnings against its use.',
+      mechanismOfAction:
+        'Melanotan II binds to melanocortin receptors (MC1R through MC5R) with varying affinity. MC1R activation stimulates melanogenesis (skin pigmentation). MC3R and MC4R activation affects appetite and sexual function. Its non-selective receptor binding is responsible for both its varied effects and its side effect profile.',
+      biologicalPathways: [
+        'Melanocortin Receptor Signaling',
+        'Melanogenesis',
+        'Appetite Regulation',
+        'Sexual Function',
+      ],
+      researchFindings:
+        'Clinical studies demonstrated increased skin pigmentation and pro-erectile effects. However, the non-selective receptor binding leads to unpredictable effects. Case reports document nevi changes, potential melanoma concerns, and cardiovascular effects. Several countries have issued specific warnings against its use.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'SIGNIFICANT SAFETY CONCERNS: Changes to existing moles/nevi potentially masking melanoma, nausea and facial flushing, cardiovascular effects, potential carcinogenicity concerns, compulsive re-dosing behavior reported, interactions with melanocortin system affecting appetite and mood. Multiple regulatory agencies have issued warnings.',
-      legalStatus: 'Not approved for human use by any major regulatory agency. Banned for sale in Australia, UK, and several EU countries. Subject to regulatory enforcement actions in multiple jurisdictions. Listed by WADA as prohibited.',
+      legalStatus:
+        'Not approved for human use by any major regulatory agency. Banned for sale in Australia, UK, and several EU countries. Subject to regulatory enforcement actions in multiple jurisdictions. Listed by WADA as prohibited.',
       legalStatusBadge: 'BANNED_SPORT',
-      disclaimer: 'Melanotan II has NOT been approved for human use and carries significant safety risks. Multiple regulatory agencies have issued warnings. This information is provided for educational awareness only.',
+      disclaimer:
+        'Melanotan II has NOT been approved for human use and carries significant safety risks. Multiple regulatory agencies have issued warnings. This information is provided for educational awareness only.',
       published: true,
-      metaTitle: 'Melanotan II: Research Evidence, Safety Concerns & Warnings',
-      metaDescription: 'Important educational information about Melanotan II peptide, including safety concerns, regulatory warnings, and evidence base.',
-      categoryIds: [neuropeptides.id],
+      metaTitle: null,
+      metaDescription:
+        'Important educational information about Melanotan II peptide, including safety concerns, regulatory warnings, and evidence base.',
+      categories: ['neuropeptides'],
     },
     {
       name: 'Ipamorelin',
       slug: 'ipamorelin',
       aliases: ['NNC 26-0161'],
-      summary: 'A selective growth hormone secretagogue peptide studied for its ability to stimulate growth hormone release with fewer side effects than other GH secretagogues.',
-      description: 'Ipamorelin is a synthetic pentapeptide that acts as a selective growth hormone secretagogue receptor (GHSR) agonist. It was developed to stimulate growth hormone release while minimizing effects on cortisol and prolactin, distinguishing it from other GH secretagogues like GHRP-6.\n\nResearch has explored its potential in growth hormone deficiency, bone health, and metabolic applications.',
+      summary:
+        'A selective growth hormone secretagogue peptide studied for its ability to stimulate growth hormone release with fewer side effects than other GH secretagogues.',
+      description:
+        'Ipamorelin is a synthetic pentapeptide that acts as a selective growth hormone secretagogue receptor (GHSR) agonist. It was developed to stimulate growth hormone release while minimizing effects on cortisol and prolactin, distinguishing it from other GH secretagogues like GHRP-6.\n\nResearch has explored its potential in growth hormone deficiency, bone health, and metabolic applications.',
       sequence: 'Aib-His-D-2-Nal-D-Phe-Lys-NH2',
       molecularWeight: 711.85,
-      mechanismOfAction: 'Ipamorelin selectively binds to the ghrelin/growth hormone secretagogue receptor (GHSR) in the pituitary gland, stimulating growth hormone release in a dose-dependent manner. Unlike other GH secretagogues, it does not significantly affect ACTH, cortisol, or prolactin levels, suggesting higher selectivity for GH pathways.',
-      biologicalPathways: ['Growth Hormone Secretion', 'GHSR Signaling', 'IGF-1 Pathway', 'Bone Metabolism'],
-      researchFindings: 'Phase II clinical trials have been conducted for post-surgical ileus recovery. Animal studies demonstrate GH release without cortisol/prolactin elevation. Some studies suggest beneficial effects on bone mineral density. Research on metabolic effects is ongoing. No peptide has been approved as a standalone GH secretagogue for general use.',
+      mechanismOfAction:
+        'Ipamorelin selectively binds to the ghrelin/growth hormone secretagogue receptor (GHSR) in the pituitary gland, stimulating growth hormone release in a dose-dependent manner. Unlike other GH secretagogues, it does not significantly affect ACTH, cortisol, or prolactin levels, suggesting higher selectivity for GH pathways.',
+      biologicalPathways: [
+        'Growth Hormone Secretion',
+        'GHSR Signaling',
+        'IGF-1 Pathway',
+        'Bone Metabolism',
+      ],
+      researchFindings:
+        'Phase II clinical trials have been conducted for post-surgical ileus recovery. Animal studies demonstrate GH release without cortisol/prolactin elevation. Some studies suggest beneficial effects on bone mineral density. Research on metabolic effects is ongoing. No peptide has been approved as a standalone GH secretagogue for general use.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'Potential risks include disruption of natural GH pulsatility, headache, lightheadedness, and water retention. Long-term safety of chronic GH elevation is not established in this context. Concerns about effects on glucose metabolism and insulin sensitivity. Quality of research-grade products varies.',
-      legalStatus: 'Not approved by FDA for any indication. Available as a research peptide. Sometimes prescribed off-label by anti-aging clinics. Listed on WADA prohibited list.',
+      legalStatus:
+        'Not approved by FDA for any indication. Available as a research peptide. Sometimes prescribed off-label by anti-aging clinics. Listed on WADA prohibited list.',
       legalStatusBadge: 'RESEARCH_ONLY',
-      disclaimer: 'Ipamorelin is not approved for human therapeutic use by major regulatory agencies. This information is for educational purposes only.',
+      disclaimer:
+        'Ipamorelin is not approved for human therapeutic use by major regulatory agencies. This information is for educational purposes only.',
       published: true,
-      metaTitle: 'Ipamorelin: Growth Hormone Secretagogue Research & Evidence',
-      metaDescription: 'Educational overview of Ipamorelin, a selective growth hormone secretagogue peptide, including mechanism, clinical evidence, and safety profile.',
-      categoryIds: [growthFactors.id, metabolic.id],
+      metaTitle:
+        'Ipamorelin: Growth Hormone Secretagogue Research & Evidence',
+      metaDescription:
+        'Educational overview of Ipamorelin, a selective growth hormone secretagogue peptide, including mechanism, clinical evidence, and safety profile.',
+      categories: ['growth-factors', 'metabolic'],
     },
     {
       name: 'CJC-1295',
       slug: 'cjc-1295',
       aliases: ['CJC-1295 DAC', 'Modified GRF 1-29'],
-      summary: 'A synthetic analogue of growth hormone-releasing hormone (GHRH) studied for sustained growth hormone elevation.',
-      description: 'CJC-1295 is a synthetic analogue of growth hormone-releasing hormone (GHRH) consisting of 29 amino acids. It exists in two forms: with and without Drug Affinity Complex (DAC). The DAC version binds to albumin, extending its half-life significantly. The non-DAC version (also called Modified GRF 1-29) has a shorter duration of action.\n\nResearch has investigated its ability to increase sustained GH and IGF-1 levels.',
-      sequence: 'Tyr-D-Ala-Asp-Ala-Ile-Phe-Thr-Gln-Ser-Tyr-Arg-Lys-Val-Leu-Ala-Gln-Leu-Ser-Ala-Arg-Lys-Leu-Leu-Gln-Asp-Ile-Leu-Ser-Arg',
+      summary:
+        'A synthetic analogue of growth hormone-releasing hormone (GHRH) studied for sustained growth hormone elevation.',
+      description:
+        'CJC-1295 is a synthetic analogue of growth hormone-releasing hormone (GHRH) consisting of 29 amino acids. It exists in two forms: with and without Drug Affinity Complex (DAC). The DAC version binds to albumin, extending its half-life significantly. The non-DAC version (also called Modified GRF 1-29) has a shorter duration of action.\n\nResearch has investigated its ability to increase sustained GH and IGF-1 levels.',
+      sequence:
+        'Tyr-D-Ala-Asp-Ala-Ile-Phe-Thr-Gln-Ser-Tyr-Arg-Lys-Val-Leu-Ala-Gln-Leu-Ser-Ala-Arg-Lys-Leu-Leu-Gln-Asp-Ile-Leu-Ser-Arg',
       molecularWeight: 3367.97,
-      mechanismOfAction: 'CJC-1295 binds to the GHRH receptor on pituitary somatotroph cells, stimulating growth hormone synthesis and release. The DAC modification allows albumin binding, extending plasma half-life from minutes to days. This results in sustained elevation of GH and IGF-1 levels rather than the pulsatile pattern of natural GH release.',
-      biologicalPathways: ['GHRH Receptor Signaling', 'Growth Hormone Axis', 'IGF-1 Production', 'Somatotroph Function'],
-      researchFindings: 'Phase II clinical trials showed sustained increases in GH and IGF-1 levels. Studies demonstrated increased lean body mass and lipid metabolism changes. However, development for clinical use has stalled. Research continues in combination with GH secretagogues. Concerns remain about non-physiological GH patterns.',
+      mechanismOfAction:
+        'CJC-1295 binds to the GHRH receptor on pituitary somatotroph cells, stimulating growth hormone synthesis and release. The DAC modification allows albumin binding, extending plasma half-life from minutes to days. This results in sustained elevation of GH and IGF-1 levels rather than the pulsatile pattern of natural GH release.',
+      biologicalPathways: [
+        'GHRH Receptor Signaling',
+        'Growth Hormone Axis',
+        'IGF-1 Production',
+        'Somatotroph Function',
+      ],
+      researchFindings:
+        'Phase II clinical trials showed sustained increases in GH and IGF-1 levels. Studies demonstrated increased lean body mass and lipid metabolism changes. However, development for clinical use has stalled. Research continues in combination with GH secretagogues. Concerns remain about non-physiological GH patterns.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'Potential risks include water retention, joint pain, carpal tunnel symptoms, disruption of normal GH pulsatility, potential effects on glucose metabolism, and theoretical cancer risk from chronic IGF-1 elevation. One serious adverse event (death) was reported during clinical trials, though causality was not established.',
-      legalStatus: 'Not approved for human use by any major regulatory agency. Available as a research peptide. Listed on WADA prohibited list. Subject to increasing regulatory scrutiny.',
+      legalStatus:
+        'Not approved for human use by any major regulatory agency. Available as a research peptide. Listed on WADA prohibited list. Subject to increasing regulatory scrutiny.',
       legalStatusBadge: 'RESEARCH_ONLY',
-      disclaimer: 'CJC-1295 is not approved for human use. A serious adverse event occurred during clinical trials. This information is educational only.',
+      disclaimer:
+        'CJC-1295 is not approved for human use. A serious adverse event occurred during clinical trials. This information is educational only.',
       published: true,
-      metaTitle: 'CJC-1295: GHRH Analogue Research, Evidence & Safety Concerns',
-      metaDescription: 'Learn about CJC-1295 peptide research, including its GHRH mechanism, clinical trial data, safety profile, and regulatory status.',
-      categoryIds: [growthFactors.id],
+      metaTitle:
+        'CJC-1295: GHRH Analogue Research, Evidence & Safety Concerns',
+      metaDescription:
+        'Learn about CJC-1295 peptide research, including its GHRH mechanism, clinical trial data, safety profile, and regulatory status.',
+      categories: ['growth-factors'],
     },
     {
       name: 'Thymalin',
       slug: 'thymalin',
       aliases: ['Thymic Factor', 'Thymalin Extract'],
-      summary: 'A thymic peptide extract studied for immune system modulation and anti-aging properties, primarily in Russian clinical research.',
-      description: 'Thymalin is a peptide preparation derived from calf thymus extract, containing a complex of polypeptides with molecular weights up to 10,000 Da. Developed in Russia, it has been used clinically there for immunomodulation since the 1970s.\n\nResearch has focused on its ability to restore immune function, particularly T-cell mediated immunity, and its potential anti-aging properties.',
+      summary:
+        'A thymic peptide extract studied for immune system modulation and anti-aging properties, primarily in Russian clinical research.',
+      description:
+        'Thymalin is a peptide preparation derived from calf thymus extract, containing a complex of polypeptides with molecular weights up to 10,000 Da. Developed in Russia, it has been used clinically there for immunomodulation since the 1970s.\n\nResearch has focused on its ability to restore immune function, particularly T-cell mediated immunity, and its potential anti-aging properties.',
       sequence: null,
       molecularWeight: null,
-      mechanismOfAction: 'Thymalin is thought to restore the functional activity of the thymus gland and normalize the ratio of T-lymphocyte subpopulations. It may stimulate cellular and humoral immunity, enhance phagocytosis, and modulate interferon production. The exact molecular mechanisms are not fully characterized due to its complex composition.',
-      biologicalPathways: ['T-Cell Maturation', 'Thymic Function', 'Cytokine Modulation', 'Humoral Immunity'],
-      researchFindings: 'Russian clinical studies spanning several decades report immunomodulatory benefits in immunodeficient patients, post-surgical recovery, and elderly populations. A notable longitudinal study in elderly patients reported potential mortality reduction. However, these studies generally do not meet current international standards for clinical evidence. Western peer-reviewed literature is limited.',
+      mechanismOfAction:
+        'Thymalin is thought to restore the functional activity of the thymus gland and normalize the ratio of T-lymphocyte subpopulations. It may stimulate cellular and humoral immunity, enhance phagocytosis, and modulate interferon production. The exact molecular mechanisms are not fully characterized due to its complex composition.',
+      biologicalPathways: [
+        'T-Cell Maturation',
+        'Thymic Function',
+        'Cytokine Modulation',
+        'Humoral Immunity',
+      ],
+      researchFindings:
+        'Russian clinical studies spanning several decades report immunomodulatory benefits in immunodeficient patients, post-surgical recovery, and elderly populations. A notable longitudinal study in elderly patients reported potential mortality reduction. However, these studies generally do not meet current international standards for clinical evidence. Western peer-reviewed literature is limited.',
       evidenceLevel: 'LIMITED_HUMAN',
       risks: 'Animal-derived product with potential for allergic reactions. Quality control may vary between preparations. Long-term safety data from rigorous international studies is lacking. Risk of contamination in non-pharmaceutical-grade preparations.',
-      legalStatus: 'Approved in Russia for immunodeficiency treatment. Not approved by FDA or EMA. Available as a research peptide in some jurisdictions.',
+      legalStatus:
+        'Approved in Russia for immunodeficiency treatment. Not approved by FDA or EMA. Available as a research peptide in some jurisdictions.',
       legalStatusBadge: 'REGULATED',
-      disclaimer: 'Thymalin is approved only in Russia. International clinical evidence is limited. This information is for educational purposes only.',
+      disclaimer:
+        'Thymalin is approved only in Russia. International clinical evidence is limited. This information is for educational purposes only.',
       published: true,
       metaTitle: 'Thymalin: Thymic Peptide Immunomodulation Research',
-      metaDescription: 'Educational overview of Thymalin thymic peptide extract, its immunomodulatory research, clinical evidence from Russian studies, and safety considerations.',
-      categoryIds: [immuneModulation.id],
+      metaDescription:
+        'Educational overview of Thymalin thymic peptide extract, its immunomodulatory research, clinical evidence from Russian studies, and safety considerations.',
+      categories: ['immune-modulation'],
     },
     {
       name: 'Epitalon',
       slug: 'epitalon',
       aliases: ['Epithalon', 'Epithalone', 'AEDG Peptide'],
-      summary: 'A synthetic tetrapeptide studied for its potential effects on telomerase activation and melatonin regulation.',
-      description: 'Epitalon (Ala-Glu-Asp-Gly) is a synthetic tetrapeptide based on the natural peptide epithalamin, which is derived from the pineal gland. Developed by Professor Vladimir Khavinson at the St. Petersburg Institute of Bioregulation and Gerontology, it has been studied primarily in Russian research for its potential anti-aging properties.\n\nResearch interest centers on its reported ability to activate telomerase and regulate melatonin production.',
+      summary:
+        'A synthetic tetrapeptide studied for its potential effects on telomerase activation and melatonin regulation.',
+      description:
+        'Epitalon (Ala-Glu-Asp-Gly) is a synthetic tetrapeptide based on the natural peptide epithalamin, which is derived from the pineal gland. Developed by Professor Vladimir Khavinson at the St. Petersburg Institute of Bioregulation and Gerontology, it has been studied primarily in Russian research for its potential anti-aging properties.\n\nResearch interest centers on its reported ability to activate telomerase and regulate melatonin production.',
       sequence: 'Ala-Glu-Asp-Gly',
       molecularWeight: 390.35,
-      mechanismOfAction: 'Epitalon is hypothesized to activate telomerase, the enzyme that maintains telomere length at chromosome ends. It may also stimulate melatonin production from the pineal gland and regulate the neuroendocrine system. Some research suggests it influences gene expression related to aging and antioxidant defense systems.',
-      biologicalPathways: ['Telomerase Activation', 'Melatonin Synthesis', 'Pineal Gland Function', 'Neuroendocrine Regulation'],
-      researchFindings: 'In vitro studies have shown telomerase activation in human somatic cells. Animal studies (primarily in rodents) report increased lifespan, restored melatonin rhythms, and improved immune function. Human studies are limited to small Russian clinical observations reporting improvements in melatonin production and some biomarkers. No large-scale international RCTs exist.',
+      mechanismOfAction:
+        'Epitalon is hypothesized to activate telomerase, the enzyme that maintains telomere length at chromosome ends. It may also stimulate melatonin production from the pineal gland and regulate the neuroendocrine system. Some research suggests it influences gene expression related to aging and antioxidant defense systems.',
+      biologicalPathways: [
+        'Telomerase Activation',
+        'Melatonin Synthesis',
+        'Pineal Gland Function',
+        'Neuroendocrine Regulation',
+      ],
+      researchFindings:
+        'In vitro studies have shown telomerase activation in human somatic cells. Animal studies (primarily in rodents) report increased lifespan, restored melatonin rhythms, and improved immune function. Human studies are limited to small Russian clinical observations reporting improvements in melatonin production and some biomarkers. No large-scale international RCTs exist.',
       evidenceLevel: 'ANIMAL',
       risks: 'Very limited safety data in humans. Telomerase activation raises theoretical concerns about cancer risk, as telomerase is upregulated in many cancers. Quality of research peptide products varies. Long-term effects completely unknown.',
-      legalStatus: 'Not approved for human use by major regulatory agencies. Available as a research peptide. No specific regulatory restrictions in most jurisdictions beyond standard research chemical regulations.',
+      legalStatus:
+        'Not approved for human use by major regulatory agencies. Available as a research peptide. No specific regulatory restrictions in most jurisdictions beyond standard research chemical regulations.',
       legalStatusBadge: 'RESEARCH_ONLY',
-      disclaimer: 'Epitalon is a research peptide with very limited human safety data. Telomerase activation carries theoretical cancer risks. For educational purposes only.',
+      disclaimer:
+        'Epitalon is a research peptide with very limited human safety data. Telomerase activation carries theoretical cancer risks. For educational purposes only.',
       published: true,
-      metaTitle: 'Epitalon: Telomerase Peptide Research & Anti-Aging Evidence',
-      metaDescription: 'Educational overview of Epitalon tetrapeptide, its telomerase activation research, anti-aging claims, evidence limitations, and safety considerations.',
-      categoryIds: [neuropeptides.id, immuneModulation.id],
+      metaTitle:
+        'Epitalon: Telomerase Peptide Research & Anti-Aging Evidence',
+      metaDescription:
+        'Educational overview of Epitalon tetrapeptide, its telomerase activation research, anti-aging claims, evidence limitations, and safety considerations.',
+      categories: ['neuropeptides', 'immune-modulation'],
     },
   ]
 
-  for (const peptideData of peptides) {
-    const { categoryIds, ...data } = peptideData
+  for (const { categories: catSlugs, ...data } of peptides) {
     const peptide = await prisma.peptide.upsert({
       where: { slug: data.slug },
-      update: {},
+      update: data as any,
       create: data as any,
     })
 
-    for (const categoryId of categoryIds) {
+    // Link categories
+    for (const slug of catSlugs) {
+      const categoryId = categoryMap.get(slug)!
       await prisma.peptideCategory.upsert({
         where: {
-          peptideId_categoryId: {
-            peptideId: peptide.id,
-            categoryId,
-          },
+          peptideId_categoryId: { peptideId: peptide.id, categoryId },
         },
         update: {},
-        create: {
-          peptideId: peptide.id,
-          categoryId,
-        },
+        create: { peptideId: peptide.id, categoryId },
       })
     }
-  }
 
-  // Create suppliers
-  const suppliers = [
-    {
-      name: 'PeptideSciences',
-      slug: 'peptide-sciences',
-      description: 'A research peptide supplier offering a range of synthetic peptides for laboratory research. Known for providing certificates of analysis and third-party testing results.',
-      website: 'https://www.peptidesciences.com',
-      affiliateBaseUrl: 'https://www.peptidesciences.com',
-      affiliateCode: 'PEPT',
-      coaAvailable: true,
-      coaUrl: null,
-      thirdPartyTested: true,
-      transparencyScore: 85,
-      published: true,
-    },
-    {
-      name: 'Core Peptides',
-      slug: 'core-peptides',
-      description: 'Research peptide supplier focused on purity and quality documentation. Provides HPLC and mass spectrometry analysis for products.',
-      website: 'https://www.corepeptides.com',
-      affiliateBaseUrl: 'https://www.corepeptides.com',
-      affiliateCode: 'PEPT',
-      coaAvailable: true,
-      coaUrl: null,
-      thirdPartyTested: true,
-      transparencyScore: 80,
-      published: true,
-    },
-    {
-      name: 'Swiss Chems',
-      slug: 'swiss-chems',
-      description: 'Research chemical and peptide supplier offering international shipping. Provides certificates of analysis for most products.',
-      website: 'https://www.swisschems.is',
-      affiliateBaseUrl: 'https://www.swisschems.is',
-      affiliateCode: 'PEPT',
-      coaAvailable: true,
-      coaUrl: null,
-      thirdPartyTested: false,
-      transparencyScore: 60,
-      published: true,
-    },
-  ]
-
-  for (const supplier of suppliers) {
-    await prisma.supplier.upsert({
-      where: { slug: supplier.slug },
+    // Link supplier
+    await prisma.peptideSupplier.upsert({
+      where: {
+        peptideId_supplierId: { peptideId: peptide.id, supplierId: sup.id },
+      },
       update: {},
-      create: supplier,
+      create: { peptideId: peptide.id, supplierId: sup.id },
     })
   }
+  console.log(`Seeded ${peptides.length} peptides with relationships`)
 
-  console.log('Seed data created successfully!')
+  console.log('Seed complete!')
 }
 
 main()
@@ -411,6 +562,4 @@ main()
     console.error(e)
     process.exit(1)
   })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+  .finally(() => prisma.$disconnect())
