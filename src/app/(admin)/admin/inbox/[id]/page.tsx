@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
+import DOMPurify from 'isomorphic-dompurify'
 import { prisma } from '@/lib/db'
+import { auth } from '@/lib/auth'
 import { Badge } from '@/components/ui/badge'
 import { ConfirmDeleteButton } from '@/components/admin/confirm-delete-button'
 
@@ -21,6 +23,10 @@ export default async function AdminEmailDetailPage({
     })
   }
 
+  const sanitizedHtml = email.html
+    ? DOMPurify.sanitize(email.html, { USE_PROFILES: { html: true } })
+    : null
+
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -34,6 +40,10 @@ export default async function AdminEmailDetailPage({
           message="Delete this email? This cannot be undone."
           action={async () => {
             'use server'
+            const session = await auth()
+            if (!session?.user || session.user.role !== 'ADMIN') {
+              throw new Error('Unauthorized')
+            }
             await prisma.inboundEmail.delete({ where: { id } })
             redirect('/admin/inbox')
           }}
@@ -58,10 +68,10 @@ export default async function AdminEmailDetailPage({
         </div>
 
         <div className="px-6 py-6">
-          {email.html ? (
+          {sanitizedHtml ? (
             <div
               className="prose dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: email.html }}
+              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
             />
           ) : email.text ? (
             <pre className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300">

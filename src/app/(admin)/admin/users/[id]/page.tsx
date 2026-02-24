@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
+import { auth } from '@/lib/auth'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { AdminChatSessions } from '@/components/admin/admin-chat-sessions'
@@ -265,6 +266,10 @@ export default async function AdminUserDetailPage({
             message="Permanently delete this account and all their data? This cannot be undone."
             action={async () => {
               'use server'
+              const session = await auth()
+              if (!session?.user || session.user.role !== 'ADMIN') {
+                throw new Error('Unauthorized')
+              }
               const target = await prisma.user.findUnique({
                 where: { id },
                 select: { email: true },
