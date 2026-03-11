@@ -56,7 +56,7 @@ export default async function SupplierDetailPage({
       <InlineDisclaimer />
 
       <header className="mt-6">
-        <h1 className="text-4xl font-bold tracking-tight">{supplier.name}</h1>
+        <h1 className="animate-element animate-delay-100 text-4xl font-bold tracking-tight text-slate-900 dark:text-white">{supplier.name}</h1>
         <p className="mt-4 text-lg text-slate-700 dark:text-slate-300">
           {supplier.description}
         </p>

@@ -107,7 +107,7 @@ export function Navbar({ user }: NavbarProps) {
                       className="fixed inset-0 z-40"
                       onClick={() => setUserMenuOpen(false)}
                     />
-                    <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-slate-300 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                    <div className="absolute right-0 z-50 mt-2 w-56 rounded-xl border border-slate-300 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
                       <div className="border-b border-slate-300 px-4 py-3 dark:border-slate-700">
                         <p className="text-sm font-medium text-slate-900 dark:text-white">
                           {user.name || 'User'}

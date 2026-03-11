@@ -73,8 +73,8 @@ export default async function PeptidesPage({
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Peptide Directory</h1>
-        <p className="mt-2 text-slate-600 dark:text-slate-400">
+        <h1 className="animate-element animate-delay-100 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Peptide Directory</h1>
+        <p className="animate-element animate-delay-200 mt-2 text-slate-600 dark:text-slate-400">
           Explore evidence-based peptide profiles for educational and research purposes.
         </p>
       </div>

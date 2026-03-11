@@ -89,14 +89,14 @@ export default async function PeptideProfilePage({
 
         {/* Header */}
         <header className="mt-6">
-          <div className="flex flex-wrap gap-2 mb-3">
+          <div className="animate-element animate-delay-100 flex flex-wrap gap-2 mb-3">
             {peptide.categories.map((pc) => (
               <Link key={pc.category.slug} href={`/categories/${pc.category.slug}`}>
                 <Badge variant="secondary">{pc.category.name}</Badge>
               </Link>
             ))}
           </div>
-          <h1 className="text-4xl font-bold tracking-tight">{peptide.name}</h1>
+          <h1 className="animate-element animate-delay-200 text-4xl font-bold tracking-tight text-slate-900 dark:text-white">{peptide.name}</h1>
           {peptide.aliases.length > 0 && (
             <p className="mt-2 text-slate-600 dark:text-slate-400">
               Also known as: {peptide.aliases.join(', ')}

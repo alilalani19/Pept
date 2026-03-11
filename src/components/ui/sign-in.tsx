@@ -1,9 +1,9 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+
+// --- HELPER COMPONENTS (ICONS) ---
 
 const GoogleIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 48 48">
@@ -20,76 +20,54 @@ const GitHubIcon = () => (
   </svg>
 )
 
-export default function SignUpPage() {
-  const router = useRouter()
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+// --- TYPE DEFINITIONS ---
+
+interface SignInPageProps {
+  title?: React.ReactNode
+  description?: React.ReactNode
+  heroImageSrc?: string
+  error?: string | null
+  onSignIn?: (event: React.FormEvent<HTMLFormElement>) => void
+  onGoogleSignIn?: () => void
+  onGitHubSignIn?: () => void
+  onCreateAccount?: () => void
+  loading?: boolean
+}
+
+// --- MAIN COMPONENT ---
+
+export const SignInPage: React.FC<SignInPageProps> = ({
+  title = <span className="font-light tracking-tighter">Welcome</span>,
+  description = 'Sign in to access your account',
+  heroImageSrc,
+  error,
+  onSignIn,
+  onGoogleSignIn,
+  onGitHubSignIn,
+  onCreateAccount,
+  loading = false,
+}) => {
   const [showPassword, setShowPassword] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    const formData = new FormData(e.currentTarget)
-    const name = formData.get('name') as string
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-
-    try {
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error || 'Something went wrong')
-        setLoading(false)
-        return
-      }
-
-      await signIn('credentials', { email, password, callbackUrl: '/' })
-    } catch {
-      setError('Something went wrong. Please try again.')
-      setLoading(false)
-    }
-  }
 
   return (
     <div className="h-[100dvh] flex flex-col md:flex-row w-[100dvw]">
-      {/* Left column: sign-up form */}
+      {/* Left column: sign-in form */}
       <section className="flex-1 flex items-center justify-center p-8 bg-white dark:bg-slate-950">
         <div className="w-full max-w-md">
           <div className="flex flex-col gap-6">
-            <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight text-slate-900 dark:text-white">
-              <span className="font-light tracking-tighter">Create your <span className="font-semibold">Pept</span> account</span>
-            </h1>
-            <p className="animate-element animate-delay-200 text-slate-500 dark:text-slate-400">
-              Join to access the AI assistant, save research, and more
-            </p>
+            <h1 className="animate-element animate-delay-100 text-4xl md:text-5xl font-semibold leading-tight text-slate-900 dark:text-white">{title}</h1>
+            <p className="animate-element animate-delay-200 text-slate-500 dark:text-slate-400">{description}</p>
 
             {error && (
               <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-900 dark:bg-red-950 dark:text-red-400">
-                {error}
+                {error === 'CredentialsSignin'
+                  ? 'Invalid email or password'
+                  : 'An error occurred. Please try again.'}
               </div>
             )}
 
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form className="space-y-5" onSubmit={onSignIn}>
               <div className="animate-element animate-delay-300">
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
-                <input
-                  name="name"
-                  type="text"
-                  required
-                  placeholder="Your name"
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder-slate-500"
-                />
-              </div>
-
-              <div className="animate-element animate-delay-400">
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email Address</label>
                 <input
                   name="email"
@@ -100,15 +78,14 @@ export default function SignUpPage() {
                 />
               </div>
 
-              <div className="animate-element animate-delay-500">
+              <div className="animate-element animate-delay-400">
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
                 <div className="relative">
                   <input
                     name="password"
                     type={showPassword ? 'text' : 'password'}
                     required
-                    minLength={8}
-                    placeholder="At least 8 characters"
+                    placeholder="Enter your password"
                     className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder-slate-500"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-3 flex items-center">
@@ -117,38 +94,40 @@ export default function SignUpPage() {
                 </div>
               </div>
 
-              <button type="submit" disabled={loading} className="animate-element animate-delay-600 w-full rounded-xl bg-sky-500 py-3.5 font-medium text-white hover:bg-sky-600 transition-colors disabled:opacity-50">
-                {loading ? 'Creating account...' : 'Create Account'}
+              <button type="submit" disabled={loading} className="animate-element animate-delay-500 w-full rounded-xl bg-sky-500 py-3.5 font-medium text-white hover:bg-sky-600 transition-colors disabled:opacity-50">
+                {loading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>
 
-            <div className="animate-element animate-delay-700 relative flex items-center justify-center">
+            <div className="animate-element animate-delay-600 relative flex items-center justify-center">
               <span className="w-full border-t border-slate-200 dark:border-slate-700"></span>
               <span className="px-4 text-sm text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-950 absolute">or continue with</span>
             </div>
 
             <div className="flex gap-3">
-              <button onClick={() => signIn('github', { callbackUrl: '/' })} className="animate-element animate-delay-800 flex-1 flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-700 rounded-xl py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">
+              <button onClick={onGitHubSignIn} className="animate-element animate-delay-700 flex-1 flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-700 rounded-xl py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">
                 <GitHubIcon />
                 GitHub
               </button>
-              <button onClick={() => signIn('google', { callbackUrl: '/' })} className="animate-element animate-delay-800 flex-1 flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-700 rounded-xl py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">
+              <button onClick={onGoogleSignIn} className="animate-element animate-delay-700 flex-1 flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-700 rounded-xl py-3.5 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">
                 <GoogleIcon />
                 Google
               </button>
             </div>
 
-            <p className="animate-element animate-delay-900 text-center text-sm text-slate-500 dark:text-slate-400">
-              Already have an account? <a href="/auth/signin" className="text-sky-500 hover:underline transition-colors font-medium">Sign in</a>
+            <p className="animate-element animate-delay-800 text-center text-sm text-slate-500 dark:text-slate-400">
+              Don&apos;t have an account? <a href="#" onClick={(e) => { e.preventDefault(); onCreateAccount?.() }} className="text-sky-500 hover:underline transition-colors font-medium">Sign up</a>
             </p>
           </div>
         </div>
       </section>
 
       {/* Right column: hero image */}
-      <section className="hidden md:block flex-1 relative p-4">
-        <div className="animate-slide-right animate-delay-300 absolute inset-4 rounded-3xl bg-cover bg-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1579165466741-7f35e4755660?w=2160&q=80)' }}></div>
-      </section>
+      {heroImageSrc && (
+        <section className="hidden md:block flex-1 relative p-4">
+          <div className="animate-slide-right animate-delay-300 absolute inset-4 rounded-3xl bg-cover bg-center" style={{ backgroundImage: `url(${heroImageSrc})` }}></div>
+        </section>
+      )}
     </div>
   )
 }

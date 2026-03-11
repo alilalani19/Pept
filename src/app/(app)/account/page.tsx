@@ -3,8 +3,8 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { createMetadata } from '@/lib/seo/metadata'
 import Link from 'next/link'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { BookOpen, MessageSquare, ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = createMetadata({
   title: 'My Account',
@@ -38,8 +38,8 @@ export default async function AccountPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">My Account</h1>
+      <div className="animate-element animate-delay-100 mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">My Account</h1>
         <p className="mt-2 text-slate-600 dark:text-slate-400">
           Welcome back, {session.user.name || session.user.email}
         </p>
@@ -47,11 +47,14 @@ export default async function AccountPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Favorites */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Saved Peptides</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="animate-element animate-delay-200 relative group/feature rounded-xl border border-slate-300 dark:border-neutral-800 overflow-hidden">
+          <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none" />
+          <div className="absolute left-0 top-6 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover/feature:bg-sky-500 transition-all duration-200 origin-center" />
+          <div className="relative z-10 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen className="h-5 w-5 text-sky-500" />
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Saved Peptides</h2>
+            </div>
             {favorites.length === 0 ? (
               <p className="text-slate-600 dark:text-slate-400 text-sm">
                 No saved peptides yet.{' '}
@@ -65,7 +68,7 @@ export default async function AccountPage() {
                   <li key={fav.id}>
                     <Link
                       href={`/peptides/${fav.peptide.slug}`}
-                      className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-900"
+                      className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                     >
                       <span className="font-medium text-sky-500">{fav.peptide.name}</span>
                       <Badge variant="secondary">{fav.peptide.evidenceLevel?.replace('_', ' ') || '—'}</Badge>
@@ -74,15 +77,18 @@ export default async function AccountPage() {
                 ))}
               </ul>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Chat History */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Chat History</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="animate-element animate-delay-300 relative group/feature rounded-xl border border-slate-300 dark:border-neutral-800 overflow-hidden">
+          <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none" />
+          <div className="absolute left-0 top-6 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover/feature:bg-sky-500 transition-all duration-200 origin-center" />
+          <div className="relative z-10 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <MessageSquare className="h-5 w-5 text-sky-500" />
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Chat History</h2>
+            </div>
             {chatSessions.length === 0 ? (
               <p className="text-slate-600 dark:text-slate-400 text-sm">
                 No conversations yet.{' '}
@@ -96,10 +102,10 @@ export default async function AccountPage() {
                   <li key={cs.id}>
                     <Link
                       href={`/assistant/${cs.id}`}
-                      className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-900"
+                      className="flex items-center justify-between rounded-lg p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                     >
-                      <span className="truncate font-medium">{cs.title}</span>
-                      <span className="text-xs text-slate-600 shrink-0 ml-2">
+                      <span className="truncate font-medium text-slate-900 dark:text-white">{cs.title}</span>
+                      <span className="text-xs text-slate-500 shrink-0 ml-2">
                         {cs._count.messages} msgs
                       </span>
                     </Link>
@@ -107,16 +113,16 @@ export default async function AccountPage() {
                 ))}
               </ul>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <div className="mt-6">
+      <div className="animate-element animate-delay-400 mt-6">
         <Link
           href="/account/settings"
-          className="text-sm text-slate-600 hover:text-slate-700 dark:hover:text-slate-300"
+          className="inline-flex items-center gap-1 text-sm text-sky-500 hover:text-sky-600 font-medium transition-colors"
         >
-          Account Settings →
+          Account Settings <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>

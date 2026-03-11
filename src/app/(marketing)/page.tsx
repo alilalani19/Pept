@@ -40,14 +40,16 @@ export default async function HomePage() {
       <section className="relative bg-white dark:bg-slate-950">
         <div className="mx-auto max-w-4xl px-4 pt-12 pb-10 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white">
+            <h1 className="animate-element animate-delay-100 text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl text-slate-900 dark:text-white">
               Ask anything about peptides
             </h1>
-            <p className="mx-auto mt-3 max-w-xl text-base text-slate-600 dark:text-slate-400">
+            <p className="animate-element animate-delay-200 mx-auto mt-3 max-w-xl text-base text-slate-600 dark:text-slate-400">
               AI-powered research assistant with evidence-based answers
             </p>
           </div>
-          <HomeChatBox />
+          <div className="animate-element animate-delay-300">
+            <HomeChatBox />
+          </div>
         </div>
       </section>
 
