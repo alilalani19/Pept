@@ -196,11 +196,13 @@ export default async function PeptideProfilePage({
               {peptide.suppliers.map((ps) => (
                 <div
                   key={ps.supplier.id}
-                  className="rounded-lg border border-slate-300 p-4 dark:border-slate-800"
+                  className="relative group/feature rounded-lg border border-slate-300 p-4 dark:border-neutral-800 overflow-hidden"
                 >
+                  <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none" />
+                  <div className="absolute left-0 top-4 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover/feature:bg-sky-500 transition-all duration-200 origin-center" />
                   <Link
                     href={`/suppliers/${ps.supplier.slug}`}
-                    className="font-medium text-sky-500 hover:text-sky-600"
+                    className="relative z-10 font-medium group-hover/feature:translate-x-2 transition duration-200 inline-block text-neutral-800 dark:text-neutral-100"
                   >
                     {ps.supplier.name}
                   </Link>
@@ -209,12 +211,12 @@ export default async function PeptideProfilePage({
                       href={ps.supplier.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-1 inline-flex items-center gap-1 text-xs text-slate-600 hover:text-sky-500 transition-colors"
+                      className="relative z-10 mt-1 inline-flex items-center gap-1 text-xs text-neutral-600 dark:text-neutral-300 hover:text-sky-500 transition-colors"
                     >
                       {new URL(ps.supplier.website).hostname}
                     </a>
                   )}
-                  <div className="mt-2 flex items-center gap-3 text-sm text-slate-600">
+                  <div className="relative z-10 mt-2 flex items-center gap-3 text-sm">
                     {ps.supplier.coaAvailable && <Badge variant="success">COA</Badge>}
                     {ps.supplier.thirdPartyTested && <Badge variant="info">Tested</Badge>}
                   </div>

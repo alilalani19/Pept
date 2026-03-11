@@ -101,9 +101,11 @@ export default async function SupplierDetailPage({
               <Link
                 key={ps.peptide.id}
                 href={`/peptides/${ps.peptide.slug}`}
-                className="rounded-lg border border-slate-300 p-3 hover:border-sky-300 transition-colors dark:border-slate-800 dark:hover:border-sky-600"
+                className="relative group/feature rounded-lg border border-slate-300 p-3 transition-colors dark:border-neutral-800 overflow-hidden"
               >
-                <span className="font-medium text-sky-500 hover:text-sky-600">
+                <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none" />
+                <div className="absolute left-0 top-2 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover/feature:bg-sky-500 transition-all duration-200 origin-center" />
+                <span className="relative z-10 font-medium group-hover/feature:translate-x-2 transition duration-200 inline-block text-neutral-800 dark:text-neutral-100">
                   {ps.peptide.name}
                 </span>
               </Link>

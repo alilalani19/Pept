@@ -4,6 +4,8 @@ import { createMetadata } from '@/lib/seo/metadata'
 import { PeptideGrid } from '@/components/peptides/peptide-grid'
 import { PeptideSearch } from '@/components/peptides/peptide-search'
 import { DisclaimerBanner } from '@/components/compliance/disclaimer-banner'
+import { FeaturesSectionWithHoverEffects } from '@/components/ui/feature-section-with-hover-effects'
+import { BookOpen, Shield, FlaskConical, Search, BarChart3, FileText, Tag, Beaker } from 'lucide-react'
 
 export const metadata: Metadata = createMetadata({
   title: 'Peptide Directory — Browse Research Peptides',
@@ -103,6 +105,54 @@ export default async function PeptidesPage({
           ))}
         </div>
       )}
+
+      <div className="mt-16">
+        <h2 className="text-2xl font-bold tracking-tight text-center">What You Get With Every Profile</h2>
+        <FeaturesSectionWithHoverEffects
+          features={[
+            {
+              title: "Evidence Ratings",
+              description: "Each peptide is rated by the strength of available scientific evidence.",
+              icon: <BarChart3 className="h-6 w-6" />,
+            },
+            {
+              title: "Cited Research",
+              description: "Profiles link directly to published studies and clinical trials.",
+              icon: <FileText className="h-6 w-6" />,
+            },
+            {
+              title: "Safety Information",
+              description: "Known side effects, contraindications, and safety considerations.",
+              icon: <Shield className="h-6 w-6" />,
+            },
+            {
+              title: "Legal Status",
+              description: "Clear regulatory status badges for every peptide in the directory.",
+              icon: <Tag className="h-6 w-6" />,
+            },
+            {
+              title: "Mechanism of Action",
+              description: "Detailed breakdowns of how each peptide works at the molecular level.",
+              icon: <Beaker className="h-6 w-6" />,
+            },
+            {
+              title: "Category Tags",
+              description: "Filter and discover peptides by biological function and research area.",
+              icon: <Search className="h-6 w-6" />,
+            },
+            {
+              title: "Research Context",
+              description: "Educational summaries putting each peptide's research in perspective.",
+              icon: <BookOpen className="h-6 w-6" />,
+            },
+            {
+              title: "Lab Data",
+              description: "Molecular weight, amino acid sequences, and pharmacokinetic data.",
+              icon: <FlaskConical className="h-6 w-6" />,
+            },
+          ]}
+        />
+      </div>
 
       <DisclaimerBanner />
     </div>

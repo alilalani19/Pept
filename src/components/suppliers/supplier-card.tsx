@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { truncate } from '@/lib/utils'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { CoaBadge } from '@/components/suppliers/coa-badge'
 
@@ -22,30 +20,27 @@ interface SupplierCardProps {
 
 export function SupplierCard({ supplier }: SupplierCardProps) {
   return (
-    <Card
-      className={cn(
-        'rounded-xl border border-slate-300 bg-white transition-shadow duration-200 hover:shadow-md',
-        'dark:border-slate-800 dark:bg-slate-900'
-      )}
-    >
-      <CardHeader>
+    <div className="relative group/feature rounded-xl border border-slate-300 bg-white dark:border-neutral-800 dark:bg-slate-900 overflow-hidden">
+      <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none" />
+
+      <div className="absolute left-0 top-6 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover/feature:bg-sky-500 transition-all duration-200 origin-center" />
+
+      <div className="relative z-10 p-6">
         <div className="flex items-start justify-between gap-2">
-          <CardTitle>
+          <h3 className="text-lg font-semibold leading-none tracking-tight">
             <Link
               href={`/suppliers/${supplier.slug}`}
-              className="text-slate-900 hover:text-sky-600 transition-colors dark:text-slate-100 dark:hover:text-sky-400"
+              className="group-hover/feature:translate-x-2 transition duration-200 inline-block text-neutral-800 dark:text-neutral-100"
             >
               {supplier.name}
             </Link>
-          </CardTitle>
+          </h3>
         </div>
-        <CardDescription>
+        <p className="mt-1.5 text-sm text-neutral-600 dark:text-neutral-300">
           {supplier.description ? truncate(supplier.description, 120) : ''}
-        </CardDescription>
-      </CardHeader>
+        </p>
 
-      <CardContent>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           <CoaBadge available={supplier.coaAvailable} />
           {supplier.thirdPartyTested && (
             <Badge variant="info">Third-Party Tested</Badge>
@@ -62,7 +57,7 @@ export function SupplierCard({ supplier }: SupplierCardProps) {
             {new URL(supplier.website).hostname}
           </a>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
