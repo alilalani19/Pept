@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import DOMPurify from 'isomorphic-dompurify'
 import { prisma } from '@/lib/db'
 import { auth } from '@/lib/auth'
 import { Badge } from '@/components/ui/badge'
 import { ConfirmDeleteButton } from '@/components/admin/confirm-delete-button'
+import { EmailHtmlContent } from '@/components/admin/email-html-content'
 
 export default async function AdminEmailDetailPage({
   params,
@@ -22,10 +22,6 @@ export default async function AdminEmailDetailPage({
       data: { read: true },
     })
   }
-
-  const sanitizedHtml = email.html
-    ? DOMPurify.sanitize(email.html, { USE_PROFILES: { html: true } })
-    : null
 
   return (
     <div>
@@ -68,11 +64,8 @@ export default async function AdminEmailDetailPage({
         </div>
 
         <div className="px-6 py-6">
-          {sanitizedHtml ? (
-            <div
-              className="prose dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-            />
+          {email.html ? (
+            <EmailHtmlContent html={email.html} />
           ) : email.text ? (
             <pre className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300">
               {email.text}
