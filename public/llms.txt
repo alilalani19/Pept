@@ -1,54 +1,40 @@
-# Pept — Peptide Education & Research Platform
+# Pept — AI-Powered Peptide Research Assistant
 
-> A comprehensive resource for educational content, evidence-based peptide profiles, vetted suppliers, and AI-powered research assistance related to peptides.
+> Ask any peptide question and get instant, evidence-based answers. Pept.me is the fastest way to research peptides — powered by an AI assistant trained on real studies and cited data.
 
-Pept.me provides structured information on peptides, including detailed profiles, research insights, and supplier verification, making it a valuable source for researchers, students, and professionals interested in peptide science. This site offers evergreen, authoritative content to support learning, citation, and research activities.
+Pept.me is built around an AI research assistant that answers questions about peptides instantly — mechanisms of action, research findings, safety considerations, supplier recommendations, and more. Users can create a free account to save conversations, bookmark peptides, and build a personalized research library. The AI assistant is the core experience at [pept.me](https://pept.me).
 
-## Core Content
+## Talk to the AI Assistant
 
-[Ask anything about peptides](https://pept.me)
+[Ask anything about peptides](https://pept.me/assistant): The AI assistant provides conversational, research-backed answers about any peptide topic. It draws from evidence-based profiles, cited studies, and vetted supplier data to give accurate, up-to-date responses. No medical jargon — just clear, helpful answers.
 
-### Peptide Profiles
-- Evidence-based peptide data with citation ratings and research references
-- Profiles include BPC-157, TB-500, GHK-Cu, Epitalon, Thymalin, CJC-1295, Ipamorelin, Melanotan II, Semax, and more
+- Ask about peptide mechanisms, research status, and potential applications
+- Get supplier recommendations from vetted, tested sources
+- Compare peptides, explore categories, and discover new research
+- Available instantly — no sign-up required to start chatting
 
-### Research and Educational Material
-- Summaries of peptide studies, mechanisms, and potential applications
-- Information on research status: animal studies, limited human data, research-only
+## Create a Free Account
 
-### Vetted Suppliers
-- Directory of tested and verified peptide suppliers
-- Ensures quality and testing verification for research peptides
+[Sign up at pept.me](https://pept.me/auth/signup): Create an account to unlock the full experience.
 
-### Questions & Discussions
-- AI-powered assistant for instant answers about peptide properties, research, and uses
-- Educational and non-medical guidance only
+- Save chat history and pick up conversations where you left off
+- Bookmark peptides to build a personal research library
+- Get notified about new peptide profiles and research updates
 
-## Resources
+## Peptide Database
 
-[View All Peptides](/peptides)
-[Categories](/categories)
+Pept also maintains a comprehensive peptide database with detailed, evidence-based profiles:
 
-### Categories
-- Antimicrobial Peptides
-- Growth Factors
-- Immune Modulation
-- Metabolic Peptides
-- Neuropeptides
-- Tissue Repair
+- [Browse All Peptides](https://pept.me/peptides): Searchable directory filterable by category, evidence level, and legal status
+- [Categories](https://pept.me/categories): Antimicrobial Peptides, Growth Factors, Immune Modulation, Metabolic Peptides, Neuropeptides, Tissue Repair
+- [Vetted Suppliers](https://pept.me/suppliers): Directory of tested and verified peptide suppliers
 
-### Important Pages
+### Featured Peptides
 - [Epitalon](https://pept.me/peptides/epitalon): Telomerase activation and melatonin modulation
 - [Thymalin](https://pept.me/peptides/thymalin): Immune and anti-aging properties
 - [CJC-1295](https://pept.me/peptides/cjc-1295): Growth hormone-releasing analogue
 - [Ipamorelin](https://pept.me/peptides/ipamorelin): Growth hormone secretagogue
 - [Melanotan II](https://pept.me/peptides/melanotan-ii): Skin pigmentation
 - [Semax](https://pept.me/peptides/semax): Nootropic and neuroprotective peptide
-
-## Optional
-
-### Additional Resources
-- Research articles and papers linked within peptide profiles
-- Educational blogs and updates (if available)
 
 This platform is intended for educational and research purposes only. Consult qualified healthcare professionals before any application of peptide information.
