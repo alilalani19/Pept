@@ -1,12 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { DISCLAIMER_TEXT } from '@/lib/constants'
 
 export function DisclaimerBanner({ className }: { className?: string }) {
-  const [dismissed, setDismissed] = useState(false)
+  const [dismissed, setDismissed] = useState(true)
+
+  useEffect(() => {
+    const wasDismissed = sessionStorage.getItem('disclaimer-dismissed')
+    if (!wasDismissed) setDismissed(false)
+  }, [])
+
+  function handleDismiss() {
+    sessionStorage.setItem('disclaimer-dismissed', '1')
+    setDismissed(true)
+  }
 
   if (dismissed) return null
 
@@ -24,7 +34,7 @@ export function DisclaimerBanner({ className }: { className?: string }) {
           </p>
           <button
             type="button"
-            onClick={() => setDismissed(true)}
+            onClick={handleDismiss}
             className="flex-shrink-0 rounded-md p-1.5 text-white/80 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/50"
             aria-label="Dismiss disclaimer"
           >
