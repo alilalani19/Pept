@@ -16,10 +16,10 @@ export function HomeChatBox() {
 
   return (
     <div className="relative mx-auto max-w-2xl">
-      <div className="h-[28rem] sm:h-[32rem]">
+      <div>
         <ChatInterface
           initialQuery={initialQuery}
-          className="h-full"
+          className="h-[20rem] sm:h-[22rem]"
         />
       </div>
       {!started && (

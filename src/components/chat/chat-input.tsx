@@ -61,7 +61,7 @@ export function ChatInput({ onSend, isLoading, onStop, className }: ChatInputPro
   const characterCount = value.length
 
   return (
-    <div className={cn('border-t border-slate-300 bg-white p-4 dark:border-slate-700 dark:bg-slate-900', className)}>
+    <div className={cn('flex-shrink-0 border-t border-slate-300 bg-white p-4 dark:border-slate-700 dark:bg-slate-900', className)}>
       <div className="flex items-end gap-2">
         <div className="relative flex-1">
           <textarea
