@@ -1,0 +1,54 @@
+# Pept — Peptide Education & Research Platform
+
+> A comprehensive resource for educational content, evidence-based peptide profiles, vetted suppliers, and AI-powered research assistance related to peptides.
+
+Pept.me provides structured information on peptides, including detailed profiles, research insights, and supplier verification, making it a valuable source for researchers, students, and professionals interested in peptide science. This site offers evergreen, authoritative content to support learning, citation, and research activities.
+
+## Core Content
+
+[Ask anything about peptides](https://pept.me)
+
+### Peptide Profiles
+- Evidence-based peptide data with citation ratings and research references
+- Profiles include BPC-157, TB-500, GHK-Cu, Epitalon, Thymalin, CJC-1295, Ipamorelin, Melanotan II, Semax, and more
+
+### Research and Educational Material
+- Summaries of peptide studies, mechanisms, and potential applications
+- Information on research status: animal studies, limited human data, research-only
+
+### Vetted Suppliers
+- Directory of tested and verified peptide suppliers
+- Ensures quality and testing verification for research peptides
+
+### Questions & Discussions
+- AI-powered assistant for instant answers about peptide properties, research, and uses
+- Educational and non-medical guidance only
+
+## Resources
+
+[View All Peptides](/peptides)
+[Categories](/categories)
+
+### Categories
+- Antimicrobial Peptides
+- Growth Factors
+- Immune Modulation
+- Metabolic Peptides
+- Neuropeptides
+- Tissue Repair
+
+### Important Pages
+- [Epitalon](https://pept.me/peptides/epitalon): Telomerase activation and melatonin modulation
+- [Thymalin](https://pept.me/peptides/thymalin): Immune and anti-aging properties
+- [CJC-1295](https://pept.me/peptides/cjc-1295): Growth hormone-releasing analogue
+- [Ipamorelin](https://pept.me/peptides/ipamorelin): Growth hormone secretagogue
+- [Melanotan II](https://pept.me/peptides/melanotan-ii): Skin pigmentation
+- [Semax](https://pept.me/peptides/semax): Nootropic and neuroprotective peptide
+
+## Optional
+
+### Additional Resources
+- Research articles and papers linked within peptide profiles
+- Educational blogs and updates (if available)
+
+This platform is intended for educational and research purposes only. Consult qualified healthcare professionals before any application of peptide information.
