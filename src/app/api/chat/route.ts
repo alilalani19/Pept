@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+import { createHash } from 'crypto'
 import { auth } from '@/lib/auth'
 import anthropic from '@/lib/claude/client'
 import { getSystemPrompt } from '@/lib/claude/system-prompt'
@@ -7,6 +8,10 @@ import { validateInput, sanitizeOutput } from '@/lib/claude/guardrails'
 import { checkRateLimit } from '@/lib/claude/rate-limiter'
 import { chatMessageSchema } from '@/lib/validators/chat'
 import { prisma } from '@/lib/db'
+
+function hashIp(ip: string): string {
+  return createHash('sha256').update(ip).digest('hex').slice(0, 16)
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,39 +52,44 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Get or create chat session (only for authenticated users)
+    // Get or create chat session for all users (authenticated and anonymous)
+    const anonIp = !isAuthenticated
+      ? req.headers.get('x-real-ip') || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+      : null
+    const anonIpHash = anonIp ? hashIp(anonIp) : null
+
     let chatSession: any = null
-    if (isAuthenticated) {
-      try {
-        if (sessionId) {
-          chatSession = await prisma.chatSession.findFirst({
-            where: { id: sessionId, userId: userId },
-            include: { messages: { orderBy: { createdAt: 'asc' }, take: 20 } },
-          })
-        }
-
-        if (!chatSession) {
-          chatSession = await prisma.chatSession.create({
-            data: {
-              userId: userId!,
-              title: message.slice(0, 100),
-            },
-            include: { messages: true },
-          })
-        }
-
-        // Save user message
-        await prisma.chatMessage.create({
-          data: {
-            sessionId: chatSession.id,
-            role: 'USER',
-            content: message,
-          },
+    try {
+      if (sessionId) {
+        chatSession = await prisma.chatSession.findFirst({
+          where: isAuthenticated
+            ? { id: sessionId, userId: userId }
+            : { id: sessionId, ipHash: anonIpHash },
+          include: { messages: { orderBy: { createdAt: 'asc' }, take: 20 } },
         })
-      } catch {
-        // If user no longer exists in DB (stale JWT), fall back to anonymous mode
-        chatSession = null
       }
+
+      if (!chatSession) {
+        chatSession = await prisma.chatSession.create({
+          data: {
+            ...(isAuthenticated ? { userId: userId! } : { ipHash: anonIpHash }),
+            title: message.slice(0, 100),
+          },
+          include: { messages: true },
+        })
+      }
+
+      // Save user message
+      await prisma.chatMessage.create({
+        data: {
+          sessionId: chatSession.id,
+          role: 'USER',
+          content: message,
+        },
+      })
+    } catch {
+      // If user no longer exists in DB (stale JWT), fall back gracefully
+      chatSession = null
     }
 
     // Build system prompt with optional peptide context and supplier list
@@ -131,8 +141,8 @@ export async function POST(req: NextRequest) {
             }
           }
 
-          // Save assistant response (only for authenticated users)
-          if (isAuthenticated && chatSession) {
+          // Save assistant response
+          if (chatSession) {
             await prisma.chatMessage.create({
               data: {
                 sessionId: chatSession.id,
