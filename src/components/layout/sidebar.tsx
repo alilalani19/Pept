@@ -11,22 +11,29 @@ import {
   Users,
   Inbox,
   Mail,
+  Send,
   Menu,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const sidebarLinks = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/peptides', label: 'Peptides', icon: FlaskConical },
-  { href: '/admin/suppliers', label: 'Suppliers', icon: Building2 },
-  { href: '/admin/categories', label: 'Categories', icon: Tags },
-  { href: '/admin/users', label: 'Users', icon: Users },
-  { href: '/admin/inbox', label: 'Inbox', icon: Inbox },
-  { href: '/admin/newsletter', label: 'Newsletter', icon: Mail },
+const allSidebarLinks = [
+  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, roles: ['ADMIN'] },
+  { href: '/admin/peptides', label: 'Peptides', icon: FlaskConical, roles: ['ADMIN'] },
+  { href: '/admin/suppliers', label: 'Suppliers', icon: Building2, roles: ['ADMIN'] },
+  { href: '/admin/categories', label: 'Categories', icon: Tags, roles: ['ADMIN'] },
+  { href: '/admin/users', label: 'Users', icon: Users, roles: ['ADMIN'] },
+  { href: '/admin/inbox', label: 'Inbox', icon: Inbox, roles: ['ADMIN', 'EMPLOYEE'] },
+  { href: '/admin/email', label: 'Send Email', icon: Send, roles: ['ADMIN', 'EMPLOYEE'] },
+  { href: '/admin/newsletter', label: 'Newsletter', icon: Mail, roles: ['ADMIN', 'EMPLOYEE'] },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  role: string
+}
+
+export function Sidebar({ role }: SidebarProps) {
+  const sidebarLinks = allSidebarLinks.filter((link) => link.roles.includes(role))
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 

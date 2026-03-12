@@ -1,9 +1,13 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
+import { auth } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
 import { EVIDENCE_LEVELS, LEGAL_STATUS_COLORS } from '@/lib/constants'
 
 export default async function AdminPeptidesPage() {
+  const session = await auth()
+  if (session?.user?.role === 'EMPLOYEE') redirect('/admin/inbox')
   const peptides = await prisma.peptide.findMany({
     include: {
       categories: { include: { category: true } },

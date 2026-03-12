@@ -14,7 +14,7 @@ const newsletterSchema = z.object({
 
 export async function GET() {
   const session = await auth()
-  if (!session?.user || session.user.role !== 'ADMIN') {
+  if (!session?.user || !['ADMIN', 'EMPLOYEE'].includes(session.user.role)) {
     return Response.json({ error: 'Unauthorized' }, { status: 403 })
   }
 
@@ -29,7 +29,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const session = await auth()
-  if (!session?.user || session.user.role !== 'ADMIN') {
+  if (!session?.user || !['ADMIN', 'EMPLOYEE'].includes(session.user.role)) {
     return Response.json({ error: 'Unauthorized' }, { status: 403 })
   }
 

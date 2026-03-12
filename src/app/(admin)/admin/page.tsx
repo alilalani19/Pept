@@ -1,7 +1,11 @@
 import { prisma } from '@/lib/db'
+import { auth } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
 export default async function AdminDashboard() {
+  const session = await auth()
+  if (session?.user?.role === 'EMPLOYEE') redirect('/admin/inbox')
   const [peptideCount, supplierCount, categoryCount, userCount, clickCount] =
     await Promise.all([
       prisma.peptide.count(),

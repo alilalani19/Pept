@@ -132,14 +132,14 @@ export function Navbar({ user }: NavbarProps) {
                         <Settings className="h-4 w-4" />
                         Settings
                       </Link>
-                      {user.role === 'ADMIN' && (
+                      {(user.role === 'ADMIN' || user.role === 'EMPLOYEE') && (
                         <Link
-                          href="/admin"
+                          href={user.role === 'EMPLOYEE' ? '/admin/inbox' : '/admin'}
                           onClick={() => setUserMenuOpen(false)}
                           className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
                         >
                           <Shield className="h-4 w-4" />
-                          Admin
+                          {user.role === 'EMPLOYEE' ? 'Dashboard' : 'Admin'}
                         </Link>
                       )}
                       <div className="border-t border-slate-300 dark:border-slate-700">
@@ -228,14 +228,14 @@ export function Navbar({ user }: NavbarProps) {
                   <Settings className="h-4 w-4" />
                   Settings
                 </Link>
-                {user.role === 'ADMIN' && (
+                {(user.role === 'ADMIN' || user.role === 'EMPLOYEE') && (
                   <Link
-                    href="/admin"
+                    href={user.role === 'EMPLOYEE' ? '/admin/inbox' : '/admin'}
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800"
                   >
                     <Shield className="h-4 w-4" />
-                    Admin
+                    {user.role === 'EMPLOYEE' ? 'Dashboard' : 'Admin'}
                   </Link>
                 )}
                 <Link

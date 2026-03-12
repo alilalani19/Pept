@@ -30,6 +30,7 @@ enum LegalStatusBadge {
 enum UserRole {
   USER
   ADMIN
+  EMPLOYEE
 }
 
 enum MessageRole {

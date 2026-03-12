@@ -18,6 +18,26 @@ export async function sendEmail(to: string, subject: string, html: string) {
   }
 }
 
+export async function sendPlainEmail(
+  to: string,
+  subject: string,
+  body: string,
+  fromName: string,
+  fromEmail: string
+) {
+  const { error } = await resend.emails.send({
+    from: `${fromName} <${fromEmail}>`,
+    to,
+    subject,
+    html: body,
+  })
+
+  if (error) {
+    console.error('Plain email send error:', error)
+    throw error
+  }
+}
+
 export async function sendBatchEmails(
   recipients: string[],
   subject: string,

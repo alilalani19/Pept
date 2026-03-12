@@ -37,7 +37,7 @@ export default async function AdminEmailDetailPage({
           action={async () => {
             'use server'
             const session = await auth()
-            if (!session?.user || session.user.role !== 'ADMIN') {
+            if (!session?.user || !['ADMIN', 'EMPLOYEE'].includes(session.user.role)) {
               throw new Error('Unauthorized')
             }
             await prisma.inboundEmail.delete({ where: { id } })

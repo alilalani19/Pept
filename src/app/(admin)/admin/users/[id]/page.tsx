@@ -6,6 +6,23 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { AdminChatSessions } from '@/components/admin/admin-chat-sessions'
 import { ConfirmDeleteButton } from '@/components/admin/confirm-delete-button'
+import { RoleSelector } from '@/components/admin/role-selector'
+
+async function updateRole(userId: string, role: string): Promise<{ error?: string }> {
+  'use server'
+  const session = await auth()
+  if (!session?.user || session.user.role !== 'ADMIN') {
+    return { error: 'Unauthorized' }
+  }
+  if (!['USER', 'ADMIN', 'EMPLOYEE'].includes(role)) {
+    return { error: 'Invalid role' }
+  }
+  await prisma.user.update({
+    where: { id: userId },
+    data: { role: role as 'USER' | 'ADMIN' | 'EMPLOYEE' },
+  })
+  return {}
+}
 
 export default async function AdminUserDetailPage({
   params,
@@ -80,9 +97,11 @@ export default async function AdminUserDetailPage({
           </h1>
           <p className="text-slate-600 dark:text-slate-400">{user.email}</p>
           <div className="mt-1 flex items-center gap-2">
-            <Badge variant={user.role === 'ADMIN' ? 'default' : 'secondary'}>
-              {user.role}
-            </Badge>
+            <RoleSelector
+              userId={user.id}
+              currentRole={user.role}
+              updateRoleAction={updateRole}
+            />
             {user.accounts.map((acc) => (
               <Badge key={acc.provider} variant="outline">
                 {acc.provider}

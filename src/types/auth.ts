@@ -13,4 +13,4 @@ declare module 'next-auth' {
   }
 }
 
-export type UserRole = 'USER' | 'ADMIN'
+export type UserRole = 'USER' | 'ADMIN' | 'EMPLOYEE'

@@ -13,13 +13,13 @@ export default async function AdminLayout({
     redirect('/api/auth/signin')
   }
 
-  if (session.user.role !== 'ADMIN') {
+  if (session.user.role !== 'ADMIN' && session.user.role !== 'EMPLOYEE') {
     redirect('/')
   }
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar role={session.user.role} />
       <main className="flex-1 p-6 lg:p-8">{children}</main>
     </div>
   )

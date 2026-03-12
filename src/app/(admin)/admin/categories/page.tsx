@@ -1,7 +1,11 @@
 import { prisma } from '@/lib/db'
+import { auth } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
 
 export default async function AdminCategoriesPage() {
+  const session = await auth()
+  if (session?.user?.role === 'EMPLOYEE') redirect('/admin/inbox')
   const categories = await prisma.category.findMany({
     include: {
       _count: { select: { peptides: true } },

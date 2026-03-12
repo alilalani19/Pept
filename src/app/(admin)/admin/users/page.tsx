@@ -1,8 +1,12 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
+import { auth } from '@/lib/auth'
+import { redirect } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
 
 export default async function AdminUsersPage() {
+  const session = await auth()
+  if (session?.user?.role === 'EMPLOYEE') redirect('/admin/inbox')
   const users = await prisma.user.findMany({
     include: {
       _count: {
