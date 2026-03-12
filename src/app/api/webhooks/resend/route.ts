@@ -3,7 +3,13 @@ import { Webhook } from 'svix'
 import { Resend } from 'resend'
 import { prisma } from '@/lib/db'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+function getResendClient() {
+  const key = process.env.RESEND_API_KEY
+  if (!key) {
+    throw new Error('RESEND_API_KEY is not configured')
+  }
+  return new Resend(key)
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -43,6 +49,7 @@ export async function POST(req: NextRequest) {
   const { email_id, from, to, subject } = event.data
 
   try {
+    const resend = getResendClient()
     const full = await resend.emails.receiving.get(email_id)
 
     if (full.error) {

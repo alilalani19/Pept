@@ -1,4 +1,28 @@
+import sanitizeHtml from 'sanitize-html'
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pept.me'
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+}
+
+function sanitizeEmailHtml(html: string): string {
+  return sanitizeHtml(html, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ['src', 'alt', 'width', 'height', 'style'],
+      a: ['href', 'style', 'target', 'rel'],
+      '*': ['style'],
+    },
+    allowedSchemes: ['http', 'https', 'mailto'],
+  })
+}
 
 function layout(content: string) {
   return `
@@ -31,12 +55,12 @@ export function signInAlertEmail(name: string, date: string, ip: string) {
   return layout(`
     <h2 style="margin:0 0 16px;font-size:20px;color:#0f172a;">Sign-in Alert</h2>
     <p style="color:#334155;line-height:1.6;">
-      Hey ${name || 'there'}, someone just signed into your Pept account.
+      Hey ${escapeHtml(name || 'there')}, someone just signed into your Pept account.
     </p>
     <div style="background:#f8fafc;border-radius:8px;padding:16px;margin:16px 0;">
       <p style="margin:0;font-size:14px;color:#475569;">
-        <strong>Date:</strong> ${date}<br>
-        <strong>IP Address:</strong> ${ip}
+        <strong>Date:</strong> ${escapeHtml(date)}<br>
+        <strong>IP Address:</strong> ${escapeHtml(ip)}
       </p>
     </div>
     <p style="color:#334155;line-height:1.6;">
@@ -54,11 +78,11 @@ export function newPeptideEmail(
   return layout(`
     <h2 style="margin:0 0 16px;font-size:20px;color:#0f172a;">New Peptide Listed</h2>
     <p style="color:#334155;line-height:1.6;">
-      Hey ${name || 'there'}, a new peptide just dropped on Pept:
+      Hey ${escapeHtml(name || 'there')}, a new peptide just dropped on Pept:
     </p>
     <div style="background:#f0f9ff;border-radius:8px;padding:16px;margin:16px 0;border:1px solid #bae6fd;">
       <p style="margin:0;font-size:16px;font-weight:600;color:#0369a1;">
-        ${peptideName}
+        ${escapeHtml(peptideName)}
       </p>
     </div>
     <a href="${SITE_URL}/peptides/${peptideSlug}"
@@ -68,11 +92,17 @@ export function newPeptideEmail(
   `)
 }
 
-export function newsletterEmail(subject: string, bodyHtml: string) {
+export function newsletterEmail(subject: string, bodyHtml: string, unsubscribeUrl?: string) {
+  const unsub = unsubscribeUrl || `${SITE_URL}/account/settings`
   return layout(`
-    <h2 style="margin:0 0 16px;font-size:20px;color:#0f172a;">${subject}</h2>
+    <h2 style="margin:0 0 16px;font-size:20px;color:#0f172a;">${escapeHtml(subject)}</h2>
     <div style="color:#334155;line-height:1.6;">
-      ${bodyHtml}
+      ${sanitizeEmailHtml(bodyHtml)}
+    </div>
+    <div style="margin-top:24px;padding-top:16px;border-top:1px solid #e2e8f0;">
+      <p style="font-size:12px;color:#94a3b8;">
+        <a href="${unsub}" style="color:#0ea5e9;">Unsubscribe</a> from future newsletters.
+      </p>
     </div>
   `)
 }
@@ -81,7 +111,7 @@ export function welcomeEmail(name: string) {
   return layout(`
     <h2 style="margin:0 0 16px;font-size:20px;color:#0f172a;">Welcome to Pept!</h2>
     <p style="color:#334155;line-height:1.6;">
-      Hey ${name || 'there'}, welcome aboard! Here's what you can do on Pept:
+      Hey ${escapeHtml(name || 'there')}, welcome aboard! Here's what you can do on Pept:
     </p>
     <ul style="color:#334155;line-height:1.8;padding-left:20px;">
       <li>Browse our peptide research library</li>

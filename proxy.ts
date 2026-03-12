@@ -22,7 +22,7 @@ export default auth(async function proxy(req: NextRequest & { auth: any }) {
       signInUrl.searchParams.set('callbackUrl', pathname)
       return NextResponse.redirect(signInUrl)
     }
-    if (req.auth.user?.role !== 'ADMIN') {
+    if (req.auth.user?.role !== 'ADMIN' && req.auth.user?.role !== 'EMPLOYEE') {
       return NextResponse.redirect(new URL('/', req.url))
     }
   }

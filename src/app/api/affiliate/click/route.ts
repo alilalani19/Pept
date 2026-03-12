@@ -18,7 +18,8 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: 'Invalid input' }, { status: 400 })
     }
 
-    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown'
+    const rawIp = req.headers.get('x-real-ip') || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    const ip = /^[\d.:a-fA-F]+$/.test(rawIp) ? rawIp : 'unknown'
     const userAgent = req.headers.get('user-agent') || 'unknown'
     const referrer = req.headers.get('referer') || undefined
 

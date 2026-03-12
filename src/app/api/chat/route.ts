@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     // Rate limiting: use userId for authenticated users, IP for anonymous
     const rateLimitKey = isAuthenticated
       ? userId!
-      : req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous'
+      : req.headers.get('x-real-ip') || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous'
 
     const { success } = await checkRateLimit(rateLimitKey)
     if (!success) {

@@ -6,8 +6,8 @@ import { notifyNewPeptide } from '@/lib/email/send-notifications'
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url)
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '12')
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1') || 1)
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '12') || 12))
     const category = searchParams.get('category')
     const evidenceLevel = searchParams.get('evidenceLevel')
     const legalStatus = searchParams.get('legalStatus')

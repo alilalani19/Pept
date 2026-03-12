@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { prisma } from '@/lib/db'
 import { sendWelcome } from '@/lib/email/send-notifications'
+import { checkEndpointRateLimit } from '@/lib/claude/rate-limiter'
 
 const signupSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100),
@@ -15,6 +16,15 @@ const signupSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get('x-real-ip') || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    const { success } = checkEndpointRateLimit('signup', ip, 5, 15 * 60 * 1000)
+    if (!success) {
+      return NextResponse.json(
+        { error: 'Too many signup attempts. Please try again later.' },
+        { status: 429 }
+      )
+    }
+
     const body = await req.json()
     const parsed = signupSchema.safeParse(body)
 

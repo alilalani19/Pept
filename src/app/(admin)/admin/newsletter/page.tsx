@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
+import DOMPurify from 'dompurify'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
 type User = { id: string; name: string | null; email: string }
@@ -234,7 +235,7 @@ export default function NewsletterPage() {
               </h3>
               <div
                 className="prose prose-sm dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: body }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(body) }}
               />
             </div>
           </CardContent>
