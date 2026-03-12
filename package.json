@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate --config prisma/prisma.config.ts && next build",
+    "build": "prisma generate --config prisma/prisma.config.ts && prisma migrate deploy --config prisma/prisma.config.ts && next build",
     "start": "next start",
     "lint": "eslint"
   },
