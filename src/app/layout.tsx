@@ -29,6 +29,10 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — Peptide Education & Research Platform`,
     description: SITE_DESCRIPTION,
   },
+  icons: {
+    icon: '/logo-icon.png',
+    apple: '/logo-icon.png',
+  },
   robots: {
     index: true,
     follow: true,
