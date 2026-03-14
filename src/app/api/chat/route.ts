@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
 
     // Detect stack-builder intent for longer responses
     const stackPatterns = /\b(build.*(stack|protocol)|stack.*(for|builder)|what.*(should i take|peptides? for)|help.*(protocol|stack)|recommend.*(stack|protocol|peptides?))\b/i
-    const allMessages = conversationHistory.map((m) => m.content).join(' ')
+    const allMessages = conversationHistory.map((m: { role: string; content: string }) => m.content).join(' ')
     const isStackMode = stackPatterns.test(allMessages)
 
     // Stream response
