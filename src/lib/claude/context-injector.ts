@@ -79,12 +79,6 @@ export async function getProductCatalog(): Promise<string> {
     orderBy: { name: 'asc' },
   })
 
-  const supplies = await prisma.supplierProduct.findMany({
-    include: {
-      supplier: { select: { name: true } },
-    },
-  })
-
   const lines: string[] = []
 
   for (const peptide of peptides) {
@@ -96,15 +90,10 @@ export async function getProductCatalog(): Promise<string> {
     }
   }
 
-  if (supplies.length > 0) {
-    lines.push('')
-    lines.push('**Supplies:**')
-    for (const s of supplies) {
-      if (s.productUrl) {
-        lines.push(`- [${s.name} (${s.supplier.name})](${s.productUrl})`)
-      }
-    }
-  }
+  lines.push('')
+  lines.push('**Supplies:**')
+  lines.push(`- [Bacteriostatic Water 10mL (Ascension Peptides)](https://ascensionpeptides.com/product/bacteriostatic-water-10ml/ref/Pept/)`)
+  lines.push(`- [Bacteriostatic Water (Royal Peptides)](https://royal-peptides.com/shop/bacteriostatic-water/?ref=dadkkiby)`)
 
   return lines.join('\n')
 }
