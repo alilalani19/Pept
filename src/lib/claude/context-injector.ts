@@ -24,8 +24,9 @@ export async function injectPeptideContext(slug: string): Promise<string | null>
   const supplierLines = peptide.suppliers
     .map((ps) => {
       const s = ps.supplier
+      const productLink = ps.productUrl ? ` | Buy: ${ps.productUrl}` : ''
       const website = s.website ? ` | Website: ${s.website}` : ''
-      return `  - ${s.name}${website} — View on Pept: /suppliers/${s.slug}`
+      return `  - ${s.name}${website}${productLink} — View on Pept: /suppliers/${s.slug}`
     })
     .join('\n')
 
@@ -59,4 +60,51 @@ export async function getSupplierList(): Promise<string> {
       return `- ${s.name}${website} — View on Pept: /suppliers/${s.slug}`
     })
     .join('\n')
+}
+
+export async function getProductCatalog(): Promise<string> {
+  const peptides = await prisma.peptide.findMany({
+    where: { published: true },
+    select: {
+      name: true,
+      slug: true,
+      suppliers: {
+        include: {
+          supplier: {
+            select: { name: true, slug: true },
+          },
+        },
+      },
+    },
+    orderBy: { name: 'asc' },
+  })
+
+  const supplies = await prisma.supplierProduct.findMany({
+    include: {
+      supplier: { select: { name: true } },
+    },
+  })
+
+  const lines: string[] = []
+
+  for (const peptide of peptides) {
+    const links = peptide.suppliers
+      .filter((ps) => ps.productUrl)
+      .map((ps) => `[${ps.supplier.name}](${ps.productUrl})`)
+    if (links.length > 0) {
+      lines.push(`- **${peptide.name}**: ${links.join(' | ')}`)
+    }
+  }
+
+  if (supplies.length > 0) {
+    lines.push('')
+    lines.push('**Supplies:**')
+    for (const s of supplies) {
+      if (s.productUrl) {
+        lines.push(`- [${s.name} (${s.supplier.name})](${s.productUrl})`)
+      }
+    }
+  }
+
+  return lines.join('\n')
 }

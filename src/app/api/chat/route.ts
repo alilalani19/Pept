@@ -3,7 +3,7 @@ import { createHash } from 'crypto'
 import { auth } from '@/lib/auth'
 import anthropic from '@/lib/claude/client'
 import { getSystemPrompt } from '@/lib/claude/system-prompt'
-import { injectPeptideContext, getSupplierList } from '@/lib/claude/context-injector'
+import { injectPeptideContext, getSupplierList, getProductCatalog } from '@/lib/claude/context-injector'
 import { validateInput, sanitizeOutput } from '@/lib/claude/guardrails'
 import { checkRateLimit } from '@/lib/claude/rate-limiter'
 import { chatMessageSchema } from '@/lib/validators/chat'
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
       chatSession = null
     }
 
-    // Build system prompt with optional peptide context and supplier list
+    // Build system prompt with peptide context, supplier list, and product catalog
     let peptideContext: string | null = null
     if (peptideSlug) {
       peptideContext = await injectPeptideContext(peptideSlug)
@@ -105,7 +105,10 @@ export async function POST(req: NextRequest) {
       fullContext += (fullContext ? '\n\n' : '') + `VETTED SUPPLIERS DIRECTORY:\n${supplierList}`
     }
 
-    const systemPrompt = getSystemPrompt(fullContext || undefined)
+    // Get product catalog with affiliate links for stack builder
+    const productCatalog = await getProductCatalog()
+
+    const systemPrompt = getSystemPrompt(fullContext || undefined, productCatalog || undefined)
 
     // Build message history
     const conversationHistory = chatSession?.messages
@@ -117,10 +120,15 @@ export async function POST(req: NextRequest) {
 
     conversationHistory.push({ role: 'user', content: message })
 
+    // Detect stack-builder intent for longer responses
+    const stackPatterns = /\b(build.*(stack|protocol)|stack.*(for|builder)|what.*(should i take|peptides? for)|help.*(protocol|stack)|recommend.*(stack|protocol|peptides?))\b/i
+    const allMessages = conversationHistory.map((m) => m.content).join(' ')
+    const isStackMode = stackPatterns.test(allMessages)
+
     // Stream response
     const stream = anthropic.messages.stream({
       model: 'claude-sonnet-4-5-20250929',
-      max_tokens: 256,
+      max_tokens: isStackMode ? 1024 : 300,
       system: systemPrompt,
       messages: conversationHistory,
     })

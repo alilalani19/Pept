@@ -53,8 +53,22 @@ export function ChatMessage({ message, timestamp, className }: ChatMessageProps)
             {message.content}
           </p>
         ) : (
-          <div className="prose prose-sm prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:my-1 prose-headings:my-2 prose-headings:text-slate-900 dark:prose-headings:text-white prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:my-2">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <div className="prose prose-sm prose-slate dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:my-1 prose-headings:my-2 prose-headings:text-slate-900 dark:prose-headings:text-white prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-pre:my-2 prose-a:text-sky-500 prose-a:no-underline hover:prose-a:underline">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#38bdf8', textDecoration: 'underline' }}
+                  >
+                    {children}
+                  </a>
+                ),
+              }}
+            >
               {message.content}
             </ReactMarkdown>
           </div>
