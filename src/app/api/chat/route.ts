@@ -120,15 +120,15 @@ export async function POST(req: NextRequest) {
 
     conversationHistory.push({ role: 'user', content: message })
 
-    // Detect stack-builder intent for longer responses
-    const stackPatterns = /\b(build.*(stack|protocol)|stack.*(for|builder)|what.*(should i take|peptides? for)|help.*(protocol|stack)|recommend.*(stack|protocol|peptides?))\b/i
+    // Detect intent that needs longer responses (stacks, purchase links, comparisons)
+    const longResponsePatterns = /\b(build.*(stack|protocol)|stack.*(for|builder)|what.*(should i take|peptides? for)|help.*(protocol|stack)|recommend.*(stack|protocol|peptides?)|where.*(buy|order|get|purchase)|how.*(buy|order|get|purchase)|want to (buy|order|get|purchase)|looking to (buy|order)|price|pricing|cheapest|compare.*supplier|supplier|purchase|order|checkout|affiliate)\b/i
     const allMessages = conversationHistory.map((m: { role: string; content: string }) => m.content).join(' ')
-    const isStackMode = stackPatterns.test(allMessages)
+    const needsLongResponse = longResponsePatterns.test(allMessages)
 
     // Stream response
     const stream = anthropic.messages.stream({
       model: 'claude-sonnet-4-5-20250929',
-      max_tokens: isStackMode ? 1024 : 300,
+      max_tokens: needsLongResponse ? 1024 : 512,
       system: systemPrompt,
       messages: conversationHistory,
     })
